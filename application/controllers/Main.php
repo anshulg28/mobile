@@ -259,7 +259,7 @@ class Main extends MY_Controller {
         }
         else
         {
-            
+
             $get = $this->input->get();
 
             if(isset($get['event']) && isStringSet($get['event']) && isset($get['hash']) && isStringSet($get['hash']))
@@ -379,7 +379,7 @@ class Main extends MY_Controller {
                 }
             }
 
-            $events = $this->dashboard_model->getAllApprovedEvents();
+            /*$events = $this->dashboard_model->getAllApprovedEvents();
             usort($events,
                 function($a, $b) {
                     $ts_a = strtotime($a['eventDate']);
@@ -388,10 +388,11 @@ class Main extends MY_Controller {
                     return $ts_a > $ts_b;
                 }
             );
+
             $data['eventDetails'] = $events;
 
             $this->load->view('ComingSoonView', $data);
-            return true;
+            return true;*/
             $myFeeds = $this->cron_model->getAllSortedFeeds();
 
             if(isset($myFeeds) && myIsMultiArray($myFeeds))

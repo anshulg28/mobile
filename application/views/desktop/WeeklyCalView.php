@@ -26,7 +26,7 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                         $urls = array();
                         foreach($ids as $subKey)
                         {
-                            $urls[] = 'events/EV-'.$subKey.'/'.encrypt_data('EV-'.$subKey);
+                            $urls[] = 'events/'.$row['eventSlug'];
                         }
                         echo implode(',',$urls);
                     ?>">
