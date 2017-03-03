@@ -21,7 +21,21 @@
         {
             ?>
             As part of your fee for the event, you can also redeem one of the following:<br><br>
-            330ml Beer <b>OR</b> Drink & Garlic Bread <b>OR</b> House Fries.
+            <?php
+                if((int)$mailData['doolallyFee'] > 250)
+                {
+                    ?>
+                    As part of your fee for the event, you can also spend Rs <?php echo $mailData['doolallyFee'];?>
+                    at any of our taprooms.
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    330ml Beer <b>OR</b> Drink & Garlic Bread <b>OR</b> House Fries.
+                    <?php
+                }
+            ?>
             Just show this code(s) <?php echo implode(',',$mailData['eveOfferCode']);?> to the waiter who is serving you.<br><br>
             Don't hurry or anything, it's valid till hell freezes over.<br><br>
             <?php
@@ -44,7 +58,7 @@
 
         Cheers!<br>
         <?php echo $commName;?>
-    </p>
+    </>
 
 </body>
 </html>
