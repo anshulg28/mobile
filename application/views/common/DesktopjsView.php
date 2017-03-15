@@ -1621,7 +1621,7 @@
                         hideProgressLoader();
                         if(data.status === true)
                         {
-                            $$(song).addClass('hide');
+                            $(song).addClass('hide');
                             mySnackTime('Your Song Queued');
                         }
                         else if(data.errorNum == '1')

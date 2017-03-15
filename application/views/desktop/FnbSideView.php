@@ -70,7 +70,7 @@ if(isset($fnbItems) && myIsMultiArray($fnbItems))
                             }
                         }
                     }
-                    ?>"  data-img="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>"
+                    ?>"  data-img="<?php echo base_url().BEVERAGE_PATH_NORMAL.$row['filename'];?>"
                          data-title="<?php echo $row['itemName'];?>"
                          data-descrip="<?php if(isset($row['itemHeadline'])){echo $row['itemHeadline'];} else{echo strip_tags($row['itemDescription'],'<br>');} ?>"
                          data-fullprice="<?php echo $row['priceFull'];?>"

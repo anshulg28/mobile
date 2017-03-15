@@ -1462,9 +1462,13 @@ body
     position: fixed;
     bottom: 15%;
     right: 35%;
+    background: #A2C760;
     z-index: 10000;
 }
-
+.mainHome #juke-logout
+{
+    background: #A2C760;
+}
 /* Filter icons modify */
 /*.my-filter-row .mdl-checkbox.is-checked .mdl-checkbox__box-outline
 {
@@ -1574,6 +1578,7 @@ body
 {
     margin-left: 10px;
     margin-right: 10px;
+    font-style: normal;
 }
 
 .filter-events-list .clear-event-filter, .filter-fnb-list .clear-fnb-filter,
