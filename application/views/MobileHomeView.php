@@ -857,12 +857,18 @@
                                                                         case "1":
                                                                             echo "Free";
                                                                             break;
-                                                                        case "2":
+                                                                        default:
+                                                                            echo 'Rs '.$row['eventPrice'];
+                                                                            break;
+                                                                        /*case "2":
                                                                             echo 'Rs '.$row['eventPrice'];
                                                                             break;
                                                                         case "3":
                                                                             echo 'Rs '.$row['eventPrice'];
                                                                             break;
+                                                                        case "4":
+                                                                            echo 'Rs '.$row['eventPrice'];
+                                                                            break;*/
                                                                     }
                                                                     ?>
                                                                     <?php

@@ -3,6 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="87404327-f79c-41df-9ba9-0e533db8459f" name="mobile" url="http://doolally.io">
+      <webServer id="e122f13d-77f1-4d25-a439-088823606d96" name="mobile" url="http://doolally.io">
         <fileTransfer host="doolally.io" port="22" privateKey="C:\Users\anshul\Downloads\doolallydev.ppk" accessType="SFTP" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />

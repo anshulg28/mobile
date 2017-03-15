@@ -58,7 +58,14 @@ class Sendemail_library
         {
             for($i=0;$i<(int)$userData['buyQuantity'];$i++)
             {
-                $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId']);
+                if((int)$userData['doolallyFee'] > 250)
+                {
+                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['doolallyFee']);
+                }
+                else
+                {
+                    $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId']);
+                }
             }
         }
         $data['mailData'] = $userData;
@@ -105,7 +112,14 @@ class Sendemail_library
         {
             for($i=0;$i<(int)$userData['buyQuantity'];$i++)
             {
-                $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId']);
+                if((int)$userData['doolallyFee'] > 250)
+                {
+                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['doolallyFee']);
+                }
+                else
+                {
+                    $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId']);
+                }
             }
         }
         $data['mailData'] = $userData;
@@ -558,6 +572,54 @@ class Sendemail_library
             $toBeInserted = array(
                 'offerCode' => $newCode,
                 'offerType' => 'Workshop',
+                'offerLoc' => null,
+                'offerMug' => '0',
+                'offerEvent' => $eveId,
+                'isRedeemed' => 0,
+                'ifActive' => 1,
+                'createDateTime' => date('Y-m-d H:i:s'),
+                'useDateTime' => null
+            );
+        }
+
+        $this->CI->offers_model->setSingleCode($toBeInserted);
+        return 'EV-'.$newCode;
+    }
+
+    public function generateCustomCode($eveId,$cusAmt)
+    {
+        $allCodes = $this->CI->offers_model->getAllCodes();
+        $usedCodes = array();
+        $toBeInserted = array();
+        if($allCodes['status'] === true)
+        {
+            foreach($allCodes['codes'] as $key => $row)
+            {
+                $usedCodes[] = $row['offerCode'];
+            }
+            $newCode = mt_rand(1000,99999);
+            while(myInArray($newCode,$usedCodes))
+            {
+                $newCode = mt_rand(1000,99999);
+            }
+            $toBeInserted = array(
+                'offerCode' => $newCode,
+                'offerType' => 'Rs '.$cusAmt,
+                'offerLoc' => null,
+                'offerMug' => '0',
+                'offerEvent' => $eveId,
+                'isRedeemed' => 0,
+                'ifActive' => 1,
+                'createDateTime' => date('Y-m-d H:i:s'),
+                'useDateTime' => null
+            );
+        }
+        else
+        {
+            $newCode = mt_rand(1000,99999);
+            $toBeInserted = array(
+                'offerCode' => $newCode,
+                'offerType' => 'Rs '.$cusAmt,
                 'offerLoc' => null,
                 'offerMug' => '0',
                 'offerEvent' => $eveId,

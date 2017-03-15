@@ -912,7 +912,8 @@ class Main extends MY_Controller {
                         'eventDescrip' => $eventData[0]['eventDescription'],
                         'eventCost' => $eventData[0]['costType'],
                         'eventId' => $eventData[0]['eventId'],
-                        'buyQuantity' => $mojoDetails['payment']['quantity']
+                        'buyQuantity' => $mojoDetails['payment']['quantity'],
+                        'doolallyFee' => $eventData[0]['doolallyFee']
                     );
                     $this->sendemail_library->eventRegSuccessMail($mailData,$eventData[0]['eventPlace']);
                     $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
@@ -958,7 +959,8 @@ class Main extends MY_Controller {
                         'eventDescrip' => $eventData[0]['eventDescription'],
                         'eventCost' => $eventData[0]['costType'],
                         'eventId' => $eventData[0]['eventId'],
-                        'buyQuantity' => $mojoDetails['payment']['quantity']
+                        'buyQuantity' => $mojoDetails['payment']['quantity'],
+                        'doolallyFee' => $eventData[0]['doolallyFee']
                     );
                     $this->sendemail_library->memberWelcomeMail($mailData,$eventData[0]['eventPlace']);
                     $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
