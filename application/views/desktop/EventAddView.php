@@ -259,7 +259,6 @@
 </div>
 
 <script>
-    componentHandler.upgradeDom();
     if(localStorageUtil.getLocal('eventName') != null)
     {
         $('#eventName').val(localStorageUtil.getLocal('eventName'));
@@ -272,4 +271,5 @@
     $('#endTime').timepicker({
         dropdown: false
     });
+    componentHandler.upgradeDom();
 </script>

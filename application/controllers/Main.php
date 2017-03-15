@@ -495,6 +495,7 @@ class Main extends MY_Controller {
     //done
     public function editEvent($eventSlug)
     {
+        $post = $this->input->post();
         $data = array();
 
         if(isSessionVariableSet($this->isMobUserSession) === FALSE)
@@ -519,8 +520,14 @@ class Main extends MY_Controller {
                 echo json_encode($pgError);
             }*/
         }
-
-        $aboutView = $this->load->view('EventEditView', $data);
+        if(isset($post['isAjax']) && $post['isAjax'] == '1')
+        {
+            $aboutView = $this->load->view('desktop/EventEditView', $data);
+        }
+        else
+        {
+            $aboutView = $this->load->view('EventEditView', $data);
+        }
 
         echo json_encode($aboutView);
 
@@ -765,6 +772,7 @@ class Main extends MY_Controller {
     //done
     public function eventDetails($eventSlug)
     {
+        $post = $this->input->post();
         $data = array();
         if(isSessionVariableSet($this->isMobUserSession) === FALSE)
         {
@@ -794,7 +802,20 @@ class Main extends MY_Controller {
             }*/
         }
 
-        $aboutView = $this->load->view('EventSingleView', $data);
+        if(isset($post['isAjax']) && $post['isAjax'] == '1')
+        {
+            $eventAtt = $this->dashboard_model->getEventAttById($events[0]['eventId']);
+            if(isset($eventAtt) && myIsArray($eventAtt))
+            {
+                $data['eventDetails'][0]['filename'] = $eventAtt[0]['filename'];
+            }
+            $data['signupList'] = $this->dashboard_model->fetchSignupList($eventSlug);
+            $aboutView = $this->load->view('desktop/EventSingleView', $data);
+        }
+        else
+        {
+            $aboutView = $this->load->view('EventSingleView', $data);
+        }
 
         echo json_encode($aboutView);
     }

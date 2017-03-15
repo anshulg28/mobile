@@ -1,6 +1,36 @@
 
 
-<div class="content-block-title">What's On Tap</div>
+<div class="content-block-title fnb-side-menu-wrapper">
+    What's On Tap
+    <i id="filter-fnb-menu" class="ic_filter_icon my-pointer-item pull-right small-fnb-filter"></i>
+    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect filter-fnb-list"
+        for="filter-fnb-menu">
+        <li class="mdl-menu__item mdl-menu__item--full-bleed-divider">What's on tap in.. &nbsp;
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect clear-fnb-filter my-vanish">
+                Clear
+            </button>
+        </li>
+        <?php
+        if(isset($mainLocs) && myIsMultiArray($mainLocs) && $mainLocs['status'] == true)
+        {
+            foreach($mainLocs as $key => $row)
+            {
+                if(isset($row['id']))
+                {
+                    ?>
+                    <li class="mdl-menu__item">
+                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-<?php echo $row['id'];?>">
+                            <input type="radio" id="option-<?php echo $row['id'];?>" class="mdl-radio__button" name="beer-locations" value="<?php echo $row['id'];?>">
+                            <span class="mdl-radio__label"><?php echo $row['locName'];?></span>
+                        </label>
+                    </li>
+                    <?php
+                }
+            }
+        }
+        ?>
+    </ul>
+</div>
 <?php
 if(isset($fnbItems) && myIsMultiArray($fnbItems))
 {

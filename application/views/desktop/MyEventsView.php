@@ -46,6 +46,10 @@
                         $postImg = 0;
                         foreach($userEvents as $key => $row)
                         {
+                            if(isEventFinished($row['eventDate'], $row['endTime']))
+                            {
+                                continue;
+                            }
                             $img_collection = array();
                             ?>
                             <div class="mdl-card mdl-shadow--2dp demo-card-header-pic">
@@ -149,6 +153,10 @@
                                 $postImg = 0;
                                 foreach($registeredEvents as $key => $row)
                                 {
+                                    if(isEventFinished($row['eventDate'], $row['endTime']))
+                                    {
+                                        continue;
+                                    }
                                     $img_collection = array();
                                     ?>
                                     <div class="mdl-card mdl-shadow--2dp demo-card-header-pic">
@@ -199,9 +207,9 @@
                                                     </a>
                                                     <p>
                                                         <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['locName']; ?>
-                                                        &nbsp;&nbsp;<span class="ic_events_icon event-date-main my-display-inline"></span>&nbsp;
-                                                        <?php $d = date_create($row['eventDate']);
-                                                        echo date_format($d,EVENT_DATE_FORMAT); ?>
+                                                        <!--&nbsp;&nbsp;<span class="ic_events_icon event-date-main my-display-inline"></span>&nbsp;
+                                                        --><?php /*$d = date_create($row['eventDate']);
+                                                        echo date_format($d,EVENT_DATE_FORMAT); */?>
                                                         &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
                                                         <?php
                                                         switch($row['costType'])
@@ -209,21 +217,55 @@
                                                             case "1":
                                                                 echo "Free";
                                                                 break;
-                                                            case "2":
+                                                            default :
                                                                 echo 'Rs '.$row['eventPrice'];
                                                                 break;
+
                                                         }
                                                         ?>
-                                                        <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="event-bookNow dynamic">View Details <i class="ic_back_icon my-display-inline"></i></a>
+                                                        <i class="custom-addToCal"
+                                                           data-ev-title="<?php echo $row['eventName'];?>" data-ev-location="Doolally Taproom, <?php echo $row['locName'];?>"
+                                                           data-ev-start="<?php echo $row['eventDate'].' '.$row['startTime'];?>"
+                                                           data-ev-end="<?php echo $row['eventDate'].' '.$row['endTime'];?>"
+                                                           data-ev-description="<?php echo strip_tags($row['eventDescription'],'<br>');?>">
+
+                                                            &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
+                                                            <u><?php $d = date_create($row['eventDate']);
+                                                                echo date_format($d,EVENT_DATE_FORMAT); ?></u>
+                                                        </i>
+                                                        <!--<a href="<?php /*echo 'events/'.$row['eventSlug'];*/?>" class="event-bookNow dynamic">View Details <i class="ic_back_icon my-display-inline"></i></a>-->
                                                         <?php
                                                         ?>
                                                     </p>
+                                                </div>
+                                                <div class="mdl-card__actions mdl-card--border attending-action-btns">
+                                                    <a href="mailto:<?php echo $row['creatorEmail'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                                        <i class="ic_event_email_icon"></i>&nbsp;&nbsp;Contact
+                                                    </a>
+                                                    <?php
+                                                    if($row['isUserCancel'] == '1')
+                                                    {
+                                                        ?>
+                                                        <i href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Booking Canceled</i>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <i data-bookerId="<?php echo $row['bookerId'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect eve-cancel-btn pull-right"><i class="fa fa-ban fa-15x"></i>&nbsp;Cancel Booking</i>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <?php
                                 }
+                            }
+                            else
+                            {
+                                echo 'No Booking Found!';
                             }
                         ?>
                     </div>

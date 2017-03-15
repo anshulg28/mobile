@@ -22,11 +22,11 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                     data-evenNames="<?php echo $row['eventNames'];?>"
                     data-evenPlaces="<?php echo $row['eventPlaces'];?>"
                     data-evenUrls="<?php
-                        $ids = explode(',',$row['eventIds']);
+                        $ids = explode(',',$row['eventSlugs']);
                         $urls = array();
                         foreach($ids as $subKey)
                         {
-                            $urls[] = 'events/'.$row['eventSlug'];
+                            $urls[] = 'events/'.$subKey;
                         }
                         echo implode(',',$urls);
                     ?>">

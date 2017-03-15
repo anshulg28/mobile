@@ -459,6 +459,40 @@ myApp.onPageInit('eventAdd', function (page) {
         }
     });
 
+    $$(document).on('focusout','.event-add input[name="startTime"],.event-add input[name="endTime"]',function(){
+        if($$('.event-add select[name="eventPlace"]').val() != '' && $$('.event-add #eventDate').val() != '' && $$('.event-add input[name="startTime"]').val() != ''
+            && $$('.event-add input[name="endTime"]').val() != '')
+        {
+            var postData = {
+                'startTime' : $$('.event-add input[name="startTime"]').val(),
+                'endTime' : $$('.event-add input[name="endTime"]').val(),
+                'eventPlace' : $$('.event-add select[name="eventPlace"]').val(),
+                'eventDate' : $$('.event-add #eventDate').val()
+            };
+
+            $.ajax({
+                type:"POST",
+                dataType: 'json',
+                url: base_url+'checkEventSpace',
+                data: postData,
+                success: function(data){
+                    if(data.status === false)
+                    {
+                        vex.dialog.buttons.YES.text = 'Close';
+                        vex.dialog.alert({
+                            unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
+                        });
+                    }
+                },
+                error: function(){
+                    vex.dialog.buttons.YES.text = 'Close';
+                    vex.dialog.alert({
+                        unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
+                    });
+                }
+            });
+        }
+    });
     $$('.event-add form.ajax-submit').on('beforeSubmit', function (e) {
         e.preventDefault();
         var xhr = e.detail.xhr; // actual XHR object
@@ -613,7 +647,7 @@ myApp.onPageInit('eventAdd', function (page) {
             }
         }
 
-        if(startT > endT)
+        if(startT >= endT)
         {
             myApp.addNotification({
                 title: 'Error!',
@@ -699,7 +733,7 @@ myApp.onPageInit('eventAdd', function (page) {
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({
                 unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Thank you for creating an event, ' +
-                'We have sent you an confirmation email, please check for event status in My Events section.',
+                'We have sent you a confirmation email, please check for event status in My Events section.',
                 callback: function(){
                     setTimeout(function(){
                         mainView.router.load({
@@ -783,6 +817,7 @@ myApp.onPageInit('eventEdit', function (page) {
     });
     $$(document).on('keyup','#eventPrice', function(){
         var basic = 250;
+        var feeVal = Number($('.event-add input[name="eventPrice"]').val());
         var inputVal = Number($(this).val());
         if(inputVal > 0)
         {
@@ -793,7 +828,7 @@ myApp.onPageInit('eventEdit', function (page) {
         else
         {
             $$('.event-add .total-event-price').html(0);
-            $$('.event-add input[name="eventPrice"]').val(0);
+            $$('.event-add input[name="eventPrice"]').val(feeVal);
         }
     });
     $$(document).on('change','.event-add input[name="costType"]', function(){
@@ -856,6 +891,16 @@ myApp.onPageInit('eventEdit', function (page) {
             myApp.addNotification({
                 title: 'Error!',
                 message: 'Event Date Required!',
+                hold:10*1000
+            });
+            xhr.abort();
+            return false;
+        }
+        if($('.event-add #paidType').is(':checked') && $('.event-add #eventPrice').val() == '0')
+        {
+            myApp.addNotification({
+                title: 'Error!',
+                message: 'Paid Event Price Required!',
                 hold:10*1000
             });
             xhr.abort();

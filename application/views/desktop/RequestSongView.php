@@ -8,11 +8,15 @@ if(isset($status) && $status === true)
     {
         $songs = json_decode($tapSongs[0]['tapSongs'],true);
         ?>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input search" type="text" id="sample3">
+            <label class="mdl-textfield__label" for="sample3">Search</label>
+        </div>
         <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pull-right" id="juke-logout">
             Logout
         </button>
-        <div class="list-block media-list clear">
-            <ul class="demo-list-two mdl-list">
+        <div class="list-block media-list clear" >
+            <ul class="demo-list-two mdl-list" id="song-list">
                 <?php
                 foreach($songs[0] as $key => $row)
                 {
@@ -35,13 +39,13 @@ if(isset($status) && $status === true)
                                     <?php
                                 }
                             ?>
-                            <span>
+                            <span class="song-name">
                                 <?php
                                 $truncated_RestaurantName = (strlen($row['name']) > 30) ? substr($row['name'], 0, 30) . '..' : $row['name'];
                                 echo $truncated_RestaurantName;
                                 ?>
                             </span>
-                            <span class="mdl-list__item-sub-title"><?php echo $row['artist'];?></span>
+                            <span class="mdl-list__item-sub-title artist-name"><?php echo $row['artist'];?></span>
                         </span>
                         <span class="mdl-list__item-secondary-content">
                             <i class="fa fa-plus"></i>
@@ -86,3 +90,11 @@ else
 }
 ?>
 </div>
+<script>
+    $(function() {
+        $('#sample3').fastLiveFilter('#song-list',{
+            selector:'.song-name,.artist-name'
+        });
+    });
+    componentHandler.upgradeDom();
+</script>

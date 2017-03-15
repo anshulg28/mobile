@@ -13,6 +13,7 @@
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/mobile/js/fullcalendar.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/jquery.lazy.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/datedropper.min.js"></script>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/jquery.fastLiveFilter.js"></script>
 
 
 <script>
@@ -270,9 +271,9 @@
                 if(typeof $(val).attr('data-evenNames') !== 'undefined')
                 {
                     var eveName = $(val).attr('data-evenNames');
-                    if(eveName.indexOf(',') != -1)
+                    if(eveName.indexOf(';') != -1)
                     {
-                        var res = eveName.split(',');
+                        var res = eveName.split(';');
                         var places = $(val).attr('data-evenPlaces').split(',');
                         var urls = $(val).attr('data-evenUrls').split(',');
                         for(var i=0;i<res.length;i++)
@@ -394,6 +395,28 @@
         $('#mainNavBar').removeClass('hide');
         $('#mainContent-view').removeClass('my-vanish');
         $("time.timeago").timeago();
+
+        if($('#MojoStatus').val() == '1')
+        {
+            vex.dialog.buttons.YES.text = 'Close';
+            vex.dialog.alert({
+                unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Congrats! You have successfully registered for the event, please find the details in My Events section'
+            });
+            //alertDialog('Success!','Congrats! You have successfully registered for the event, please find the details in My Events section',false);
+            showProgressLoader();
+            setTimeout(function(){
+                pushHistory('Doolally','event_dash',true);
+            },500);
+        }
+        else if($('#MojoStatus').val() == '2')
+        {
+            vex.dialog.buttons.YES.text = 'Close';
+            vex.dialog.alert({
+                unsafeMessage: '<label class="head-title">Failed!</label><br><br>'+'Some Error occurred! Please try again!'
+            });
+            //alertDialog('Failed!','Some Error occurred! Please try again!',false);
+        }
+
         if(isFnbShare)
         {
             isFnbShare = false;
@@ -490,13 +513,13 @@
                     if(typeof data.image === 'undefined')
                     {
                         $(ele).parent().find('.liveurl').find('img').attr('src',base_url+'asset/images/placeholder.jpg');
-                        $(ele).parent().find('.liveurl').find('img').addClass('lazy');
+                        //$(ele).parent().find('.liveurl').find('img').addClass('lazy');
                     }
                     else
                     {
-                        $(ele).parent().find('.liveurl').find('img').attr('src',base_url+'asset/images/placeholder.jpg');
-                        $(ele).parent().find('.liveurl').find('img').attr('data-src',data.image);
-                        $(ele).parent().find('.liveurl').find('img').addClass('lazy');
+                        $(ele).parent().find('.liveurl').find('img').attr('src',data.image);//base_url+'asset/images/placeholder.jpg');
+                        //$(ele).parent().find('.liveurl').find('img').attr('data-src',);
+                        //$(ele).parent().find('.liveurl').find('img').addClass('lazy');
                     }
                     var mainTitle = data.title;
                     if(data.title.length>45)
@@ -536,20 +559,29 @@
     var maxItems = $('.custom-accordion .my-card-items').length;
     var itemsPerLoad = 5;
     $(document).ready(function(){
-        $('#eventsTab #event-create-btn').fadeOut();
+        //$('#eventsTab #event-create-btn').fadeOut();
 
         if(isDynamicReq === false)
         {
-            if(localStorageUtil.getLocal('desktopTab') != null && $('#currentUrl').val() == '/')
+            showDesktopTab('#timelineTab');
+            /*if(localStorageUtil.getLocal('desktopTab') != null && )
             {
                 showDesktopTab(localStorageUtil.getLocal('desktopTab'));
             }
             else
             {
-                showDesktopTab('#timelineTab');
-            }
+
+            }*/
         }
 
+        if($('#currentUrl').val() == '/')
+        {
+            $('#event-filter-box').removeClass('hide');
+        }
+        else
+        {
+            $('#event-filter-box').addClass('hide');
+        }
         timelineInitHeight = $('section#timelineTab').height();
 
         /*setInterval(function(){
@@ -656,6 +688,8 @@
         switch(tabName)
         {
             case '#timelineTab':
+                $('#filter-timeline-menu').removeClass('hide');
+                $('#filter-events-menu').addClass('hide');
                 $('.mdl-layout__content').scrollTop(timelineScroll);
                 $('a[href="#timelineTab"].mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#timelineTab').addClass('is-active');
@@ -678,6 +712,8 @@
                 }
                 break;
             case '#eventsTab':
+                $('#filter-timeline-menu').addClass('hide');
+                $('#filter-events-menu').removeClass('hide');
                 $('.mdl-layout__content').scrollTop(eventScroll);
                 $('a[href="#eventsTab"].mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#eventsTab').addClass('is-active');
@@ -700,6 +736,8 @@
                 }
                 break;
             case '#fnbTab':
+                $('#filter-timeline-menu').addClass('hide');
+                $('#filter-events-menu').addClass('hide');
                 $('.mdl-layout__content').scrollTop(fnbScroll);
                 $('a[href="#fnbTab"].mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#fnbTab').addClass('is-active');
@@ -1226,11 +1264,11 @@
         lastUrl = uri;
         if(ismobile)
         {
-            history.pushState({uri:uri}, titl, '?page/'+uri);
+            history.pushState({uri:uri,title:titl}, titl, '?page/'+uri);
         }
         else
         {
-            history.pushState({uri:uri}, titl, uri);
+            history.pushState({uri:uri,title:titl}, titl, uri);
         }
 
         load(uri);
@@ -1240,21 +1278,30 @@
         lastUrl = uri;
         if(ismobile)
         {
-            history.replaceState({uri:uri}, titl, '?page/'+uri);
+            history.replaceState({uri:uri,title:titl}, titl, '?page/'+uri);
         }
         else
         {
-            history.replaceState({uri:uri}, titl, uri);
+            history.replaceState({uri:uri,title:titl}, titl, uri);
         }
 
         load(uri);
     }
+
     $(document).on('click','a.dynamic', function(e){
         e.preventDefault();
         var title = 'Doolally';
+        if(typeof $(this).attr('data-title') != 'undefined')
+        {
+            title = $(this).attr('data-title');
+            document.title = title;
+        }
         var url = $(this).attr('href');
-        showProgressLoader();
-        pushHistory(title,url,true);
+        if(url != '#')
+        {
+            showProgressLoader();
+            pushHistory(title,url,true);
+        }
     });
     function load(url)
     {
@@ -1690,14 +1737,14 @@
     });
 
     $(document).on('keyup','#eventsTab #newEvent', function(){
-        if($(this).val() == '')
+        /*if($(this).val() == '')
         {
             $('#eventsTab #event-create-btn').fadeOut('slow');
         }
         else
         {
             $('#eventsTab #event-create-btn').fadeIn('slow');
-        }
+        }*/
 
         localStorageUtil.setLocal('eventName',$(this).val());
 
@@ -1844,6 +1891,27 @@
         $(this).addClass('hide');
         $('.event-add-page #eventName').focus();
     });
+    $(document).on('click','.event-add-page .upload-img-close', function(){
+        filesArr = [];
+        $('.event-add-page .event-img-after #eventProgress').removeClass('hide');
+        $('.event-add-page .event-img-after').addClass('hide');
+        $('.event-add-page .event-img-before').removeClass('hide');
+        $('.event-add-page #event-img-upload').val('');
+        $('.event-add-page .event-img-space').removeClass('hide');
+        $('.event-add-page #cropContainerModal').addClass('hide');
+        $('.event-add-page #img-container').cropper('destroy');
+    });
+    $(document).on('click','.event-add-page .event-img-remove', function(){
+        filesArr = [];
+        $('.event-add-page .event-img-after #eventProgress').removeClass('hide');
+        $('.event-add-page .event-img-after .event-img-remove').addClass('hide');
+        $('.event-add-page .event-img-after').addClass('hide');
+        $('.event-add-page .event-img-before').removeClass('hide');
+        $('.event-add-page #event-img-upload').val('');
+        $('.event-add-page .event-img-space').css({
+            'background': '#EDEDEC'
+        });
+    });
     $(document).on('click', '.event-add-page .event-overlay-remove', function(){
         $('.event-add-page #cropContainerModal .done-overlay').addClass('hide');
         $('.event-add-page .upload-done-icon').removeClass('hide');
@@ -1862,14 +1930,24 @@
     $(document).on('keyup','.event-add-page #eventPrice', function(){
         var basic = 250;
         var inputVal = Number($(this).val());
-        var total = basic+inputVal;
-        $('.event-add-page .total-event-price').html(total);
-        $('.event-add-page input[name="eventPrice"]').val(total);
+        if(inputVal > 0)
+        {
+            var total = basic+inputVal;
+            $('.event-add-page .total-event-price').html(total);
+            $('.event-add-page input[name="eventPrice"]').val(total);
+        }
+        else
+        {
+            $('.event-add-page .total-event-price').html(0);
+            $('.event-add-page input[name="eventPrice"]').val(0);
+        }
     });
 
     $(document).on('change','.event-add-page input[name="costType"]', function(){
         if($(this).val() == '1')
         {
+            $('.event-add-page input[name="eventPrice"]').val(0);
+            $('.event-add-page .total-event-price').html(0);
             $('.event-add-page #eventPrice').attr('disabled', 'disabled');
         }
         else
@@ -2073,7 +2151,7 @@
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
                         unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Thank you for creating an event, ' +
-                        'We have sent you an confirmation email, please check for event status in My Events section.',
+                        'We have sent you a confirmation email, please check for event status in My Events section.',
                         callback: function(){
                             setTimeout(function(){
                                 pushHistory('Doolally','event_dash',true);
@@ -2119,5 +2197,285 @@
                 });
             }
         });
+    });
+
+    $(document).on('click','.custom-addToCal', function(){
+        var evTitle = $(this).attr('data-ev-title');
+        var evDescription = $(this).attr('data-ev-description');
+        var evStart =  new Date(($(this).attr('data-ev-start')).replace(/-/g, "/"));
+        var evEnd = new Date(($(this).attr('data-ev-end')).replace(/-/g, "/"));
+        var evLoc = $(this).attr('data-ev-location');
+        var data= {
+            title: evTitle,
+            start: evStart,
+            end: evEnd,
+            address: evLoc,
+            description: evDescription
+        };
+        var cal = generateCalendars(data);
+
+        var beerHtml =  '<div class="mdl-card demo-card-header-pic">'+
+                            '<p>Save To Calendar: "'+evTitle+'"</p>'+
+                            '<ul class="demo-list-icon mdl-list">'+
+                                '<li class="mdl-list__item"><span class="mdl-list__item-primary-content">'+cal.google+'</li>'+
+                                '<li class="mdl-list__item"><span class="mdl-list__item-primary-content">'+cal.ical+'</li>'+
+                                '<li class="mdl-list__item"><span class="mdl-list__item-primary-content">'+cal.yahoo+'</li>'+
+                                '<li class="mdl-list__item"><span class="mdl-list__item-primary-content">'+cal.outlook+'</li>'+
+                            '</ul></div>';
+
+        vex.dialog.buttons.YES.text = 'Close';
+        vex.dialog.open({
+            unsafeMessage: beerHtml,
+            showCloseButton: false,
+            contentClassName: 'calender-overlay-pop'
+        });
+        //$(this).html(myCalendar);
+
+    });
+
+    //Event details page events
+    $(document).on('click','.event-details-page .event-cancel-btn', function(){
+        var isConfirm = false;
+        vex.dialog.buttons.YES.text = 'Cancel Event';
+        vex.dialog.buttons.NO.text = 'Close';
+        vex.dialog.confirm({
+            unsafeMessage: '<label class="head-title">Cancel Event?</label><br><br>'+"We will send your cancellation request to the venue's Community Manager.",
+            showCloseButton: true,
+            afterClose: function(){
+                vex.closeAll();
+                if(isConfirm)
+                {
+                    cancelEvent($('.event-details-page #eventId').val());
+                }
+            },
+            callback: function (value) {
+                if (value) {
+                    isConfirm = true;
+                }
+            }
+        });
+        //confirmDialog('Cancel Event?', "Once you tap 'Cancel Event', your event will be cancelled within 48 hours. All" +
+        //" the fees collected will be refunded to the attendees.",'Cancel Event', $$('.event-details #eventId').val(), false);
+    });
+    function cancelEvent(eventId)
+    {
+        showProgressLoader();
+        $.ajax({
+            method:"GET",
+            url: base_url+'dashboard/cancelEvent/'+eventId,
+            cache: false,
+            dataType: 'json',
+            success: function(data){
+                hideProgressLoader();
+                if(data.status === true)
+                {
+                    window.history.back();
+                }
+            },
+            error: function(){
+               hideProgressLoader();
+                mySnackTime('Some Error Occurred!');
+                vex.closeTop();
+            }
+        });
+    }
+
+    $(document).on('click','.eventDash .eve-cancel-btn', function() {
+        var bookerId = $(this).attr('data-bookerId');
+
+        vex.dialog.buttons.YES.text = 'Yes';
+        vex.dialog.confirm({
+            message: 'Are you sure you want to cancel?',
+            callback: function (value) {
+                if (value) {
+                    showProgressLoader();
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        url: base_url + 'eventCancel',
+                        data: {bId: bookerId},
+                        success: function (data) {
+                            hideProgressLoader();
+                            if (data.status == true) {
+                                vex.dialog.buttons.YES.text = 'Close';
+                                vex.dialog.alert({
+                                    unsafeMessage: '<label class="head-title">Success!</label><br><br>We will inform the organiser that you will not be attending the event. For paid events, the money will be fully refunded to you.',
+                                    callback: function () {
+                                        setTimeout(function () {
+                                            replaceHistory('Doolally', 'event_dash', true);
+                                        }, 500);
+                                    }
+                                });
+
+                            }
+                            else {
+                                vex.dialog.buttons.YES.text = 'Close';
+                                vex.dialog.alert({
+                                    unsafeMessage: '<label class="head-title">Error!</label><br><br>' + data.errorMsg
+                                });
+                            }
+                        },
+                        error: function () {
+                            hideProgressLoader();
+                            vex.dialog.buttons.YES.text = 'Close';
+                            vex.dialog.alert({
+                                unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
+                            });
+                        }
+                    });
+                } else {
+
+                }
+            }
+        });
+    });
+
+    //Filter Code for timeline
+
+    $(document).on('change','.filter-timeline-list input[name=social-filter]',function(){
+        var notSelectedFilters = [];
+        var selectedFilters = [];
+        $(".filter-timeline-list input[name=social-filter]:not(:checked)").each(function(){
+            notSelectedFilters.push($(this).val());
+            switch($(this).val())
+            {
+                case "1":
+                    $('#timelineTab .facebook-wrapper').fadeOut();
+                    //$$('#timelineTab .page-content').scrollTop($(document).height(),500);
+                    break;
+                case "2":
+                    $('#timelineTab .twitter-wrapper').fadeOut();
+                    //$$('#timelineTab .page-content').scrollTop($(document).height(),500);
+                    break;
+                case "3":
+                    $('#timelineTab .instagram-wrapper').fadeOut();
+                    //$$('#timelineTab .page-content').scrollTop($(document).height(),500);
+                    break;
+            }
+        });
+        if(notSelectedFilters.length == 3)
+        {
+            //$$('.infinite-scroll-preloader').hide();
+            $('#timelineTab .facebook-wrapper').fadeIn();
+            $('#timelineTab .twitter-wrapper').fadeIn();
+            $('#timelineTab .instagram-wrapper').fadeIn();
+        }
+        $(".filter-timeline-list input[name=social-filter]:checked").each(function(){
+            selectedFilters.push($(this).val());
+            switch($(this).val())
+            {
+                case "1":
+                    $('#timelineTab .facebook-wrapper').fadeIn();
+                    break;
+                case "2":
+                    $('#timelineTab .twitter-wrapper').fadeIn();
+                    break;
+                case "3":
+                    $('#timelineTab .instagram-wrapper').fadeIn();
+                    break;
+            }
+        });
+        /*if(selectedFilters.length >= 1)
+        {
+            $$('.infinite-scroll-preloader').show();
+        }*/
+    });
+    var fnb_initial_state = '';
+    var event_initial_state = '';
+    $(document).on('change', '.filter-events-list input[name="event-locations"]', function(){
+        if(typeof $(this).val() != 'undefined')
+        {
+            if(event_initial_state == '')
+            {
+                event_initial_state = $('#eventsTab .event-section').html();
+            }
+            $('.filter-events-list .clear-event-filter').removeClass('my-vanish');
+            $('#filter-events-menu').addClass('on');
+            var filterVal = $(this).val();
+            var catArray = $('#eventsTab .eve-'+filterVal);
+            $(catArray).hide();
+            $('#eventsTab .eve-'+filterVal).remove();
+            $('#eventsTab .event-section').prepend(catArray);
+            $(catArray).slideToggle();
+            //myApp.closeModal('.popover-event-filter');
+        }
+    });
+
+    $(document).on('click','.filter-events-list .clear-event-filter', function(){
+
+        $('#filter-events-menu').removeClass('on');
+        $('.filter-events-list li').each(function(i,val){
+            var inp = '#'+$(val).find('input').attr('id');
+            document.querySelector(inp).parentNode.MaterialRadio.uncheck();
+        });
+        $('.filter-events-list .clear-event-filter').addClass('hide');
+        if(event_initial_state != '')
+        {
+            $('#eventsTab .event-section').empty().html(event_initial_state);
+        }
+            //myApp.closeModal('.popover-event-filter');
+
+        //document.querySelector('input[name="beer-locations"]').parentNode.MaterialRadio.uncheck();
+    });
+
+    // Filtering beer
+    $(document).on('change', '.filter-fnb-list input[name="beer-locations"]', function(){
+        console.log($(this).val());
+        if(typeof $(this).val() != 'undefined')
+        {
+            if(fnb_initial_state == '')
+            {
+                fnb_initial_state = $('.sideFnbWrapper').html();
+            }
+            $('.filter-fnb-list .clear-fnb-filter').removeClass('my-vanish');
+            $('#filter-fnb-menu').addClass('on');
+            var filterVal = $(this).val();
+            $('.sideFnbWrapper .show-full-beer-card').each(function(i,val){
+                if(!$(val).hasClass('category-'+filterVal))
+                {
+                    $(val).parent().hide();
+                }
+            });
+        }
+    });
+
+    $(document).on('click','.filter-fnb-list .clear-fnb-filter', function(){
+        $('#filter-fnb-menu').removeClass('on');
+        $('.filter-fnb-list li').each(function(i,val){
+            if(typeof $(val).find('input').val() != 'undefined')
+            {
+                var inp = '#'+$(val).find('input').attr('id');
+                document.querySelector(inp).parentNode.MaterialRadio.uncheck();
+            }
+        });
+        $(this).addClass('my-vanish');
+        if(fnb_initial_state != '')
+        {
+            $('.sideFnbWrapper').empty().html(fnb_initial_state);
+        }
+            //myApp.closeModal('.popover-filters');
+
+        //document.querySelector('input[name="beer-locations"]').parentNode.MaterialRadio.uncheck();
+    });
+
+    $(document).on('click','#filter-fnb-menu', function(){
+        setTimeout(function(){
+            var pos = $('#filter-fnb-menu').position();
+            var wid = $('.sideFnbWrapper').width();
+            $('.fnb-side-menu-wrapper .mdl-menu__container').css("left",(pos.left-wid)+40);
+        },10);
+    });
+</script>
+
+
+<!-- Age Gate code -->
+<script>
+    if(localStorageUtil.getLocal("ageGateGone") == null)
+    {
+        $('#doolally-age-gate').removeClass('hide');
+    }
+    $(document).on('click','#doolally-age-gate .age-gate-yes', function(){
+        localStorageUtil.setLocal("ageGateGone","1");
+        $('#doolally-age-gate').addClass('hide');
     });
 </script>

@@ -200,7 +200,7 @@
                                             <div class="event-header-name">Is the event Free or Paid?</div>
 
                                             <?php
-                                            if($row['costType'] == '2')
+                                            if($row['costType'] == EVENT_PAID || $row['costType'] == EVENT_PAID_NO_PINT || $row['costType'] == EVENT_DOOLALLY_FEE)
                                             {
                                                 ?>
                                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
@@ -212,7 +212,7 @@
                                                     <div class="col-50">
                                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                                                   value="<?php $price = (int)$row['eventPrice'] - 250; echo $price;?>">
+                                                                   value="<?php if((int)$row['eventPrice'] > 250){ $price = (int)$row['eventPrice'] - 250; echo $price;}else{echo $row['eventPrice'];}?>">
                                                             <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                                                             <span class="mdl-textfield__error">Input is not a number!</span>
                                                         </div>

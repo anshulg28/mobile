@@ -9,32 +9,32 @@
                 if(isset($row['viewFrame']))
                 {
                     ?>
-                    <div class="card">
-                        <div class="row no-gutter">
-                            <div class="col-100">
-                                <?php echo $row['viewFrame'];?>
-                            </div>
-                        </div>
+                    <div class="mdl-card mdl-shadow--2dp demo-card-header-pic">
+                        <?php echo $row['viewFrame'];?>
                         <div class="card-content">
                             <div class="card-content-inner">
-                                <div class="comment clear">
-                                    <p>
-                                        <?php echo $row['locName'];?> Taproom
-                                    </p>
+                                <ul class="mdl-list main-avatar-list">
+                                    <li class="mdl-list__item">
+                                        <span class="mdl-list__item-primary-content">
+                                            <span class="avatar-title">
+                                                <?php echo $row['locName'];?> Taproom
+                                            </span>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <div class="mdl-card__actions mdl-card--border">
+                                    <a href="tel:<?php echo $row['phoneNumber']; ?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                        <span class="ic_event_contact_icon point-item"></span> Call
+                                    </a>
+                                    <a href="<?php echo $row['mapLink'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" target="_blank">
+                                        <i class="ic_me_location_icon point-item"></i>
+                                        Get Directions
+                                    </a>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="card-footer">
-                            <a href="tel:<?php echo $row['phoneNumber']; ?>" class="external link">
-                                <span class="ic_event_contact_icon point-item"></span> Call
-                            </a>
-                            <a href="<?php echo $row['mapLink'];?>" class="external link" target="_blank">
-                                <i class="ic_me_location_icon point-item"></i>
-                                Get Directions
-                            </a>
-                        </div>
                     </div>
+                    <br>
                     <?php
                 }
             }

@@ -36,7 +36,7 @@
         if(isset($status) && $status === true)
         {
             ?>
-            <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title" data-found=".searchbar-found" data-not-found=".searchbar-not-found">
+            <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title,.item-subtitle" data-found=".searchbar-found" data-not-found=".searchbar-not-found">
                 <div class="searchbar-input">
                     <input type="search" placeholder="Search Music">
                     <a href="#" class="searchbar-clear"></a>

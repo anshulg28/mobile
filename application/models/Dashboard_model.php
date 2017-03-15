@@ -518,6 +518,7 @@ class Dashboard_Model extends CI_Model
         $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ';') as eventNames,
                   GROUP_CONCAT(eventPlace SEPARATOR ',') as eventPlaces,
                   GROUP_CONCAT(endTime SEPARATOR ',') as eventEndTimes,
+                  GROUP_CONCAT(eventSlug SEPARATOR ',') as eventSlugs,
                   eventDate,GROUP_CONCAT(eventId SEPARATOR ',') as eventIds FROM eventmaster
                   WHERE eventDate BETWEEN CURRENT_DATE() AND (CURRENT_DATE() + INTERVAL 1 WEEK) 
                   AND ifActive  = ".ACTIVE." AND ifApproved = ".EVENT_APPROVED." GROUP BY eventDate 
@@ -553,6 +554,19 @@ class Dashboard_Model extends CI_Model
                   LEFT JOIN eventregistermaster erm ON erm.eventId = em.eventId
                   WHERE erm.isUserCancel != 1 AND em.eventId = 
                   (SELECT eventId FROM eventmaster WHERE eventSlug LIKE '".$eventSlug."')";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function fetchSignupList($eventSlug)
+    {
+        $query = "SELECT um.firstName, um.lastName, um.emailId, erm.quantity, erm.createdDT
+                  FROM eventregistermaster erm
+                  LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
+                  WHERE erm.isUserCancel != 1 AND erm.eventId = 
+                  (SELECT eventId FROM eventmaster WHERE eventSlug LIKE '".$eventSlug."') 
+                   ORDER BY erm.createdDT DESC";
 
         $result = $this->db->query($query)->result_array();
 
@@ -636,10 +650,12 @@ class Dashboard_Model extends CI_Model
     public function checkEventSpace($details)
     {
         $query = "SELECT * FROM eventmaster
-                  WHERE startTime >= '".$details['startTime']."' AND endTime <= '".$details['endTime']."' AND 
-                  eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."'";
-        $result = $this->db->query($query)->result_array();
+                  WHERE eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."' AND 
+                  ((TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')) OR 
+                   (TIME(endTime) > TIME('".$details['startTime']."') AND TIME(endTime) <= TIME('".$details['endTime']."')) OR
+                   (TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')))";
 
+        $result = $this->db->query($query)->result_array();
         if(myIsArray($result))
         {
             $data['status'] = true;

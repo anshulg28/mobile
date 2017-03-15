@@ -103,13 +103,18 @@ class Dataformatinghtml_library
     public function getFnbSideHtml($data)
     {
         $this->CI->load->model('dashboard_model');
+        $this->CI->load->model('locations_model');
 
+        $data['mainLocs'] = $this->CI->locations_model->getAllLocations();
         $data['fnbItems'] = $this->CI->dashboard_model->getAllActiveFnB();
         $htmlPage = $this->CI->load->view('desktop/FnbSideView', $data, true);
         return $htmlPage;
     }
     public function getDeskHeaderHtml($data)
     {
+        $this->CI->load->model('locations_model');
+
+        $data['mainLocs'] = $this->CI->locations_model->getAllLocations();
         $htmlPage = $this->CI->load->view('desktop/DeskHeaderView', $data, true);
         return $htmlPage;
     }

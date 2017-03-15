@@ -563,7 +563,7 @@
                                     </div>
                                 </div>
                                 <div class="mdl-cell--4-col">
-                                    <a href="create_event" id="event-create-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect bookNow-event-btn my-AutoWidth dynamic">
+                                    <a href="create_event" id="event-create-btn" data-title="Create Event" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect bookNow-event-btn my-AutoWidth dynamic">
                                         Continue
                                     </a>
                                 </div>
@@ -579,7 +579,7 @@
                                 {
                                     $img_collection = array();
                                     ?>
-                                    <div class="mdl-card mdl-shadow--2dp demo-card-header-pic <?php
+                                    <div itemscope itemtype="http://schema.org/Event" class="mdl-card mdl-shadow--2dp demo-card-header-pic <?php
                                     if(isset($row['eventPlace']))
                                     {
                                         echo 'eve-'.$row['eventPlace'];
@@ -590,7 +590,7 @@
                                         {
                                             ?>
                                             <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="dynamic">
-                                                <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                <img itemprop="image" src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
                                             </a>
                                             <?php
                                         }
@@ -598,7 +598,7 @@
                                         {
                                             ?>
                                             <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="dynamic">
-                                                <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy"/>
+                                                <img itemprop="image" data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy"/>
                                             </a>
                                             <?php
                                         }
@@ -610,6 +610,7 @@
                                                 <ul class="mdl-list main-avatar-list">
                                                     <li class="mdl-list__item mdl-list__item--two-line">
                                                         <span class="mdl-list__item-primary-content">
+                                                            <h1 class="hide" itemprop="name"> <?php echo $row['eventName'];?></h1>
                                                             <span class="avatar-title">
                                                                 <?php
                                                                 $eventName = (strlen($row['eventName']) > 35) ? substr($row['eventName'], 0, 35) . '..' : $row['eventName'];
@@ -626,28 +627,60 @@
                                                         </span>
                                                     </li>
                                                 </ul>
+                                                <meta class="hide" itemprop="startDate" content="<?php echo $row['eventDate'].'T'.$row['startTime'];?>" />
+                                                <meta class="hide" itemprop="endDate" content="<?php echo $row['eventDate'].'T'.$row['endTime'];?>" />
                                                 <div class="mdl-card__supporting-text">
                                                     <?php
                                                     $eventDescrip = (strlen($row['eventDescription']) > 100) ? substr($row['eventDescription'], 0, 100) . '..' : $row['eventDescription'];
                                                     ?>
-                                                    <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="comment dynamic">
+                                                    <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="comment dynamic" itemprop="description">
                                                         <?php echo $eventDescrip;?>
                                                     </a>
                                                     <p>
-                                                        <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['ifAutoCreated'] == '1'){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
-                                                        &nbsp;&nbsp;<span class="ic_events_icon event-date-main my-display-inline"></span>&nbsp;
-                                                        <?php $d = date_create($row['eventDate']);
-                                                        echo date_format($d,EVENT_DATE_FORMAT); ?>
-                                                        &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
                                                         <?php
-                                                        switch($row['costType'])
+                                                        if($row['isEventEverywhere'] == STATUS_NO)
                                                         {
-                                                            case "1":
-                                                                echo "Free";
-                                                                break;
-                                                            case "2":
-                                                                echo 'Rs '.$row['eventPrice'];
-                                                                break;
+                                                            $mapSplit = explode('/',$row['mapLink']);
+                                                            $cords = explode(',',$mapSplit[count($mapSplit)-1]);
+                                                            ?>
+                                                            <div style="opacity:0;position:absolute;z-index:-1" itemprop="location" itemscope itemtype="http://schema.org/Place">
+                                                                <span itemprop="name"><?php echo 'Doolally Taproom '.$row['locName'];?></span>
+                                                                <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                                                                    <meta itemprop="latitude" content="<?php echo $cords[0];?>" />
+                                                                    <meta itemprop="longitude" content="<?php echo $cords[1];?>" />
+                                                                </div>
+                                                                <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                                                                                <span itemprop="streetAddress">
+                                                                                    <?php echo $row['locAddress'];?>
+                                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['isEventEverywhere'] == STATUS_YES){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
+                                                        <?php
+                                                        if($row['showEventDate'] == STATUS_YES)
+                                                        {
+                                                            ?>
+                                                            &nbsp;&nbsp;<span class="ic_events_icon event-date-main my-display-inline"></span>&nbsp;
+                                                            <?php $d = date_create($row['eventDate']);
+                                                            echo date_format($d,EVENT_DATE_FORMAT); ?>
+                                                            <?php
+                                                        }
+                                                        if($row['showEventPrice'] == STATUS_YES)
+                                                        {
+                                                            ?>
+                                                            &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
+                                                            <?php
+                                                            switch($row['costType'])
+                                                            {
+                                                                case "1":
+                                                                    echo "Free";
+                                                                    break;
+                                                                default :
+                                                                    echo 'Rs '.$row['eventPrice'];
+                                                            }
                                                         }
                                                         if($row['ifAutoCreated'] == '1')
                                                         {
@@ -662,6 +695,7 @@
                                                             <?php
                                                         }
                                                         ?>
+                                                        <a itemprop="url" href="<?php echo base_url().'?page/events/'.$row['eventSlug'];?>" class="color-black hide"><?php echo $row['eventName'];?></a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -846,6 +880,27 @@
         </div>
     </main>
 </div>
+<section id="doolally-age-gate" class="hide">
+    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand">
+            <div class="mdl-grid">
+                <div class="">
+                    <div class="tutorialicon">
+                        <img src="<?php echo base_url();?>asset/images/splashLogo.png" class="mainFeed-img"/>
+                    </div>
+                    <br>
+                    <span class="load-txt">Welcome To Doolally!</span>
+                    <br>
+                    <p class="sub-age-txt">Are you of legal drinking age?</p>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-card__actions">
+            <i class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored bookNow-event-btn age-gate-yes">Yes</i>
+            <a href="http://www.amuldairy.com" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored bookNow-event-btn external">No</a>
+        </div>
+    </div>
+</section>
 </body>
 <?php echo $desktopJs ;?>
 
