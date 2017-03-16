@@ -30,6 +30,31 @@
         <meta property="og:description" content="<?php echo $meta['description'];?>" />
         <?php
     }
+    elseif(isset($meta1) && myIsArray($meta1))
+    {
+        ?>
+        <title><?php echo $meta1['title'];?></title>
+        <meta name="description" content="<?php echo $meta1['description'];?>" />
+        <meta itemprop="name" content="<?php echo $meta1['title'];?>">
+        <meta itemprop="description" content="<?php echo $meta1['description'];?>">
+        <meta itemprop="image" content="<?php echo $meta1['img'];?>">
+
+        <!-- Twitter Card data -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@godoolally">
+        <meta name="twitter:title" content="<?php echo $meta1['title'];?>">
+        <meta name="twitter:description" content="<?php echo $meta1['description'];?>">
+        <meta name="twitter:creator" content="@godoolally">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="<?php echo $meta1['img'];?>">
+
+        <!-- Open Graph data -->
+        <meta property="og:title" content="<?php echo $meta1['title'];?>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="<?php echo $meta1['img'];?>" />
+        <meta property="og:description" content="<?php echo $meta1['description'];?>" />
+        <?php
+    }
     else
     {
         ?>

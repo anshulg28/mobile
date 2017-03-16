@@ -545,6 +545,16 @@
         showDesktopTab('#timelineTab');
     });
     $(document).on('click','a[href="#eventsTab"]', function(){
+        if($(this).hasClass('is-active') && localStorageUtil.getLocal('desktopTab') == '#eventsTab')
+        {
+            if(mainEventsHtml != '')
+            {
+                $('section#eventsTab').fadeOut(500, function() {
+                    $(this).html(mainEventsHtml).fadeIn(500);
+                    mainEventsHtml = '';
+                });
+            }
+        }
         localStorageUtil.setLocal('desktopTab','#eventsTab');
         showDesktopTab('#eventsTab');
     });
@@ -712,8 +722,16 @@
                 }
                 break;
             case '#eventsTab':
-                $('#filter-timeline-menu').addClass('hide');
-                $('#filter-events-menu').removeClass('hide');
+                if(document.location.href == base_url)
+                {
+                    $('#filter-timeline-menu').addClass('hide');
+                    $('#filter-events-menu').removeClass('hide');
+                }
+                else
+                {
+                    $('#filter-timeline-menu').addClass('hide');
+                    $('#filter-events-menu').addClass('hide');
+                }
                 $('.mdl-layout__content').scrollTop(eventScroll);
                 $('a[href="#eventsTab"].mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#eventsTab').addClass('is-active');
@@ -1339,6 +1357,7 @@
         });
     }
 
+    var mainEventsHtml = '';
     function replaceContent(pageName, data)
     {
         switch(pageName)
@@ -1358,6 +1377,7 @@
                 $('section#contactTab').html(data).addClass('is-active');
                 break;
             default:
+                mainEventsHtml = $('section#eventsTab').html();
                 showDesktopTab('#eventsTab');
                 $('section#eventsTab').fadeOut(500, function() {
                     $(this).html(data).fadeIn(500);
@@ -2420,7 +2440,6 @@
 
     // Filtering beer
     $(document).on('change', '.filter-fnb-list input[name="beer-locations"]', function(){
-        console.log($(this).val());
         if(typeof $(this).val() != 'undefined')
         {
             if(fnb_initial_state == '')
