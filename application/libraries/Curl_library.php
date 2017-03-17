@@ -167,6 +167,16 @@ class curl_library
         );
         return $this->getDataByDelete($url,'',0,$header);
     }
+    public function createInstaMugLink($details)
+    {
+        $url = 'https://www.instamojo.com/api/1.1/payment-requests/';
+        $header = array(
+            'X-Api-Key:'.INSTA_API_KEY,
+            'X-Auth-Token:'.INSTA_AUTH_TOKEN
+        );
+        //var_dump(base_url().EVENT_PATH_THUMB.$img);
+        return $this->getDataByPost($url,$details,0, $header);
+    }
 
     /* JukeBox API */
     public function getJukeboxTaprooms()
@@ -282,4 +292,5 @@ class curl_library
 
         return $this->getDataByPost($url,$post,0,$headers);
     }
+
 }

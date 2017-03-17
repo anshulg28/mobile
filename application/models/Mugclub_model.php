@@ -56,23 +56,55 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
-    public function getAllMugsCount()
+    public function getAllMugsCount($locations)
     {
         $query = "SELECT DISTINCT (SELECT count(*) FROM mugmaster WHERE membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldOverall,
-                  (SELECT count(*) FROM mugmaster WHERE homeBase = 2 AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldAndheri,
-                  (SELECT count(*) FROM mugmaster WHERE homeBase = 1 AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldBandra,
-                  (SELECT count(*) FROM mugmaster WHERE homeBase = 3 AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldKemps,
-                  (SELECT count(*) FROM mugmaster WHERE membershipStart <= CURRENT_DATE()) as newOverall,
-                  (SELECT count(*) FROM mugmaster WHERE homeBase = 2 AND membershipStart <= CURRENT_DATE()) as newAndheri,
-                  (SELECT count(*) FROM mugmaster WHERE homeBase = 3 AND membershipStart <= CURRENT_DATE()) as newKemps,
-                  (SELECT count(*) FROM mugmaster WHERE homeBase = 1 AND membershipStart <= CURRENT_DATE()) as newBandra
-                  FROM mugmaster";
+                  (SELECT count(*) FROM mugmaster WHERE membershipStart <= CURRENT_DATE()) as newOverall";
+
+        if(isset($locations))
+        {
+            $length = count($locations)-1;
+            $counter = 0;
+            foreach($locations as $key => $row)
+            {
+                if(isset($row['id']))
+                {
+                    $counter++;
+                    if($counter <= $length)
+                    {
+                        $query .= ",";
+                    }
+                    $lbl = explode('-',$row['locUniqueLink'])[0];
+                    $query .= "(SELECT count(*) FROM mugmaster WHERE homeBase = ".$row['id']."
+                                AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as old".ucfirst($lbl).",";
+                    $query .= "(SELECT count(*) FROM mugmaster WHERE homeBase = ".$row['id']."
+                                AND membershipStart <= CURRENT_DATE()) as new".ucfirst($lbl);
+
+                }
+            }
+        }
+        $query .= " FROM mugmaster";
         $result = $this->db->query($query)->row_array();
 
         $avgMugs['overall'] = ((int)$result['newOverall']+(int)$result['oldOverall'])/2;
-        $avgMugs['bandra'] = ((int)$result['newBandra']+(int)$result['oldBandra'])/2;
+        if(isset($locations))
+        {
+            $length = count($locations)-1;
+            $counter = 0;
+            foreach($locations as $key => $row)
+            {
+                if(isset($row['id']))
+                {
+                    $lbl = explode('-',$row['locUniqueLink'])[0];
+                    $avgMugs[$lbl] = ((int)$result['new'.ucfirst($lbl)]+(int)$result['old'.ucfirst($lbl)])/2;
+
+                }
+            }
+        }
+        /*$avgMugs['bandra'] =
         $avgMugs['andheri'] = ((int)$result['newAndheri']+(int)$result['oldAndheri'])/2;
         $avgMugs['kemps'] = ((int)$result['newKemps']+(int)$result['oldKemps'])/2;
+        $avgMugs['colaba'] = ((int)$result['newColaba']+(int)$result['oldColaba'])/2;*/
 
         $data = $avgMugs;
         return $data;
@@ -80,9 +112,11 @@ class Mugclub_Model extends CI_Model
     }
     public function getMugDataById($mugId)
     {
-        $query = "SELECT * "
-            ."FROM mugmaster "
-            ."where mugId = ".$mugId;
+        $query = "SELECT mugId,mugTag,homeBase,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipEnd,"
+            ."invoiceDate,invoiceNo,invoiceAmt,membershipStart,oldHomeBase,m.ifActive,notes "
+            ."FROM mugmaster m "
+            ."LEFT JOIN locationmaster l ON id = m.homeBase"
+            ." Where mugId = ".$mugId;
 
         $result = $this->db->query($query)->result_array();
 
@@ -233,9 +267,10 @@ class Mugclub_Model extends CI_Model
 
     public function verifyMobileNo($mobNo)
     {
-        $query = "SELECT * "
-            ."FROM mugmaster "
-            ."where mobileNo = '".$mobNo."'";
+        $query = "SELECT mugId,mugTag,homeBase,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipEnd "
+            ."FROM mugmaster m "
+            ."LEFT JOIN locationmaster l ON id = m.homeBase"
+            ." Where mobileNo = '".$mobNo."'";
 
         $result = $this->db->query($query)->row_array();
 
@@ -514,6 +549,18 @@ class Mugclub_Model extends CI_Model
     {
         $this->db->insert('mugrenewmaster', $post);
         return true;
+    }
+
+    public function fetchLocIdByMob($userId)
+    {
+        $query = "SELECT lm.id
+                  FROM doolally_usersmaster du
+                  LEFT JOIN locationmaster lm ON lm.phoneNumber = du.mobNum
+                  WHERE du.userId = ".$userId;
+
+        $result  = $this->db->query($query)->row_array();
+
+        return $result;
     }
 
 }

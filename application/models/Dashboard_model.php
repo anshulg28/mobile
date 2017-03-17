@@ -777,6 +777,23 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+
+    public function getCompEventInfoBySlug($eventSlug)
+    {
+        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
+                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
+                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
+                  em.eventPaymentLink, em.isEventEverywhere,em.showEventDate,em.showEventTime,em.showEventPrice,
+                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated, ea.filename, l.locName, l.mapLink
+                  FROM `eventcompletedmaster` em
+                  LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
+                  LEFT JOIN locationmaster l ON eventPlace = l.id
+                  WHERE em.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
     public function saveEventRegis($details)
     {
         $details['createdDT'] = date('Y-m-d H:i:s');
@@ -858,5 +875,26 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->row_array();
 
         return $result;
+    }
+
+    public function saveInstamojoMug($details)
+    {
+        $this->db->insert('instamojomugmaster', $details);
+        return true;
+    }
+
+    public function getMugInstaByReqId($payReqId)
+    {
+        $query = "SELECT id, mugId FROM instamojomugmaster WHERE paymentId LIKE '".$payReqId."'";
+
+        $result = $this->db->query($query)->row_array();
+        return $result;
+    }
+
+    public function updateInstaMug($details,$id)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('instamojomugmaster', $details);
+        return true;
     }
 }

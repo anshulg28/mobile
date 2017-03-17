@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property locations_model $locations_model
  * @property login_model $login_model
  * @property users_model $users_model
+ * @property mugclub_model $mugclub_model
 */
 
 class Main extends MY_Controller {
@@ -18,13 +19,14 @@ class Main extends MY_Controller {
         $this->load->model('cron_model');
         $this->load->model('dashboard_model');
         $this->load->model('locations_model');
+        $this->load->model('mugclub_model');
         $this->load->model('users_model');
 	}
 	public function index()
 	{
         $data = array();
         //Twitter share for twitterbot
-        if(stripos($_SERVER['HTTP_USER_AGENT'],'twitterbot'))
+        if(stripos($_SERVER['HTTP_USER_AGENT'],'twitterbot') !== false)
         {
             if(isStringSet($_SERVER['QUERY_STRING']))
             {
@@ -52,6 +54,10 @@ class Main extends MY_Controller {
                         {
                             //$event = explode('-',$query[2]);
                             $eventData = $this->dashboard_model->getFullEventInfoBySlug($query[2]);
+                            if(!myIsArray($eventData))
+                            {
+                                $eventData = $this->dashboard_model->getCompEventInfoBySlug($query[2]);
+                            }
                             //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                             $data['meta']['title'] = $eventData[0]['eventName'];
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
@@ -1981,4 +1987,286 @@ class Main extends MY_Controller {
         return $uData;
     }
 
+    public function newMugForm()
+    {
+        $data = array();
+
+        $data['locData'] = $this->locations_model->getAllLocations();
+
+        $data['desktopStyle'] = $this->dataformatinghtml_library->getDesktopStyleHtml($data);
+        $data['desktopJs'] = $this->dataformatinghtml_library->getDesktopJsHtml($data);
+
+        $this->load->view('NewMugMemberView', $data);
+    }
+
+    public function verifyMember()
+    {
+        $data = array();
+        $post = $this->input->post();
+
+        if(isset($post['mugId']))
+        {
+            $names = explode(' ',$post['username']);
+            $firstName = $names[0];
+            $lastName= '';
+            if(isset($names[1]))
+            {
+                $lastName = $names[1];
+            }
+            $mugTag = '';
+            if(isset($post['tagName']))
+            {
+                $mugTag = $post['tagName'];
+            }
+
+            $instaDetails = array(
+                'amount' => '3000',
+                'purpose' => 'MUG_MEMBER',
+                'buyer_name' => $post['username'],
+                'email' => $post['email'],
+                'phone' => $post['mobNum'],
+                'send_email' => true,
+                'send_sms' => true,
+                'allow_repeated_payments' => false,
+                'redirect_url' => base_url().'thank-you',
+            );
+            $linkGot = $this->curl_library->createInstaMugLink($instaDetails);
+
+            if(myIsArray($linkGot) && $linkGot['status'] === true)
+            {
+                if(isset($linkGot['payment_request']['id']))
+                {
+                    $payReqId = $linkGot['payment_request']['id'];
+                    $payReqUrl = $linkGot['payment_request']['longurl'].'?embed=form';
+
+                    $details = array(
+                        'mugId' => $post['mugId'],
+                        'firstName' => $firstName,
+                        'lastName' => $lastName,
+                        'emailId' => $post['email'],
+                        'mobileNo' => $post['mobNum'],
+                        'homeBase' => $post['homebase'],
+                        'mugTag' => $mugTag,
+                        'birthDate' => date('Y-m-d',strtotime($post['dob'])),
+                        'invoiceDate' => date('Y-m-d'),
+                        'invoiceAmt' => '3000.00',
+                        'paymentId' => $payReqId,
+                        'status' => '0',
+                        'isApproved' => '0',
+                        'insertedDT' => date('Y-m-d H:i:s')
+                    );
+
+                    $this->dashboard_model->saveInstamojoMug($details);
+
+                    $data['status'] = true;
+                    $data['payUrl'] = $payReqUrl;
+                }
+                else
+                {
+                    $data['status'] = false;
+                    $data['errorMsg'] = "Error Connecting To Payment Server";
+                }
+            }
+            else
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = "Error Connecting To Payment Server";
+            }
+
+        }
+        else
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = "All Fields Are Required!";
+        }
+
+        echo json_encode($data);
+    }
+    public function thankYouMug()
+    {
+        $data = array();
+        $get = $this->input->get();
+        if(isset($get['payment_request_id']))
+        {
+            $instaRecord = $this->dashboard_model->getMugInstaByReqId($get['payment_request_id']);
+            if(isset($instaRecord) && myIsArray($instaRecord))
+            {
+                $details = array(
+                    'invoiceNo' => $get['payment_id'],
+                    'status' => '1'
+                );
+                $this->dashboard_model->updateInstaMug($details,$instaRecord['id']);
+            }
+        }
+
+        $data['desktopStyle'] = $this->dataformatinghtml_library->getDesktopStyleHtml($data);
+        $data['desktopJs'] = $this->dataformatinghtml_library->getDesktopJsHtml($data);
+
+        $this->load->view('ThankYouMemberView', $data);
+    }
+
+    function getAllUnusedMugs($mugId, $op, $searchCap, $holdMugs = array())
+    {
+        $rangeEnd = $mugId + $searchCap;
+
+        switch($op)
+        {
+            case 'plus':
+                $rangeEnd = $mugId + $searchCap;
+                if($rangeEnd > 9998)
+                {
+                    $rangeEnd = $mugId - $searchCap;
+                }
+                break;
+            case 'minus':
+                $rangeEnd = $mugId - $searchCap;
+                if($rangeEnd < 0)
+                {
+                    $rangeEnd = $mugId + $searchCap;
+                }
+                break;
+        }
+
+        $result = $this->mugclub_model->getMugRange($mugId, $rangeEnd);
+
+        $allMugs = range(($mugId-$searchCap),$mugId);
+        switch($op)
+        {
+            case 'plus':
+                $allMugs = range($mugId,($mugId+$searchCap));
+                if(($mugId+$searchCap) > 9998)
+                {
+                    $allMugs = range(($mugId-$searchCap),$mugId);
+                }
+                break;
+            case 'minus':
+                $allMugs = range(($mugId-$searchCap),$mugId);
+                if(($mugId-$searchCap) < 0)
+                {
+                    $allMugs = range($mugId,($mugId+$searchCap));
+                }
+                break;
+        }
+
+        if(myIsArray($result))
+        {
+            $availMugs = array_diff($allMugs, $result);
+        }
+        else
+        {
+            $availMugs = $allMugs;
+        }
+
+        $availMugs = array_values($availMugs);
+        $blockedNums = range(0,100);
+        $availMugs = array_diff($availMugs,$blockedNums);
+        if(myIsMultiArray($holdMugs))
+        {
+            //$holdMugs['mugList'] = array_merge($holdMugs['mugList'],$blockedNums);
+            foreach($holdMugs['mugList'] as $key => $row)
+            {
+                $aKey = array_search($row['mugId'],$availMugs);
+                if($aKey)
+                {
+                    unset($availMugs[$aKey]);
+                }
+            }
+        }
+
+        return $availMugs;
+    }
+
+    public function MugAvailability($mugid)
+    {
+        $data = array();
+        $op = 'minus';
+        //Initial search Capping limit
+        $searchCap = 50;
+        $opFlag = 1;
+        if(!in_array($mugid,range(0,100)))
+        {
+            //Getting mug number data if exists
+            $result = $this->mugclub_model->getMugDataById($mugid);
+            // Mug Data exists
+            if($result['status'] === true)
+            {
+                $holdMugs = $this->mugclub_model->getAllMugHolds();
+                $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap, $holdMugs);
+                if(count($mugResult) < 1)
+                {
+                    while(count($mugResult) < 1 && $searchCap != 500)
+                    {
+                        if($opFlag == 1)
+                        {
+                            $opFlag = 2;
+                            $op = 'minus';
+                        }
+                        else
+                        {
+                            $opFlag = 1;
+                            $op = 'plus';
+                            $searchCap += 50;
+                        }
+
+                        $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap,$holdMugs);
+                    }
+                    $data['availMugs'] = $mugResult;
+                }
+                else
+                {
+                    $data['availMugs'] = $mugResult;
+                }
+
+                $data['status'] = false;
+                $data['errorMsg'] = 'Mug Number Already Exists';
+            }
+            else // Mug Data not found
+            {
+                //Check if mug number is not on hold
+                $holdMug = $this->mugclub_model->getMugHoldById($mugid);
+                if($holdMug['status'] === true) //Mug Number on hold search new
+                {
+                    $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap, array($mugid));
+                    if(count($mugResult) < 1)
+                    {
+                        while(count($mugResult) < 1 && $searchCap != 500)
+                        {
+                            if($opFlag == 1)
+                            {
+                                $opFlag = 2;
+                                $op = 'minus';
+                            }
+                            else
+                            {
+                                $opFlag = 1;
+                                $op = 'plus';
+                                $searchCap += 50;
+                            }
+
+                            $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap, array($mugid));
+                        }
+                        $data['availMugs'] = $mugResult;
+                    }
+                    else
+                    {
+                        $data['availMugs'] = $mugResult;
+                    }
+
+                    $data['status'] = false;
+                    $data['errorMsg'] = 'Mug Number Already Exists';
+                }
+                else // Mug Not on hold and available
+                {
+                    $data['status'] = true;
+                }
+            }
+        }
+        else
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Mug Number Not Available';
+        }
+
+        echo json_encode($data);
+    }
 }

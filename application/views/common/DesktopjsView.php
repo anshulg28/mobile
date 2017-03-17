@@ -1417,6 +1417,10 @@
                 isFnbShare = true;
                 fnbId = pageUrl.split('-')[1];
             }
+            else if(pageUrl == 'events' || pageUrl == 'events/')
+            {
+                showDesktopTab('#eventsTab');
+            }
             else
             {
                 showProgressLoader();
@@ -2425,8 +2429,11 @@
 
         $('#filter-events-menu').removeClass('on');
         $('.filter-events-list li').each(function(i,val){
-            var inp = '#'+$(val).find('input').attr('id');
-            document.querySelector(inp).parentNode.MaterialRadio.uncheck();
+            if(typeof $(val).find('input').val() != 'undefined')
+            {
+                var inp = '#'+$(val).find('input').attr('id');
+                document.querySelector(inp).parentNode.MaterialRadio.uncheck();
+            }
         });
         $('.filter-events-list .clear-event-filter').addClass('hide');
         if(event_initial_state != '')

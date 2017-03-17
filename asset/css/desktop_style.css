@@ -111,6 +111,10 @@ body
 {
     border:1px solid #ccc;
 }
+.my-standardGreen
+{
+    background:#A2C760 !important;
+}
 .mainHome .text-center
 {
     text-align: center;
@@ -139,6 +143,28 @@ body
 {
     text-align: right;
 }
+.mdl-chip {
+    height: 25px;
+    font-family: 'Averia Serif Libre';
+    line-height: 25px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 16px;
+    background-color: #A2C760;
+    display: inline-block;
+    color: rgba(255,255,255,.87);
+    font-size: 0;
+    white-space: nowrap;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.mdl-chip__text {
+    font-size: 13px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
 /* Desktop Version general Style*/
 
 body
@@ -1037,7 +1063,7 @@ body
 {
     margin: 0 auto;
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 1000;
 }
