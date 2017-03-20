@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <?php echo $desktopStyle ;?>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/bootstrap.min.css">
 </head>
     <body class="mainHome">
     <div id="custom-progressBar" class="mdl-progress mdl-js-progress mdl-progress__indeterminate hide"></div>
@@ -21,8 +23,13 @@
                         <br>
                         <div class="mug-suggestions"></div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="userName" name="username">
-                            <label class="mdl-textfield__label" for="userName">Name</label>
+                            <input class="mdl-textfield__input" type="text" id="firstName" name="firstName">
+                            <label class="mdl-textfield__label" for="firstName">First Name</label>
+                        </div>
+                        <br>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="lastName" name="lastName">
+                            <label class="mdl-textfield__label" for="lastName">Last Name</label>
                         </div>
                         <br>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -40,15 +47,14 @@
                             <label class="mdl-textfield__label" for="tagName">Name On Tag (if any)</label>
                         </div>
                         <br>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="dob" name="dob" data-format="Y-m-d"
-                                   data-large-default="false" data-large-mode="true" data-modal="true">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="dob" name="dob">
                             <label class="mdl-textfield__label" for="dob">Date Of Birth</label>
                         </div>
                         <br>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <select id="homebase" name="homebase" class="mdl-textfield__input">
-                                <option value="">Select</option>
+                            <select id="homebase" name="homebase" class="mdl-textfield__input" style="font-family: 'Averia Serif Libre' !important;">
+                                <option value=""></option>
                                 <?php
                                 if(isset($locData))
                                 {
@@ -82,8 +88,13 @@
     </div>
     </body>
 <?php echo $desktopJs ;?>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.min.js"></script>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
 <script>
-    $('#dob').dateDropper();
+    $('#dob').datetimepicker({
+        format: 'DD-MM-YYYY'
+    });
+    //$('#dob').dateDropper();
     function getAge(dateString)
     {
         var today = new Date();
@@ -99,9 +110,14 @@
     $(document).on('submit','#main-mug-form',function(e){
         e.preventDefault();
 
-        if($('#userName').val() == '')
+        if($('#firstName').val() == '')
         {
-            mySnackTime('Please Provide Name');
+            mySnackTime('Please Provide First Name');
+            return false;
+        }
+        if($('#lastName').val() == '')
+        {
+            mySnackTime('Please Provide Last Name');
             return false;
         }
 

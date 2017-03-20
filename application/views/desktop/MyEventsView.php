@@ -246,7 +246,13 @@
                                                     if($row['isUserCancel'] == '1')
                                                     {
                                                         ?>
-                                                        <i href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Booking Canceled</i>
+                                                        <i href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Booking Cancelled</i>
+                                                        <?php
+                                                    }
+                                                    elseif($row['isEventCancel'] == '1')
+                                                    {
+                                                        ?>
+                                                        <i href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event Cancelled</i>
                                                         <?php
                                                     }
                                                     else

@@ -64,11 +64,16 @@
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                             <!--onfocus="scrollToField(this)"-->
-                            <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="startTime" name="startTime">
-                            <label class="mdl-textfield__label" for="startTime">Start Time</label>
+                            <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="endTime" name="endTime">
+                            <label class="mdl-textfield__label" for="endTime">End Time</label>
                         </div>
                     </div>
                     <div class="mdl-cell mdl-cell--6-col">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                            <!--onfocus="scrollToField(this)"-->
+                            <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="startTime" name="startTime">
+                            <label class="mdl-textfield__label" for="startTime">Start Time</label>
+                        </div>
                         <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <select name="eventType" id="eventType" class="mdl-textfield__input">
                                 <?php
@@ -82,11 +87,6 @@
                             </select>
                             <label class="mdl-textfield__label" for="eventType">Event Type</label>
                         </div>-->
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <!--onfocus="scrollToField(this)"-->
-                            <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="endTime" name="endTime">
-                            <label class="mdl-textfield__label" for="endTime">End Time</label>
-                        </div>
                     </div>
                 </div>
                 <div class="event-header-name mdl-grid">

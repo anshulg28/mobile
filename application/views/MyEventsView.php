@@ -297,7 +297,13 @@
                                                         if($row['isUserCancel'] == '1')
                                                         {
                                                             ?>
-                                                            <a href="#" class="link color-black" disabled>Booking Canceled</a>
+                                                            <a href="#" class="link color-black" disabled>Booking Cancelled</a>
+                                                            <?php
+                                                        }
+                                                        elseif($row['isEventCancel'] == '1')
+                                                        {
+                                                            ?>
+                                                            <a href="#" class="link color-black" disabled>Event Cancelled</a>
                                                             <?php
                                                         }
                                                         else

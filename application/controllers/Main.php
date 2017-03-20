@@ -2006,13 +2006,8 @@ class Main extends MY_Controller {
 
         if(isset($post['mugId']))
         {
-            $names = explode(' ',$post['username']);
-            $firstName = $names[0];
-            $lastName= '';
-            if(isset($names[1]))
-            {
-                $lastName = $names[1];
-            }
+            $firstName = $post['firstName'];
+            $lastName= $post['lastName'];
             $mugTag = '';
             if(isset($post['tagName']))
             {
@@ -2021,8 +2016,8 @@ class Main extends MY_Controller {
 
             $instaDetails = array(
                 'amount' => '3000',
-                'purpose' => 'MUG_MEMBER',
-                'buyer_name' => $post['username'],
+                'purpose' => 'New Mug #'.$post['mugId'],
+                'buyer_name' => $firstName.' '.$lastName,
                 'email' => $post['email'],
                 'phone' => $post['mobNum'],
                 'send_email' => true,
@@ -2032,7 +2027,7 @@ class Main extends MY_Controller {
             );
             $linkGot = $this->curl_library->createInstaMugLink($instaDetails);
 
-            if(myIsArray($linkGot) && $linkGot['status'] === true)
+            if(myIsArray($linkGot) && $linkGot['success'] === true)
             {
                 if(isset($linkGot['payment_request']['id']))
                 {

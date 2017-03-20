@@ -493,12 +493,12 @@ class Dashboard_Model extends CI_Model
                   em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
                   em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
                   em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+                  em.eventPaymentLink, em.ifActive, em.isEventCancel , em.ifApproved, ea.filename, l.locName
                   FROM eventregistermaster erm
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
                   LEFT JOIN eventattachment ea ON ea.eventId = erm.eventId
                   LEFT JOIN locationmaster l ON l.id = em.eventPlace
-                  WHERE erm.eventDone != 1 AND erm.isUserCancel != 1 AND bookerUserId = ".$userId." GROUP BY erm.eventId";
+                  WHERE erm.eventDone != 1 AND bookerUserId = ".$userId." GROUP BY erm.eventId";
 
         $result = $this->db->query($query)->result_array();
 

@@ -587,7 +587,7 @@
                                         <label class="mdl-textfield__label" for="newEvent">Name of your event...</label>
                                     </div>
                                 </div>
-                                <div class="mdl-cell--4-col">
+                                <div class="mdl-cell--4-col text-right">
                                     <a href="create_event" id="event-create-btn" data-title="Create Event" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect bookNow-event-btn my-AutoWidth dynamic">
                                         Continue
                                     </a>

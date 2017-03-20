@@ -348,7 +348,10 @@
             }
         });
         $('#calendar-glance .fc-list-item').each(function(i,val){
-
+            if(!$(val).hasClass('fc-has-url'))
+            {
+                $(val).addClass('hide');
+            }
             $(val).find('.fc-list-item-title a').addClass('dynamic');
             var txt = $(val).find('.fc-list-item-title a').html();
             if(txt == '')
