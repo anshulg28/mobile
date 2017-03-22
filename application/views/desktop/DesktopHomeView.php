@@ -638,7 +638,7 @@
                                                             <h1 class="hide" itemprop="name"> <?php echo $row['eventName'];?></h1>
                                                             <span class="avatar-title">
                                                                 <?php
-                                                                $eventName = (strlen($row['eventName']) > 35) ? substr($row['eventName'], 0, 35) . '..' : $row['eventName'];
+                                                                $eventName = (strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
                                                                 echo $eventName;
                                                                 ?>
                                                             </span>
