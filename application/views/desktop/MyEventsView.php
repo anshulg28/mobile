@@ -239,9 +239,9 @@
                                                     </p>
                                                 </div>
                                                 <div class="mdl-card__actions mdl-card--border attending-action-btns">
-                                                    <a href="mailto:<?php echo $row['creatorEmail'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                                    <i data-email="<?php echo $row['creatorEmail'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect contact-email">
                                                         <i class="ic_event_email_icon"></i>&nbsp;&nbsp;Contact
-                                                    </a>
+                                                    </i>
                                                     <?php
                                                     if($row['isUserCancel'] == '1')
                                                     {
@@ -285,5 +285,18 @@
      componentHandler.upgradeDom();
      $(".lazy").lazy({
          effect : "fadeIn"
+     });
+     $(document).on('click','.contact-email', function(){
+         var email = $(this).attr('data-email');
+         vex.dialog.prompt({
+             message: 'Email Id of the organiser: ',
+             value:email,
+             callback: function (value) {
+                 console.log(value)
+             }
+         });
+         setTimeout(function(){
+             $('.vex-dialog-prompt-input').select();
+         },100);
      });
  </script>

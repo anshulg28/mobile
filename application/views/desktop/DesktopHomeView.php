@@ -584,7 +584,7 @@
                                 <div class="mdl-cell--8-col">
                                     <div class="mdl-textfield mdl-js-textfield">
                                         <input class="mdl-textfield__input" type="text" name="eventName" id="newEvent">
-                                        <label class="mdl-textfield__label" for="newEvent">Name of your event...</label>
+                                        <label class="mdl-textfield__label" for="newEvent">Create your event...</label>
                                     </div>
                                 </div>
                                 <div class="mdl-cell--4-col text-right">

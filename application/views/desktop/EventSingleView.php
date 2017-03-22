@@ -153,9 +153,9 @@
                                                     }
                                                     ?>
                                                 </span>
-                                                <a href="mailto:<?php echo $signRow['emailId'];?>" class="mdl-list__item-secondary-action">
+                                                <i data-email="<?php echo $signRow['emailId'];?>" class="mdl-list__item-secondary-action contact-email">
                                                     <i class="ic_event_email_icon"></i>
-                                                </a>
+                                                </i>
                                             </div>
                                         </div>
                                         <?php
@@ -197,3 +197,19 @@
         <?php
     }
 ?>
+<script>
+    $(document).on('click','.contact-email', function(){
+        var email = $(this).attr('data-email');
+        vex.dialog.prompt({
+            message: 'Email Id of the attendee: ',
+            value:email,
+            callback: function (value) {
+                console.log(value)
+            }
+        });
+        setTimeout(function(){
+            $('.vex-dialog-prompt-input').select();
+        },100);
+        //prompt("Email Id of the attendee: ",email);
+    });
+</script>

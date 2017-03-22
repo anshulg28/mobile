@@ -631,6 +631,22 @@ class Dashboard_Model extends CI_Model
         }
         return $data;
     }
+    public function checkUserBookedWithMojo($userId, $eventId,$mojoId)
+    {
+        $query = "SELECT * FROM eventregistermaster
+                  WHERE isUserCancel != 1 AND paymentId = '".$mojoId."' AND bookerUserId = ".$userId." AND eventId = ".$eventId;
+        $result = $this->db->query($query)->result_array();
+
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+        return $data;
+    }
     public function checkUserCreated($userId, $eventId)
     {
         $query = "SELECT * FROM eventmaster

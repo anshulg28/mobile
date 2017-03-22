@@ -887,42 +887,51 @@ class Main extends MY_Controller {
             {
                 $mojoNumber = $this->clearMobNumber($mojoDetails['payment']['buyer_phone']);
                 $userStatus = $this->checkPublicUser($mojoDetails['payment']['buyer_email'],$mojoNumber);
+                $isSavedAlready = false;
                 if($userStatus['status'] === FALSE)
                 {
                     $userId = $userStatus['userData']['userId'];
-                    $userName = explode(' ',$mojoDetails['payment']['buyer_name']);
-                    if(count($userName)< 2)
+                    $checkUserAlreadyReg = $this->dashboard_model->checkUserBookedWithMojo($userId,$eventId,$mojoId);
+                    if($checkUserAlreadyReg['status'] === false)
                     {
-                        $userName[1] = '';
-                    }
-                    if($userStatus['userData']['firstName'] == '' && $userStatus['userData']['lastName'] == '')
-                    {
-                        $detail = array(
-                            'firstName'=> $userName[0],
-                            'lastName' => $userName[1],
-                            'userId'=> $userId
+                        $userName = explode(' ',$mojoDetails['payment']['buyer_name']);
+                        if(count($userName)< 2)
+                        {
+                            $userName[1] = '';
+                        }
+                        if($userStatus['userData']['firstName'] == '' && $userStatus['userData']['lastName'] == '')
+                        {
+                            $detail = array(
+                                'firstName'=> $userName[0],
+                                'lastName' => $userName[1],
+                                'userId'=> $userId
+                            );
+                            $this->users_model->updatePublicUser($detail);
+                        }
+                        $eventData = $this->dashboard_model->getEventById($eventId);
+                        $mailData= array(
+                            'creatorName' => $mojoDetails['payment']['buyer_name'],
+                            'creatorEmail' => $mojoDetails['payment']['buyer_email'],
+                            'creatorPhone' => $mojoDetails['payment']['buyer_phone'],
+                            'eventName' => $eventData[0]['eventName'],
+                            'eventDate' => $eventData[0]['eventDate'],
+                            'startTime' => $eventData[0]['startTime'],
+                            'endTime' => $eventData[0]['endTime'],
+                            'hostEmail' => $eventData[0]['creatorEmail'],
+                            'hostName' => $eventData[0]['creatorName'],
+                            'eventDescrip' => $eventData[0]['eventDescription'],
+                            'eventCost' => $eventData[0]['costType'],
+                            'eventId' => $eventData[0]['eventId'],
+                            'buyQuantity' => $mojoDetails['payment']['quantity'],
+                            'doolallyFee' => $eventData[0]['doolallyFee']
                         );
-                        $this->users_model->updatePublicUser($detail);
+                        $this->sendemail_library->eventRegSuccessMail($mailData,$eventData[0]['eventPlace']);
+                        $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
                     }
-                    $eventData = $this->dashboard_model->getEventById($eventId);
-                    $mailData= array(
-                        'creatorName' => $mojoDetails['payment']['buyer_name'],
-                        'creatorEmail' => $mojoDetails['payment']['buyer_email'],
-                        'creatorPhone' => $mojoDetails['payment']['buyer_phone'],
-                        'eventName' => $eventData[0]['eventName'],
-                        'eventDate' => $eventData[0]['eventDate'],
-                        'startTime' => $eventData[0]['startTime'],
-                        'endTime' => $eventData[0]['endTime'],
-                        'hostEmail' => $eventData[0]['creatorEmail'],
-                        'hostName' => $eventData[0]['creatorName'],
-                        'eventDescrip' => $eventData[0]['eventDescription'],
-                        'eventCost' => $eventData[0]['costType'],
-                        'eventId' => $eventData[0]['eventId'],
-                        'buyQuantity' => $mojoDetails['payment']['quantity'],
-                        'doolallyFee' => $eventData[0]['doolallyFee']
-                    );
-                    $this->sendemail_library->eventRegSuccessMail($mailData,$eventData[0]['eventPlace']);
-                    $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
+                    else
+                    {
+                        $isSavedAlready = true;
+                    }
                 }
                 else
                 {
@@ -951,42 +960,53 @@ class Main extends MY_Controller {
                     );
 
                     $userId = $this->users_model->savePublicUser($user);
-                    $eventData = $this->dashboard_model->getEventById($eventId);
-                    $mailData= array(
-                        'creatorName' => $mojoDetails['payment']['buyer_name'],
-                        'creatorEmail' => $mojoDetails['payment']['buyer_email'],
-                        'creatorPhone' => $mojoDetails['payment']['buyer_phone'],
-                        'eventName' => $eventData[0]['eventName'],
-                        'eventDate' => $eventData[0]['eventDate'],
-                        'startTime' => $eventData[0]['startTime'],
-                        'endTime' => $eventData[0]['endTime'],
-                        'hostEmail' => $eventData[0]['creatorEmail'],
-                        'hostName' => $eventData[0]['creatorName'],
-                        'eventDescrip' => $eventData[0]['eventDescription'],
-                        'eventCost' => $eventData[0]['costType'],
-                        'eventId' => $eventData[0]['eventId'],
-                        'buyQuantity' => $mojoDetails['payment']['quantity'],
-                        'doolallyFee' => $eventData[0]['doolallyFee']
-                    );
-                    $this->sendemail_library->memberWelcomeMail($mailData,$eventData[0]['eventPlace']);
-                    $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
+                    $checkUserAlreadyReg = $this->dashboard_model->checkUserBookedWithMojo($userId,$eventId,$mojoId);
+                    if($checkUserAlreadyReg['status'] === false)
+                    {
+                        $eventData = $this->dashboard_model->getEventById($eventId);
+                        $mailData= array(
+                            'creatorName' => $mojoDetails['payment']['buyer_name'],
+                            'creatorEmail' => $mojoDetails['payment']['buyer_email'],
+                            'creatorPhone' => $mojoDetails['payment']['buyer_phone'],
+                            'eventName' => $eventData[0]['eventName'],
+                            'eventDate' => $eventData[0]['eventDate'],
+                            'startTime' => $eventData[0]['startTime'],
+                            'endTime' => $eventData[0]['endTime'],
+                            'hostEmail' => $eventData[0]['creatorEmail'],
+                            'hostName' => $eventData[0]['creatorName'],
+                            'eventDescrip' => $eventData[0]['eventDescription'],
+                            'eventCost' => $eventData[0]['costType'],
+                            'eventId' => $eventData[0]['eventId'],
+                            'buyQuantity' => $mojoDetails['payment']['quantity'],
+                            'doolallyFee' => $eventData[0]['doolallyFee']
+                        );
+                        $this->sendemail_library->memberWelcomeMail($mailData,$eventData[0]['eventPlace']);
+                        $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
+                    }
+                    else
+                    {
+                        $isSavedAlready = true;
+                    }
                 }
 
                 //Save Booking Details
 
-                $requiredInfo = array(
-                    'bookerUserId' => $userId,
-                    'eventId' => $eventId,
-                    'quantity' => $mojoDetails['payment']['quantity'],
-                    'paymentId' => $mojoId
-                );
-
-                $this->dashboard_model->saveEventRegis($requiredInfo);
-                //$this->sendemail_library->newEventMail($mailEvent);
-                if(isSessionVariableSet($this->isMobUserSession) === FALSE)
+                if(!$isSavedAlready)
                 {
-                    $this->login_model->setLastLogin($userId);
-                    $this->generalfunction_library->setMobUserSession($userId);
+                    $requiredInfo = array(
+                        'bookerUserId' => $userId,
+                        'eventId' => $eventId,
+                        'quantity' => $mojoDetails['payment']['quantity'],
+                        'paymentId' => $mojoId
+                    );
+
+                    $this->dashboard_model->saveEventRegis($requiredInfo);
+                    //$this->sendemail_library->newEventMail($mailEvent);
+                    if(isSessionVariableSet($this->isMobUserSession) === FALSE)
+                    {
+                        $this->login_model->setLastLogin($userId);
+                        $this->generalfunction_library->setMobUserSession($userId);
+                    }
                 }
             }
             else
