@@ -48,8 +48,8 @@
                         </div>
                         <br>
                         <div class="mdl-textfield mdl-js-textfield">
-                            <input class="mdl-textfield__input" type="text" id="dob" name="dob">
-                            <label class="mdl-textfield__label" for="dob">Date Of Birth</label>
+                            <input class="form-control" placeholder="Date Of Birth" type="text" id="dob" name="dob"/>
+                            <!--<label class="mdl-textfield__label" for="dob">Date Of Birth</label>-->
                         </div>
                         <br>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -92,7 +92,7 @@
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
 <script>
     $('#dob').datetimepicker({
-        format: 'DD-MM-YYYY'
+        format: 'YYYY-MM-DD'
     });
     //$('#dob').dateDropper();
     function getAge(dateString)

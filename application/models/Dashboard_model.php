@@ -913,4 +913,10 @@ class Dashboard_Model extends CI_Model
         $this->db->update('instamojomugmaster', $details);
         return true;
     }
+
+    public function saveSwiftMailLog($post)
+    {
+        $this->db->insert('swiftmailerlogs', $post);
+        return true;
+    }
 }

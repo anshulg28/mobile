@@ -150,3 +150,6 @@ defined('EVENT_PAID_NO_PINT') OR define('EVENT_PAID_NO_PINT','3');
 defined('EVENT_DOOLALLY_FEE') OR define('EVENT_DOOLALLY_FEE','4');
 defined('STATUS_YES') OR define('STATUS_YES','1');
 defined('STATUS_NO') OR define('STATUS_NO','2');
+
+defined('DEFAULT_SENDER_EMAIL') OR define('DEFAULT_SENDER_EMAIL','happeningevents@brewcraftsindia.com');
+defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','doolally123');

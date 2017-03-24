@@ -15,6 +15,7 @@ class Sendemail_library
         $this->CI->load->model('offers_model');
         $this->CI->load->model('users_model');
         $this->CI->load->model('locations_model');
+        $this->CI->load->model('dashboard_model');
     }
 
     //Not in use function
@@ -25,13 +26,22 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/signUpWelcomeMailView', $data, true);
 
-        $fromEmail = 'priyanka@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
 
         if(isset($this->CI->userEmail))
         {
-            $fromEmail = $this->CI->userEmail;
+            $replyTo = $this->CI->userEmail;
+            /*$userInfo = $this->CI->login_model->checkEmailSender($this->CI->userEmail);
+            if(isset($userInfo) && myIsArray($userInfo))
+            {
+                $fromPass = $userInfo['gmailPass'];
+                $fromEmail = $this->CI->userEmail;
+            }*/
+
         }
-        $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in,richa@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
         if(isset($this->CI->userFirstName))
         {
@@ -40,7 +50,7 @@ class Sendemail_library
         $subject = 'Breakfast for Mug #'.$userData['mugId'];
         $toEmail = $userData['emailId'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function memberWelcomeMail($userData, $eventPlace)
@@ -81,9 +91,11 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/memberWelcomeMailView', $data, true);
 
-        $fromEmail = $mailRecord['userData']['emailId'];
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
 
-        $cc        = 'tresha@doolally.in,'.$fromEmail;
+        $cc        = implode(',',$this->CI->config->item('ccList')).','.$replyTo;
         $fromName  = 'Doolally';
         if(isset($mailRecord['userData']['firstName']))
         {
@@ -93,7 +105,7 @@ class Sendemail_library
         $subject = 'You are attending '.$userData['eventName'];
         $toEmail = $userData['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function eventRegSuccessMail($userData, $eventPlace)
@@ -135,9 +147,11 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventRegSuccessMailView', $data, true);
 
-        $fromEmail = $mailRecord['userData']['emailId'];
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
 
-        $cc        = 'tresha@doolally.in,'.$fromEmail;
+        $cc        = implode(',',$this->CI->config->item('ccList')).','.$replyTo;
         $fromName  = 'Doolally';
         if(isset($mailRecord['userData']['firstName']))
         {
@@ -147,7 +161,7 @@ class Sendemail_library
         $subject = 'You are attending '.$userData['eventName'];
         $toEmail = $userData['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
     public function eventHostSuccessMail($userData, $eventPlace)
     {
@@ -165,9 +179,11 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventHostInfoMailView', $data, true);
 
-        $fromEmail = $mailRecord['userData']['emailId'];
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
 
-        $cc        = 'tresha@doolally.in,'.$fromEmail;
+        $cc        = implode(',',$this->CI->config->item('ccList')).','.$replyTo;
         $fromName  = 'Doolally';
         if(isset($mailRecord['userData']['firstName']))
         {
@@ -177,7 +193,7 @@ class Sendemail_library
         $subject = 'You have a sign up for '.$userData['eventName'];
         $toEmail = $userData['hostEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
     public function eventVerifyMail($userData)
     {
@@ -194,20 +210,22 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventVerifyMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
 
-        $cc        = 'tresha@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
         $subject = 'Event Details';
-        $toEmail = 'events@doolally.in';
+        $toEmail = 'events@brewcraftsindia.com';
 
         if($mailRecord['status'] === true)
         {
             $toEmail = $mailRecord['userData']['emailId'];
         }
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function eventEditMail($userData,$commPlace)
@@ -225,20 +243,22 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventEditMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
 
-        $cc        = 'tresha@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
         $subject = 'Event Data Modified';
-        $toEmail = 'events@doolally.in';
+        $toEmail = 'events@brewcraftsindia.com';
 
         if($mailRecord['status'] === true)
         {
             $toEmail = $mailRecord['userData']['emailId'];
         }
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function eventCancelMail($userData)
@@ -249,12 +269,14 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventCancelMailView', $data, true);
 
-        $fromEmail = 'info@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
         /*if(isset($userData[0]['creatorEmail']))
         {
             $fromEmail = $userData[0]['creatorEmail'];
         }*/
-        $cc        = 'tresha@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
         $subject = 'Event Cancel';
@@ -265,7 +287,7 @@ class Sendemail_library
             $toEmail = $mailRecord['userData']['emailId'];
         }
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function eventCancelUserMail($userData)
@@ -287,12 +309,15 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventCancelUserMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
         if(isset($mailRecord['userData']['emailId']) && isStringSet($mailRecord['userData']['emailId']))
         {
-            $fromEmail = $mailRecord['userData']['emailId'];
+            $replyTo = $mailRecord['userData']['emailId'];
         }
-        $cc        = 'tresha@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
         if(isset($senderName) && isStringSet($senderName))
         {
@@ -302,7 +327,7 @@ class Sendemail_library
         $subject = 'Event Cancel';
         $toEmail = $userData[0]['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     //Not in Use
@@ -314,12 +339,15 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventApproveMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
         if(isset($userData['senderEmail']) && isStringSet($userData['senderEmail']))
         {
-            $fromEmail = $userData['senderEmail'];
+            $replyTo = $userData['senderEmail'];
         }
-        $cc        = 'events@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
         if(isset($userData['senderName']) && isStringSet($userData['senderName']))
         {
@@ -329,7 +357,7 @@ class Sendemail_library
         $subject = 'Event Approved';
         $toEmail = $userData[0]['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
     //Not in Use
     public function eventDeclineMail($userData)
@@ -340,13 +368,16 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventDeclineMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
         if(isset($userData['senderEmail']) && isStringSet($userData['senderEmail']))
         {
-            $fromEmail = $userData['senderEmail'];
+            $replyTo = $userData['senderEmail'];
         }
 
-        $cc        = 'events@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
         if(isset($userData['senderName']) && isStringSet($userData['senderName']))
         {
@@ -356,7 +387,7 @@ class Sendemail_library
         $subject = 'Sorry, your event has not been approved';
         $toEmail = $userData[0]['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function newEventMail($userData)
@@ -364,13 +395,18 @@ class Sendemail_library
         $phons = $this->CI->config->item('phons');
         $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
         $senderName = 'Doolally';
-        $senderEmail = 'events@doolally.in';
+        $senderEmail = 'events@brewcraftsindia.com';
         $senderPhone = $phons['Tresha'];
+
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
 
         if($mailRecord['status'] === true)
         {
             $senderName = $mailRecord['userData']['firstName'];
             $senderEmail = $mailRecord['userData']['emailId'];
+            $replyTo = $mailRecord['userData']['emailId'];
             $senderPhone = $phons[$senderName];
         }
         $userData['senderName'] = $senderName;
@@ -380,15 +416,15 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/newEventMailView', $data, true);
 
-        $fromEmail = $senderEmail;
+        //$fromEmail = $senderEmail;
 
-        $cc        = 'events@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = $senderName;
 
         $subject = 'Event Details';
         $toEmail = $userData['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     //Not in Use
@@ -398,13 +434,16 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/membershipRenewMailView', $data, true);
 
-        $fromEmail = 'priyanka@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
 
         if(isset($this->CI->userEmail))
         {
-            $fromEmail = $this->CI->userEmail;
+            $replyTo = $this->CI->userEmail;
+            //$fromEmail = $this->CI->userEmail;
         }
-        $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in,richa@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
         if(isset($this->CI->userFirstName))
         {
@@ -413,7 +452,7 @@ class Sendemail_library
         $subject = 'Renewal of Mug #'.$userData['mugId'];
         $toEmail = $userData['emailId'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function generateBreakfastCode($mugId)
@@ -462,9 +501,90 @@ class Sendemail_library
         return 'DO-'.$newCode;
     }
 
-    public function sendEmail($to, $cc = '', $from, $fromName, $subject, $content, $attachment = array())
+    public function sendEmail($to, $cc = '', $from, $fromPass, $fromName,$replyTo, $subject, $content, $attachment = array())
     {
-        $CI =& get_instance();
+        //Create the Transport
+        /*$CI =& get_instance();
+        $CI->load->library('swift_mailer/swift_required.php');*/
+
+        require_once APPPATH.'libraries/swift_mailer/swift_required.php';
+
+        $transport = Swift_SmtpTransport::newInstance ('smtp.gmail.com', 465, 'ssl')
+            ->setUsername($from)
+            ->setPassword($fromPass);
+        //$transport = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
+
+        $mailer = Swift_Mailer::newInstance($transport);
+
+        //Create a message
+        $message = Swift_Message::newInstance($subject)
+            ->setSubject($subject)
+            ->setReplyTo($replyTo)
+            ->setReadReceiptTo($from)
+            //->setCc($cc)
+            ->setFrom(array($from => $fromName))
+            ->setSender($replyTo)
+            ->setTo($to) ->setBody($content, 'text/html');
+
+        if($cc != '')
+        {
+            $message->setBcc(explode(',',$cc));
+        }
+        if(isset($attachment) && myIsMultiArray($attachment))
+        {
+            foreach($attachment as $key)
+            {
+                if($key != '')
+                {
+                    $message->attach(Swift_Attachment::fromPath($key));
+                }
+            }
+        }
+        //$message->attach($attachment);
+        //Send the message
+        $failedId = array();
+        $status = 'Success';
+        $errorMsg = implode(',',$failedId);
+
+        try
+        {
+            $result = $mailer->send($message,$failedId);
+            if(!$result)
+            {
+                $status = 'Failed';
+                $errorMsg = implode(',',$failedId);
+            }
+        }
+        catch(Swift_TransportException $st)
+        {
+            $status = 'Failed';
+            $errorMsg = $st->getMessage();
+        }
+        catch(Exception $ex)
+        {
+            $status = 'Failed';
+            $errorMsg = $ex->getMessage();
+        }
+
+
+        $logDetails = array(
+            'messageId' => $message->getId(),
+            'sendTo' => $to,
+            'sendFrom' => $from,
+            'sendFromName' => $fromName,
+            'ccList' => $cc,
+            'replyTo' => $replyTo,
+            'mailSubject' => $subject,
+            'mailBody' => $content,
+            'attachments' => implode(',',$attachment),
+            'sendStatus' => $status,
+            'failIds' => $errorMsg,
+            'sendDateTime' => date('Y-m-d H:i:s')
+        );
+
+        $this->CI->dashboard_model->saveSwiftMailLog($logDetails);
+        return $status;
+        /*$CI =& get_instance();
         $CI->load->library('email');
         $config['mailtype'] = 'html';
         $CI->email->clear(true);
@@ -481,13 +601,12 @@ class Sendemail_library
                 $CI->email->attach($key);
             }
         }
-        /*if($attachment != ""){
-            $CI->email->attach($attachment);
-        }*/
+
         $CI->email->subject($subject);
         $CI->email->message($content);
-        return $CI->email->send();
+        return $CI->email->send();*/
     }
+
 
     // Mail send to organiser about cancellation of attendee
     public function eventCancelSendMail($userData)
@@ -496,14 +615,17 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/regisCancelMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
-        $cc = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in,richa@doolally.in';
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
+        $cc = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
         $subject = $userData['firstName'].' '.$userData['lastName'].' has withdrawn from '.$userData['eventName'];
         $toEmail = $userData['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function attendeeCancelMail($userData)
@@ -514,10 +636,15 @@ class Sendemail_library
         $senderEmail = 'events@doolally.in';
         $senderPhone = $phons['Tresha'];
 
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
         if($mailRecord['status'] === true)
         {
             $senderName = $mailRecord['userData']['firstName'];
             $senderEmail = $mailRecord['userData']['emailId'];
+            $replyTo = $mailRecord['userData']['emailId'];
             $senderPhone = $phons[$senderName];
         }
         $userData['senderName'] = $senderName;
@@ -527,15 +654,15 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/attendeeCancelMailView', $data, true);
 
-        $fromEmail = $senderEmail;
+        //$fromEmail = $senderEmail;
 
-        $cc        = 'events@doolally.in';
+        $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = $senderName;
 
         $subject = 'You have withdrawn from '.$userData['eventName'];
         $toEmail = $userData['emailId'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     public function generateEventCode($eveId)
