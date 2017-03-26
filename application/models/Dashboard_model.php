@@ -553,7 +553,7 @@ class Dashboard_Model extends CI_Model
                   FROM eventmaster em
                   LEFT JOIN eventregistermaster erm ON erm.eventId = em.eventId
                   WHERE erm.isUserCancel != 1 AND em.eventId = 
-                  (SELECT eventId FROM eventmaster WHERE eventSlug LIKE '".$eventSlug."')";
+                  (SELECT eventId FROM eventslugmaster WHERE eventSlug LIKE '".$eventSlug."')";
 
         $result = $this->db->query($query)->result_array();
 
@@ -565,7 +565,7 @@ class Dashboard_Model extends CI_Model
                   FROM eventregistermaster erm
                   LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
                   WHERE erm.isUserCancel != 1 AND erm.eventId = 
-                  (SELECT eventId FROM eventmaster WHERE eventSlug LIKE '".$eventSlug."') 
+                  (SELECT eventId FROM eventslugmaster WHERE eventSlug LIKE '".$eventSlug."') 
                    ORDER BY erm.createdDT DESC";
 
         $result = $this->db->query($query)->result_array();
@@ -747,12 +747,8 @@ class Dashboard_Model extends CI_Model
 
     public function getFullEventInfoById($eventId)
     {
-        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
-                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
-                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.isEventEverywhere, em.showEventPrice,em.showEventTime,em.showEventDate,
-                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated, ea.filename, l.locName, l.mapLink
-                  FROM `eventmaster` em
+        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink
+                  FROM eventmaster em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
                   WHERE em.eventId = ".$eventId." GROUP BY em.eventId";
@@ -763,11 +759,7 @@ class Dashboard_Model extends CI_Model
     }
     public function getCompEventInfoById($eventId)
     {
-        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
-                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
-                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.isEventEverywhere, em.showEventPrice,em.showEventTime,em.showEventDate,
-                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated, ea.filename, l.locName, l.mapLink
+        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink
                   FROM `eventcompletedmaster` em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
@@ -779,15 +771,12 @@ class Dashboard_Model extends CI_Model
     }
     public function getFullEventInfoBySlug($eventSlug)
     {
-        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
-                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
-                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.isEventEverywhere,em.showEventDate,em.showEventTime,em.showEventPrice,
-                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated, ea.filename, l.locName, l.mapLink
-                  FROM `eventmaster` em
+        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink
+                  FROM eventmaster em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
-                  WHERE em.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
+                  LEFT JOIN eventslugmaster esm ON em.eventId = esm.eventId
+                  WHERE esm.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
 
         $result = $this->db->query($query)->result_array();
 
@@ -796,15 +785,12 @@ class Dashboard_Model extends CI_Model
 
     public function getCompEventInfoBySlug($eventSlug)
     {
-        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
-                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
-                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.isEventEverywhere,em.showEventDate,em.showEventTime,em.showEventPrice,
-                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated, ea.filename, l.locName, l.mapLink
-                  FROM `eventcompletedmaster` em
+        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink
+                  FROM eventcompletedmaster em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
-                  WHERE em.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
+                  LEFT JOIN eventslugmaster esm ON em.eventId = esm.eventId
+                  WHERE esm.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
 
         $result = $this->db->query($query)->result_array();
 
@@ -870,7 +856,7 @@ class Dashboard_Model extends CI_Model
 
     public function getEventCancelInfo($bId)
     {
-        $query = 'SELECT erm.paymentId, em.eventPlace, em.eventPrice,
+        $query = 'SELECT erm.paymentId, em.eventId, em.eventPlace, em.eventPrice,
                   em.eventName, em.creatorName, em.creatorEmail, um.firstName, um.lastName, um.emailId
                   FROM `eventregistermaster` erm
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
@@ -911,6 +897,23 @@ class Dashboard_Model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->update('instamojomugmaster', $details);
+        return true;
+    }
+
+    public function saveEventSlug($details)
+    {
+        $this->db->insert('eventslugmaster', $details);
+        return true;
+    }
+
+    public function cancelEventOffers($eventId)
+    {
+        $details = array(
+            'ifActive' => '0'
+        );
+        $this->db->where('offerEvent',$eventId);
+        $this->db->where('offerType','Workshop');
+        $this->db->update('offersmaster', $details);
         return true;
     }
 }

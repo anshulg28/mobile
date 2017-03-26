@@ -300,7 +300,7 @@
                                                             <a href="#" class="link color-black" disabled>Booking Cancelled</a>
                                                             <?php
                                                         }
-                                                        elseif($row['isEventCancel'] == '1')
+                                                        elseif($row['isEventCancel'] == '2')
                                                         {
                                                             ?>
                                                             <a href="#" class="link color-black" disabled>Event Cancelled</a>

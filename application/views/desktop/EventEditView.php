@@ -37,7 +37,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
         <input type="hidden" value="Edit Event" id="docTitle"/>
         <div class="page-content event-add-page">
             <div class="content-block event-wrapper">
-                <form action="<?php echo base_url().'updateEvent';?>" id="eventSave" method="post" class="ajax-submit">
+                <form action="<?php echo base_url().'updateEvent';?>" id="eventEditSave" method="post" class="ajax-submit">
                     <input type="hidden" name="eventId" value="<?php echo $row['eventId'];?>"/>
                     <input type="hidden" name="attachment" value="<?php echo $row['filename']; ?>"/>
                     <div class="event-img-space" id="event-img-space"
@@ -96,17 +96,18 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate"
-                                           placeholder="Date of Event" data-format="Y-m-d" data-default-date="<?php echo $row['eventDate'];?>" data-lock="from"
+                                    <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" value="<?php echo $row['eventDate'];?>"
+                                           placeholder="Date of Event" data-format="Y-m-d" data-default-date="new Date()" data-lock="from"
                                            data-large-default="true" data-large-mode="true" data-modal="true" data-max-year="2018" data-min-year="2016">
                                     <label class="mdl-textfield__label" for="eventDate">Event Date</label>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <!--onfocus="scrollToField(this)"-->
-                                    <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="startTime" name="startTime"
-                                           value="<?php echo date("h:i A", strtotime($row['startTime']));?>"/>
-                                    <label class="mdl-textfield__label" for="startTime">Start Time</label>
+                                    <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="endTime" name="endTime"
+                                           value="<?php echo date("h:i A", strtotime($row['endTime']));?>"/>
+                                    <label class="mdl-textfield__label" for="endTime">End Time</label>
                                 </div>
+
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
                                 <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -124,9 +125,9 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                         </div>-->
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <!--onfocus="scrollToField(this)"-->
-                                    <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="endTime" name="endTime"
-                                           value="<?php echo date("h:i A", strtotime($row['endTime']));?>"/>
-                                    <label class="mdl-textfield__label" for="endTime">End Time</label>
+                                    <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="startTime" name="startTime"
+                                           value="<?php echo date("h:i A", strtotime($row['startTime']));?>"/>
+                                    <label class="mdl-textfield__label" for="startTime">Start Time</label>
                                 </div>
                             </div>
                         </div>

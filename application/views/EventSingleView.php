@@ -154,10 +154,10 @@
                                         <ul>
                                             <li>
                                                 <?php
-                                                if(isset($row['isEventCancel']) && $row['isEventCancel'] == '1')
+                                                if(isset($row['isEventCancel']) && ($row['isEventCancel'] == '1' || $row['isEventCancel'] == '2'))
                                                 {
                                                     ?>
-                                                    <a href="#" data-ignore-cache="true" class="link item-link list-button color-black event-bookNow" disabled>Edit Event</a>
+                                                    <!--<a href="#" data-ignore-cache="true" class="link item-link list-button color-black event-bookNow" disabled>Edit Event</a>-->
                                                     <?php
                                                 }
                                                 else
@@ -178,6 +178,12 @@
                                                     {
                                                         ?>
                                                         <a href="#" class="item-link list-button color-black" disabled>Cancellation in Review</a>
+                                                        <?php
+                                                    }
+                                                    elseif(isset($row['isEventCancel']) && $row['isEventCancel'] == '2')
+                                                    {
+                                                        ?>
+                                                        <a href="#" class="item-link list-button color-black" disabled>Event Cancelled</a>
                                                         <?php
                                                     }
                                                     else
