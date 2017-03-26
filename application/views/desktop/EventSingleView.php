@@ -167,8 +167,15 @@
                                 if(isset($row['isEventCancel']) && $row['isEventCancel'] == '1')
                                 {
                                     ?>
-                                    <i data-ignore-cache="true" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow" disabled>Edit Event</i>
+                                    <!--<i data-ignore-cache="true" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow" disabled>Edit Event</i>-->
                                     <i class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Cancellation in Review</i>
+                                    <?php
+                                }
+                                elseif(isset($row['isEventCancel']) && $row['isEventCancel'] == '2')
+                                {
+                                    ?>
+                                    <!--<i data-ignore-cache="true" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow" disabled>Edit Event</i>-->
+                                    <i class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event Cancelled</i>
                                     <?php
                                 }
                                 else

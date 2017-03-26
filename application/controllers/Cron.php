@@ -417,4 +417,32 @@ class Cron extends MY_Controller
 
         }
     }
+
+    function copyAllSlugs()
+    {
+        $currentEvents = $this->dashboard_model->getAllEvents();
+        $compEvents = $this->dashboard_model->getAllCompletedEvents();
+
+        foreach($currentEvents as $key => $row)
+        {
+            // Adding event slug to new table
+            $newSlugTab = array(
+                'eventId' => $row['eventId'],
+                'eventSlug' => $row['eventSlug'],
+                'insertedDateTime' => date('Y-m-d H:i:s')
+            );
+            $this->dashboard_model->saveEventSlug($newSlugTab);
+        }
+
+        foreach($compEvents as $key => $row)
+        {
+            // Adding event slug to new table
+            $newSlugTab = array(
+                'eventId' => $row['eventId'],
+                'eventSlug' => $row['eventSlug'],
+                'insertedDateTime' => date('Y-m-d H:i:s')
+            );
+            $this->dashboard_model->saveEventSlug($newSlugTab);
+        }
+    }
 }

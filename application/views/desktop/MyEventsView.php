@@ -249,7 +249,7 @@
                                                         <i href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Booking Cancelled</i>
                                                         <?php
                                                     }
-                                                    elseif($row['isEventCancel'] == '1')
+                                                    elseif($row['isEventCancel'] == '2')
                                                     {
                                                         ?>
                                                         <i href="#" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event Cancelled</i>

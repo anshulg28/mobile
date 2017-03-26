@@ -1404,6 +1404,7 @@
                 'overflow':'hidden'
             });
         }
+        $('.scrollUp').click();
     }
 
     function checkForDynamic()
@@ -2156,7 +2157,14 @@
         }
         else if(eventAddStatus === false)
         {
-            fillEventImgs();
+            if($('.event-add-page input[name="attachment"]').val() != '')
+            {
+                addEvent(formObj);
+            }
+            else
+            {
+                fillEventImgs();
+            }
         }
         else if(eventAddStatus === true)
         {
@@ -2202,6 +2210,198 @@
             }
         });
     }
+
+    //For Event Edit
+    var eventEditStatus = false;
+    $(document).on('submit', '.event-add-page #eventEditSave', function(e){
+        e.preventDefault();
+
+        var formObj = this;
+
+        if($('.event-add-page #eventName').val() == '')
+        {
+            mySnackTime('Event Name Required!');
+            return false;
+        }
+        if($('.event-add-page #eventDesc').val() == '')
+        {
+            mySnackTime('Event Description Required!');
+            return false;
+        }
+        if($('.event-add-page #eventPlace').val() == '')
+        {
+            mySnackTime('Event Place Required!');
+            return false;
+        }
+        if($('.event-add-page #creatorName').val() == '')
+        {
+            mySnackTime('Organiser Name Required!');
+            return false;
+        }
+        if($('.event-add-page #creatorPhone').val() == '')
+        {
+            mySnackTime('Organiser Phone Required!');
+            return false;
+        }
+        if($('.event-add-page #creatorEmail').val() == '')
+        {
+            mySnackTime('Organiser Email Required!');
+            return false;
+        }
+        if(!$('.event-add-page #tnc').is(':checked'))
+        {
+            mySnackTime('Please Agree To T&C!');
+            return false;
+        }
+        if($('.event-add-page input[name="startTime"]').val() == '' || $('.event-add-page input[name="endTime"]').val() == '')
+        {
+            mySnackTime('Start and End Time Required!');
+            return false;
+        }
+
+        var d = new Date($('.event-add-page #eventDate').val());
+        var startT = ConvertTimeformat('24',$('.event-add-page input[name="startTime"]').val());
+        var endT = ConvertTimeformat('24',$('.event-add-page input[name="endTime"]').val());
+        if(d.getDay() == 6 || d.getDay() == 0)
+        {
+            if(startT < "07:00")
+            {
+                mySnackTime('On weekends, events can be organised from 7 am to 2 pm!');
+                return false;
+            }
+            if(endT > "14:00")
+            {
+                mySnackTime('On weekends, events can be organised from 7 am to 2 pm!');
+                return false;
+            }
+        }
+        else
+        {
+            if(startT < "07:00")
+            {
+                mySnackTime('On weekdays, events can be organised from 7 am to 6 pm!');
+                return false;
+            }
+            if(endT > "18:00")
+            {
+                mySnackTime('On weekdays, events can be organised from 7 am to 6 pm!');
+                return false;
+            }
+        }
+
+        if(startT > endT)
+        {
+            mySnackTime('Event Time is not proper!');
+            return false;
+        }
+        if(typeof cropData['imgUrl'] != 'undefined' && eventEditStatus === false)
+        {
+            showProgressLoader();
+            cropData['imgData'] = $('#img-container').cropper('getCroppedCanvas').toDataURL();
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:base_url+'dashboard/cropEventImage',
+                data:{data: cropData},
+                success: function(data)
+                {
+                    hideProgressLoader();
+                    if(data.status == 'error')
+                    {
+                        mySnackTime(data.message);
+                        return false;
+                    }
+                    else
+                    {
+                        filesArr = [];
+                        var uri = data.url.split('/');
+                        filesArr.push(uri[uri.length-1]);
+                        fillEventImgs();
+                        eventEditStatus = true;
+                        editEvent(formObj);
+                    }
+                },
+                error: function()
+                {
+                    hideProgressLoader();
+                    mySnackTime('Some Error Occurred!');
+                    return false;
+                }
+            });
+        }
+        else if($('.event-add-page input[name="attachment"]').val() == '')
+        {
+            mySnackTime('Cover Image Required!');
+            return false;
+        }
+        else if(eventEditStatus === false)
+        {
+            if($('.event-add-page input[name="attachment"]').val() != '')
+            {
+                editEvent(formObj);
+            }
+            else
+            {
+                fillEventImgs();
+            }
+        }
+        else if(eventEditStatus === true)
+        {
+            editEvent(formObj);
+        }
+    });
+
+    function editEvent(ele)
+    {
+        showProgressLoader();
+        $.ajax({
+            type:'POST',
+            dataType:'json',
+            url:$(ele).attr('action'),
+            data:$(ele).serialize(),
+            success: function(data){
+                if(data.status == true)
+                {
+                    if(data.noChange == true)
+                    {
+                        vex.dialog.buttons.YES.text = 'Close';
+                        vex.dialog.alert({
+                            unsafeMessage: '<label class="head-title">Information</label><br><br>'+'No Changes Found!',
+                            callback: function(){
+                                setTimeout(function(){
+                                    pushHistory('Doolally','event_dash',true);
+                                },500);
+                            }
+                        });
+                    }
+                    vex.dialog.buttons.YES.text = 'Close';
+                    vex.dialog.alert({
+                        unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Your event is now in review state, ' +
+                        'We will sent you mail once review is done, you can check for event status in My Events section.',
+                        callback: function(){
+                            setTimeout(function(){
+                                pushHistory('Doolally','event_dash',true);
+                            },500);
+                        }
+                    });
+                }
+                else
+                {
+                    vex.dialog.buttons.YES.text = 'Close';
+                    vex.dialog.alert({
+                        unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
+                    });
+                }
+            },
+            error: function(){
+                vex.dialog.buttons.YES.text = 'Close';
+                vex.dialog.alert({
+                    unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
+                });
+            }
+        });
+    }
+
     $(document).on('click','#dashboard-logout', function(){
         showProgressLoader();
         $.ajax({

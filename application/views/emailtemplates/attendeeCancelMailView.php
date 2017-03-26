@@ -10,17 +10,24 @@
         Dear <?php echo $mailData['firstName'].' '.$mailData['lastName']; ?>,<br><br>
 
         You have withdrawn from <?php echo $mailData['eventName']; ?>.
-        We will inform the organiser that you will not be attending the event. For paid events, the money will be fully refunded to you.<br><br>
+        We will inform the organiser that you will not be attending the event.
 
         <?php
             if(isset($mailData['refundId']))
             {
                 ?>
+                For paid events, the money will be fully refunded to you. The coupon code that we sent you in the earlier mail is now invalid.<br><br>
                 Refund Id: <?php echo $mailData['refundId'];?><br>
                 <b>
                     <a href="https://www.instamojo.com/resolutioncenter/cases/<?php echo $mailData['refundId'];?>/?from=email"
                        target="_blank">Click here to track Refund status</a>
                 </b><br><br>
+                <?php
+            }
+            else
+            {
+                ?>
+                <br><br>
                 <?php
             }
         ?>
