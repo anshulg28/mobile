@@ -257,14 +257,21 @@
         </form>
     </div>
 </div>
-
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/bootstrap-datetimepicker.min.css">
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.min.js"></script>
 <script>
     if(localStorageUtil.getLocal('eventName') != null)
     {
         $('#eventName').val(localStorageUtil.getLocal('eventName'));
         localStorageUtil.delLocal('eventName');
     }
-    $('#eventDate').dateDropper();
+    $('#eventDate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        minDate: new Date(),
+        useCurrent: false
+    });
     $('#startTime').timepicker({
         dropdown: false
     });

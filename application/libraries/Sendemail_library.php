@@ -70,11 +70,11 @@ class Sendemail_library
             {
                 if((int)$userData['doolallyFee'] > 250)
                 {
-                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['doolallyFee']);
+                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
                 }
                 else
                 {
-                    $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId']);
+                    $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId'],$userData['bookerId']);
                 }
             }
         }
@@ -126,11 +126,11 @@ class Sendemail_library
             {
                 if((int)$userData['doolallyFee'] > 250)
                 {
-                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['doolallyFee']);
+                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
                 }
                 else
                 {
-                    $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId']);
+                    $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId'],$userData['bookerId']);
                 }
             }
         }
@@ -665,7 +665,7 @@ class Sendemail_library
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
-    public function generateEventCode($eveId)
+    public function generateEventCode($eveId,$bookerId)
     {
         $allCodes = $this->CI->offers_model->getAllCodes();
         $usedCodes = array();
@@ -687,6 +687,7 @@ class Sendemail_library
                 'offerLoc' => null,
                 'offerMug' => '0',
                 'offerEvent' => $eveId,
+                'bookerPaymentId' => $bookerId,
                 'isRedeemed' => 0,
                 'ifActive' => 1,
                 'createDateTime' => date('Y-m-d H:i:s'),
@@ -702,6 +703,7 @@ class Sendemail_library
                 'offerLoc' => null,
                 'offerMug' => '0',
                 'offerEvent' => $eveId,
+                'bookerPaymentId' => $bookerId,
                 'isRedeemed' => 0,
                 'ifActive' => 1,
                 'createDateTime' => date('Y-m-d H:i:s'),
@@ -713,7 +715,7 @@ class Sendemail_library
         return 'EV-'.$newCode;
     }
 
-    public function generateCustomCode($eveId,$cusAmt)
+    public function generateCustomCode($eveId,$bookerId,$cusAmt)
     {
         $allCodes = $this->CI->offers_model->getAllCodes();
         $usedCodes = array();
@@ -735,6 +737,7 @@ class Sendemail_library
                 'offerLoc' => null,
                 'offerMug' => '0',
                 'offerEvent' => $eveId,
+                'bookerPaymentId' => $bookerId,
                 'isRedeemed' => 0,
                 'ifActive' => 1,
                 'createDateTime' => date('Y-m-d H:i:s'),
@@ -750,6 +753,7 @@ class Sendemail_library
                 'offerLoc' => null,
                 'offerMug' => '0',
                 'offerEvent' => $eveId,
+                'bookerPaymentId' => $bookerId,
                 'isRedeemed' => 0,
                 'ifActive' => 1,
                 'createDateTime' => date('Y-m-d H:i:s'),

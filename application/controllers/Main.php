@@ -643,9 +643,10 @@ class Main extends MY_Controller {
         {
             $cancelInfo = $this->dashboard_model->getEventCancelInfo($post['bId']);
             $this->dashboard_model->cancelUserEventBooking($post['bId']);
-            if(isset($cancelInfo['eventId']) && isset($cancelInfo['eventPrice']) && $cancelInfo['eventPrice'] != '0')
+            if(isset($cancelInfo['eventId']) && isset($cancelInfo['eventPrice']) &&
+                $cancelInfo['eventPrice'] != '0' && isset($cancelInfo['paymentId']) && isStringSet($cancelInfo['paymentId']))
             {
-                $this->dashboard_model->cancelEventOffers($cancelInfo['eventId']);
+                $this->dashboard_model->cancelEventOffers($cancelInfo['eventId'],$cancelInfo['paymentId']);
             }
             if(myIsArray($cancelInfo))
             {
@@ -927,7 +928,8 @@ class Main extends MY_Controller {
                             'eventCost' => $eventData[0]['costType'],
                             'eventId' => $eventData[0]['eventId'],
                             'buyQuantity' => $mojoDetails['payment']['quantity'],
-                            'doolallyFee' => $eventData[0]['doolallyFee']
+                            'doolallyFee' => $eventData[0]['doolallyFee'],
+                            'bookerId' => $mojoId
                         );
                         $this->sendemail_library->eventRegSuccessMail($mailData,$eventData[0]['eventPlace']);
                         $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
@@ -982,7 +984,8 @@ class Main extends MY_Controller {
                             'eventCost' => $eventData[0]['costType'],
                             'eventId' => $eventData[0]['eventId'],
                             'buyQuantity' => $mojoDetails['payment']['quantity'],
-                            'doolallyFee' => $eventData[0]['doolallyFee']
+                            'doolallyFee' => $eventData[0]['doolallyFee'],
+                            'bookerId' => $mojoId
                         );
                         $this->sendemail_library->memberWelcomeMail($mailData,$eventData[0]['eventPlace']);
                         $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);

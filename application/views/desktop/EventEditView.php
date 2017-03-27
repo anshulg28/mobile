@@ -97,8 +97,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                     <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" value="<?php echo $row['eventDate'];?>"
-                                           placeholder="Date of Event" data-format="Y-m-d" data-default-date="new Date()" data-lock="from"
-                                           data-large-default="true" data-large-mode="true" data-modal="true" data-max-year="2018" data-min-year="2016">
+                                           placeholder="Date of Event">
                                     <label class="mdl-textfield__label" for="eventDate">Event Date</label>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
@@ -345,15 +344,29 @@ else
     echo 'No Events Found!';
 }
 ?>
-
-
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/bootstrap-datetimepicker.min.css">
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.min.js"></script>
 <script>
     componentHandler.upgradeDom();
-    $('#eventDate').dateDropper();
+    $('#eventDate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        minDate: new Date(),
+        useCurrent: false
+    });
+        //.dateDropper();
     $('#startTime').timepicker({
         dropdown: false
     });
     $('#endTime').timepicker({
         dropdown: false
     });
+    /*$(document).ready(function(){
+        if(typeof $('#eventDate').attr('data-value') != 'undefined')
+        {
+            var dataVal = $('#eventDate').attr('data-value');
+            $('#eventDate').val(dataVal);
+        }
+    });*/
 </script>

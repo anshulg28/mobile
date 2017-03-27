@@ -912,13 +912,14 @@ class Dashboard_Model extends CI_Model
         return true;
     }
 
-    public function cancelEventOffers($eventId)
+    public function cancelEventOffers($eventId,$paymentId)
     {
         $details = array(
             'ifActive' => '0'
         );
         $this->db->where('offerEvent',$eventId);
         $this->db->where('offerType','Workshop');
+        $this->db->where('bookerPaymentId',$paymentId);
         $this->db->update('offersmaster', $details);
         return true;
     }
