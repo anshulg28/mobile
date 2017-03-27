@@ -105,7 +105,7 @@
                                     $postImg = 0;
                                     foreach($userEvents as $key => $row)
                                     {
-                                        if(isEventFinished($row['eventDate'], $row['endTime']))
+                                        if(isEventFinished($row['eventDate'], $row['endTime']) || $row['isEventCancel'] == EVENT_CANCEL_FINAL)
                                         {
                                             continue;
                                         }
@@ -218,7 +218,7 @@
                                         $postImg = 0;
                                         foreach($registeredEvents as $key => $row)
                                         {
-                                            if(isEventFinished($row['eventDate'], $row['endTime']))
+                                            if(isEventFinished($row['eventDate'], $row['endTime']) || $row['isEventCancel'] == EVENT_CANCEL_FINAL)
                                             {
                                                 continue;
                                             }

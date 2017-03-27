@@ -154,7 +154,7 @@
                                         <ul>
                                             <li>
                                                 <?php
-                                                if(isset($row['isEventCancel']) && ($row['isEventCancel'] == '1' || $row['isEventCancel'] == '2'))
+                                                if(isset($row['isEventCancel']) && ($row['isEventCancel'] == EVENT_CANCEL_REVIEW || $row['isEventCancel'] == EVENT_CANCEL_FINAL))
                                                 {
                                                     ?>
                                                     <!--<a href="#" data-ignore-cache="true" class="link item-link list-button color-black event-bookNow" disabled>Edit Event</a>-->
@@ -174,13 +174,13 @@
                                         <ul>
                                             <li>
                                                 <?php
-                                                    if(isset($row['isEventCancel']) && $row['isEventCancel'] == '1')
+                                                    if(isset($row['isEventCancel']) && $row['isEventCancel'] == EVENT_CANCEL_REVIEW)
                                                     {
                                                         ?>
                                                         <a href="#" class="item-link list-button color-black" disabled>Cancellation in Review</a>
                                                         <?php
                                                     }
-                                                    elseif(isset($row['isEventCancel']) && $row['isEventCancel'] == '2')
+                                                    elseif(isset($row['isEventCancel']) && $row['isEventCancel'] == EVENT_CANCEL_FINAL)
                                                     {
                                                         ?>
                                                         <a href="#" class="item-link list-button color-black" disabled>Event Cancelled</a>

@@ -114,6 +114,8 @@ defined('NOT_ACTIVE')   OR define('NOT_ACTIVE', 0);
 defined('EVENT_WAITING')   OR define('EVENT_WAITING', 0);
 defined('EVENT_APPROVED')   OR define('EVENT_APPROVED', 1);
 defined('EVENT_DECLINED')   OR define('EVENT_DECLINED', 2);
+defined('EVENT_CANCEL_REVIEW') OR define('EVENT_CANCEL_REVIEW', 1);
+defined('EVENT_CANCEL_FINAL') OR define('EVENT_CANCEL_FINAL', 2);
 
 /* API Feeds */
 defined('TWITTER_API') OR define('TWITTER_API','https://api.twitter.com/1.1/');

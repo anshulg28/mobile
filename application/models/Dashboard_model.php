@@ -474,10 +474,7 @@ class Dashboard_Model extends CI_Model
 
     public function getEventsByUserId($userId)
     {
-        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
-                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
-                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+        $query = "SELECT em.*, ea.filename, l.locName
                   FROM `eventmaster` em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
@@ -489,11 +486,7 @@ class Dashboard_Model extends CI_Model
     }
     public function getEventsRegisteredByUser($userId)
     {
-        $query = "SELECT erm.bookerId,erm.bookerUserId,erm.eventId,erm.quantity,erm.isUserCancel, em.eventId, em.eventName,
-                  em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
-                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
-                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
-                  em.eventPaymentLink, em.ifActive, em.isEventCancel , em.ifApproved, ea.filename, l.locName
+        $query = "SELECT erm.bookerId,erm.bookerUserId,erm.eventId,erm.quantity,erm.isUserCancel, em.*, ea.filename, l.locName
                   FROM eventregistermaster erm
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
                   LEFT JOIN eventattachment ea ON ea.eventId = erm.eventId
