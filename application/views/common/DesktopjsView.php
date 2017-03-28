@@ -554,7 +554,6 @@
             {
                 $('section#eventsTab').fadeOut(500, function() {
                     $(this).html(mainEventsHtml).fadeIn(500);
-                    mainEventsHtml = '';
                 });
             }
         }
@@ -587,7 +586,7 @@
             }*/
         }
 
-        if($('#currentUrl').val() == '/')
+        if($('#currentUrl').val() == '/' || $('#currentUrl').val().indexOf('filter_events') != -1)
         {
             $('#event-filter-box').removeClass('hide');
         }
@@ -725,7 +724,7 @@
                 }
                 break;
             case '#eventsTab':
-                if(document.location.href == base_url)
+                if(document.location.href == base_url || document.location.href.indexOf('filter_events') != -1)
                 {
                     $('#filter-timeline-menu').addClass('hide');
                     $('#filter-events-menu').removeClass('hide');
@@ -1380,7 +1379,6 @@
                 $('section#contactTab').html(data).addClass('is-active');
                 break;
             default:
-                mainEventsHtml = $('section#eventsTab').html();
                 showDesktopTab('#eventsTab');
                 $('section#eventsTab').fadeOut(500, function() {
                     $(this).html(data).fadeIn(500);
@@ -1409,6 +1407,7 @@
 
     function checkForDynamic()
     {
+        mainEventsHtml = $('section#eventsTab').html();
         if(typeof $('#pageName').val() != 'undefined' && typeof $('#pageUrl').val() != 'undefined')
         {
             isDynamicReq = true;
@@ -1424,6 +1423,32 @@
             else if(pageUrl == 'events' || pageUrl == 'events/')
             {
                 showDesktopTab('#eventsTab');
+            }
+            else if(pageUrl.indexOf('filter_events') != -1)
+            {
+                showDesktopTab('#eventsTab');
+                $.ajax({
+                    type:'GET',
+                    cache:false,
+                    url:pageUrl,
+                    dataType:'json',
+                    success: function(data)
+                    {
+                        if(data.status === true)
+                        {
+                            console.log(data.locId );
+                            if(typeof data.locId != 'undefined')
+                            {
+                                var locId = data.locId;
+                                $('#even-'+locId).click();
+                            }
+                        }
+                    },
+                    error: function()
+                    {
+                        console.log('error');
+                    }
+                });
             }
             else
             {
@@ -2619,11 +2644,23 @@
             $('.filter-events-list .clear-event-filter').removeClass('my-vanish');
             $('#filter-events-menu').addClass('on');
             var filterVal = $(this).val();
+            //var catArray = '';
+            if(event_initial_state != '')
+            {
+                $('#eventsTab .event-section').html(event_initial_state);
+            }
             var catArray = $('#eventsTab .eve-'+filterVal);
-            $(catArray).hide();
-            $('#eventsTab .eve-'+filterVal).remove();
-            $('#eventsTab .event-section').prepend(catArray);
-            $(catArray).slideToggle();
+            if(catArray.length == 0)
+            {
+                $('#eventsTab .event-section').html('No Events Found!');
+            }
+            else
+            {
+                $(catArray).hide();
+                $('#eventsTab .eve-'+filterVal).remove();
+                $('#eventsTab .event-section').prepend(catArray);
+                $(catArray).slideToggle();
+            }
             //myApp.closeModal('.popover-event-filter');
         }
     });

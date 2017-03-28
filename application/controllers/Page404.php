@@ -32,14 +32,29 @@ class Page404 extends MY_Controller {
             $jukeId = $this->locations_model->getJukeboxId($locName);
             if(isset($jukeId['jukeboxSlug']) && $jukeId['jukeboxSlug'] != '')
             {
-                if($this->mobile_detect->isMobile())
+                redirect(base_url().'?page/taprom/'.$jukeId['jukeboxSlug']);
+                /*if($this->mobile_detect->isMobile())
                 {
-                    redirect(base_url().'?page/taprom/'.$jukeId['jukeboxSlug']);
+
                 }
                 else
                 {
                     redirect(base_url());
-                }
+                }*/
+            }
+            else
+            {
+                redirect(base_url());
+            }
+        }
+        elseif(strpos($_SERVER['REQUEST_URI'],'events') && !strpos($_SERVER['REQUEST_URI'],'?page'))
+        {
+            $uriParts = explode('/',$_SERVER['REQUEST_URI']);
+            $locName = str_replace('events','',$uriParts[count($uriParts)-1]);
+            $locData = $this->locations_model->checkForValidLoc($locName);
+            if( isset($locData) && myIsArray($locData) )
+            {
+                redirect(base_url().'?page/filter_events/'.$locName);
             }
             else
             {

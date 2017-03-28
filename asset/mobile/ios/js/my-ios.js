@@ -1445,7 +1445,6 @@ myApp.onPageBeforeAnimation('comming-up', function (page) {
 function checkForUrl()
 {
     var url = $('#currentUrl').val();
-    console.log(url);
     if(url == '/')
     {
         tabToShow = '#tab1';
@@ -1456,6 +1455,31 @@ function checkForUrl()
             console.log('under url ' + url);
 
         }*/
+    }
+    else if(url.indexOf('filter_events') != -1)
+    {
+        url = url.replace('/?page/','');
+        tabToShow = '#tab2';
+        $.ajax({
+            type:'GET',
+            url:url,
+            dataType:'json',
+            success: function(data)
+            {
+                if(data.status === true)
+                {
+                    if(typeof data.locId != 'undefined')
+                    {
+                        var locId = data.locId;
+                        $('#even-'+locId).click();
+                    }
+                }
+            },
+            error: function()
+            {
+                console.log('error');
+            }
+        });
     }
     else if(url.indexOf('fnbshare') != -1)
     {
@@ -2739,11 +2763,22 @@ $$(document).on('change', 'input[name="event-locations"]', function(){
         $$('.clear-event-filter').removeClass('hide');
         $$('#tab2 .event-filter-toggler').addClass('on');
         var filterVal = $$(this).val();
+        if(event_initial_state != '')
+        {
+            $$('.event-section').html(event_initial_state);
+        }
         var catArray = $$('#tab2 .eve-'+filterVal);
-        $(catArray).hide();
-        $$('#tab2 .eve-'+filterVal).remove();
-        $$('.event-section').prepend(catArray);
-        $(catArray).slideToggle();
+        if(catArray.length == 0)
+        {
+            $$('.event-section').html('No Events Found!');
+        }
+        else
+        {
+            $(catArray).hide();
+            $$('#tab2 .eve-'+filterVal).remove();
+            $$('.event-section').prepend(catArray);
+            $(catArray).slideToggle();
+        }
         //myApp.closeModal('.popover-event-filter');
     }
 });

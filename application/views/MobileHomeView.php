@@ -765,7 +765,14 @@
                                         <div class="card demo-card-header-pic <?php
                                             if(isset($row['eventPlace']))
                                             {
-                                                echo 'eve-'.$row['eventPlace'];
+                                                if($row['isEventEverywhere'] == STATUS_YES)
+                                                {
+                                                    echo 'eve-all';
+                                                }
+                                                else
+                                                {
+                                                    echo 'eve-'.$row['eventPlace'];
+                                                }
                                             }
                                             ?>" data-eveTitle="<?php echo $row['eventName'];?>" itemscope itemtype="http://schema.org/Event">
                                             <div class="row no-gutter">

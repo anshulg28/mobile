@@ -121,4 +121,14 @@ class Locations_Model extends CI_Model
         return $result;
     }
 
+    public function checkForValidLoc($locName)
+    {
+        $query = "SELECT * "
+            ."FROM locationmaster "
+            ."WHERE locUniqueLink LIKE '%".$locName."%'";
+
+        $result = $this->db->query($query)->row_array();
+        return $result;
+    }
+
 }

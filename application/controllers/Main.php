@@ -2307,4 +2307,23 @@ class Main extends MY_Controller {
 
         echo json_encode($data);
     }
+
+    public function filterEvents($locName)
+    {
+        $data = array();
+
+        $locData = $this->locations_model->checkForValidLoc($locName);
+        if(isset($locData) && myIsArray($locData))
+        {
+            $data['status'] = true;
+            $data['locId'] = $locData['id'];
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        echo json_encode($data);
+
+    }
 }
