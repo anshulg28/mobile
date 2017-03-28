@@ -219,6 +219,7 @@ body
     margin:0;
     font-size: 13px;
     color: #000;
+    line-height: 18px;
 }
 .fa-17x
 {
@@ -844,7 +845,7 @@ body
 }
 .mainHome .sideFnbWrapper .demo-card-header-pic .mdl-card__supporting-text
 {
-    white-space: nowrap;
+    white-space: normal;
     text-overflow: ellipsis;
     overflow: hidden;
 }

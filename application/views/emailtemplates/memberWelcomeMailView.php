@@ -57,7 +57,7 @@
         See you!<br><br>
 
         Cheers!<br>
-        <?php echo $commName;?>
+        <?php echo ucfirst($commName);?>
     </>
 
 </body>

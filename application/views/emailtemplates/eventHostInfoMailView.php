@@ -21,7 +21,7 @@
         <?php echo $commNum;?><br><br>
 
         Cheers!<br>
-        <?php echo $commName;?>
+        <?php echo ucfirst($commName);?>
     </p>
 
 </body>

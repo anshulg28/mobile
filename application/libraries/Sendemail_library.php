@@ -250,7 +250,14 @@ class Sendemail_library
         $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
-        $subject = 'Event Data Modified';
+        if(isset($userData['eventName']))
+        {
+            $subject = $userData['eventName'].' Event Data Modified';
+        }
+        else
+        {
+            $subject = 'Event Data Modified';
+        }
         $toEmail = 'events@brewcraftsindia.com';
 
         if($mailRecord['status'] === true)
@@ -279,7 +286,7 @@ class Sendemail_library
         $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
-        $subject = 'Event Cancel';
+        $subject = $userData[0]['eventName'].' Event Cancel';
         $toEmail = 'events@doolally.in';
 
         if($mailRecord['status'] === true)
