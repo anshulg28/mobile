@@ -2658,7 +2658,7 @@
             {
                 $(catArray).hide();
                 $('#eventsTab .eve-'+filterVal).remove();
-                $('#eventsTab .event-section').prepend(catArray);
+                $('#eventsTab .event-section').html(catArray);
                 $(catArray).slideToggle();
             }
             //myApp.closeModal('.popover-event-filter');

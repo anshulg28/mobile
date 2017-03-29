@@ -2776,7 +2776,7 @@ $$(document).on('change', 'input[name="event-locations"]', function(){
         {
             $(catArray).hide();
             $$('#tab2 .eve-'+filterVal).remove();
-            $$('.event-section').prepend(catArray);
+            $$('.event-section').html(catArray);
             $(catArray).slideToggle();
         }
         //myApp.closeModal('.popover-event-filter');
