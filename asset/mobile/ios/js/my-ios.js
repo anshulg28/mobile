@@ -1481,7 +1481,7 @@ function checkForUrl()
             }
         });
     }
-    else if(url.indexOf('fnbshare') != -1)
+    else if(url.indexOf('fnbshare') != -1 || url.indexOf('fnb') != -1)
     {
         tabToShow = '#tab3';
     }

@@ -109,13 +109,13 @@
         <div class="mdl-cell mdl-cell--3-col"></div>
     </div>
     <div class="mdl-layout__tab-bar mdl-js-ripple-effect hide" id="mainNavBar">
-        <a href="#timelineTab" class="mdl-layout__tab is-active">
+        <a href="<?php echo base_url();?>" class="mdl-layout__tab is-active">
             <i class="fa fa-hashtag fa-17x my-display-block common-main-tabs on header-tabs-reposition mdl-badge--overlap" data-badge=""></i><span class="head-txt-up">Doolally</span>
         </a>
-        <a href="#eventsTab" class="mdl-layout__tab">
+        <a href="events" class="mdl-layout__tab dynamic" data-title="Doolally Events">
             <span class="ic_events_icon common-main-tabs header-tabs-reposition"></span><span class="head-txt-up">Events</span>
         </a>
-        <a href="#fnbTab" class="mdl-layout__tab">
+        <a href="fnb" class="mdl-layout__tab dynamic" data-title="Food n Beverages">
             <span class="ic_fnb_icon common-main-tabs header-tabs-reposition"></span><span class="head-txt-up">FnB</span>
         </a>
     </div>

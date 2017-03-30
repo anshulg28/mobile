@@ -342,10 +342,11 @@ body
 }
 .mdl-layout__tab, .mdl-layout.is-upgraded .mdl-layout__tab.is-active
 {
-    color:#000;
+    color:#000 !important;
     text-transform: capitalize;
     font-size:14px;
     height:auto;
+    text-decoration: none !important;
 }
 .mainHome .mdl-snackbar__text
 {
@@ -647,6 +648,7 @@ body
 .beer-overlay-pop .demo-card-header-pic .mdl-card__supporting-text
 {
     padding:0 16px 10px;
+    font-size: 14px;
 }
 
 /* Share vex popup */
@@ -997,6 +999,7 @@ body
     background:#A2C760;
     text-align: center;
     cursor: pointer;
+    box-sizing: content-box !important;
 }
 .mainHome .scrollUp:hover
 {

@@ -586,7 +586,8 @@
             }*/
         }
 
-        if($('#currentUrl').val() == '/' || $('#currentUrl').val().indexOf('filter_events') != -1)
+        if($('#currentUrl').val() == '/' || $('#currentUrl').val().indexOf('filter_events') != -1 ||
+            (typeof $('#pageUrl').val() != 'undefined' && ($('#pageUrl').val() == 'events' || $('#pageUrl').val() == 'events/')) )
         {
             $('#event-filter-box').removeClass('hide');
         }
@@ -703,9 +704,9 @@
                 $('#filter-timeline-menu').removeClass('hide');
                 $('#filter-events-menu').addClass('hide');
                 $('.mdl-layout__content').scrollTop(timelineScroll);
-                $('a[href="#timelineTab"].mdl-layout__tab').addClass('is-active');
+                $('a:nth-child(1).mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#timelineTab').addClass('is-active');
-                $('#mainNavBar a[href="#timelineTab"] .common-main-tabs').addClass('on');
+                $('#mainNavBar a:nth-child(1) .common-main-tabs').addClass('on');
                 var newHeight = $('section#timelineTab').height()+100;
                 var fnbHeight = $('.sideFnbWrapper').height()+50;
                 if(fnbHeight > newHeight)
@@ -724,7 +725,8 @@
                 }
                 break;
             case '#eventsTab':
-                if(document.location.href == base_url || document.location.href.indexOf('filter_events') != -1)
+                if(document.location.href == base_url+'?page/events' || document.location.href == base_url+'?page/events/'
+                    || document.location.href.indexOf('filter_events') != -1)
                 {
                     $('#filter-timeline-menu').addClass('hide');
                     $('#filter-events-menu').removeClass('hide');
@@ -735,9 +737,9 @@
                     $('#filter-events-menu').addClass('hide');
                 }
                 $('.mdl-layout__content').scrollTop(eventScroll);
-                $('a[href="#eventsTab"].mdl-layout__tab').addClass('is-active');
+                $('a:nth-child(2).mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#eventsTab').addClass('is-active');
-                $('#mainNavBar a[href="#eventsTab"] .common-main-tabs').addClass('on');
+                $('#mainNavBar a:nth-child(2) .common-main-tabs').addClass('on');
                 var newHeight = $('section#eventsTab').height()+100;
                 var fnbHeight = $('.sideFnbWrapper').height()+50;
                 if(fnbHeight > newHeight)
@@ -759,9 +761,9 @@
                 $('#filter-timeline-menu').addClass('hide');
                 $('#filter-events-menu').addClass('hide');
                 $('.mdl-layout__content').scrollTop(fnbScroll);
-                $('a[href="#fnbTab"].mdl-layout__tab').addClass('is-active');
+                $('a:nth-child(3).mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#fnbTab').addClass('is-active');
-                $('#mainNavBar a[href="#fnbTab"] .common-main-tabs').addClass('on');
+                $('#mainNavBar a:nth-child(3) .common-main-tabs').addClass('on');
                 var newHeight = $('section#fnbTab').height()+100;
                 var fnbHeight = $('.sideFnbWrapper').height()+50;
                 if(fnbHeight > newHeight)
@@ -1347,6 +1349,10 @@
                 {
                     replaceContent('contact_us',data);
                 }
+                else if(url == 'fnb')
+                {
+                    replaceContent('fnb',data);
+                }
                 else
                 {
                     replaceContent('',data);
@@ -1377,6 +1383,11 @@
                 resetTabs();
                 $('#mainContent-view section.mdl-layout__tab-panel').removeClass('is-active');
                 $('section#contactTab').html(data).addClass('is-active');
+                break;
+            case 'fnb':
+                showDesktopTab('#fnbTab');
+                $('#mainContent-view section.mdl-layout__tab-panel').removeClass('is-active');
+                $('section#fnbTab').html(data).addClass('is-active');
                 break;
             default:
                 showDesktopTab('#eventsTab');
@@ -1420,10 +1431,10 @@
                 isFnbShare = true;
                 fnbId = pageUrl.split('-')[1];
             }
-            else if(pageUrl == 'events' || pageUrl == 'events/')
+            /*else if(pageUrl == 'events' || pageUrl == 'events/')
             {
                 showDesktopTab('#eventsTab');
-            }
+            }*/
             else if(pageUrl.indexOf('filter_events') != -1)
             {
                 showDesktopTab('#eventsTab');

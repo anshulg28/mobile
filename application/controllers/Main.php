@@ -304,7 +304,7 @@ class Main extends MY_Controller {
                     $data['pageUrl'] = explode('?page/',$_SERVER['REQUEST_URI'])[1];
                     if($query[1] == 'events')
                     {
-                        if(isset($query[2]))
+                        if(isset($query[2]) && isStringSet($query[2]))
                         {
                             if(strpos($query[2],'EV-') != -1 && isset($query[3]))
                             {
@@ -371,13 +371,20 @@ class Main extends MY_Controller {
                                 }
                                 $data['meta']['description'] = $truncated_RestaurantName;
                                 $data['meta']['link'] = base_url().'?page/fnbshare/fnb-'.$fnbData[0]['fnbId'];
-                                if($fnbData[0]['itemType'] == '1')
+                                if(isset($fnbAtt) && myIsArray($fnbAtt))
                                 {
-                                    $data['meta']['img'] = base_url().FOOD_PATH_THUMB.$fnbAtt[0]['filename'];
+                                    if($fnbData[0]['itemType'] == '1')
+                                    {
+                                        $data['meta']['img'] = base_url().FOOD_PATH_THUMB.$fnbAtt[0]['filename'];
+                                    }
+                                    else
+                                    {
+                                        $data['meta']['img'] = base_url().BEVERAGE_PATH_THUMB.$fnbAtt[0]['filename'];
+                                    }
                                 }
                                 else
                                 {
-                                    $data['meta']['img'] = base_url().BEVERAGE_PATH_THUMB.$fnbAtt[0]['filename'];
+                                    $data['meta']['img'] = '';
                                 }
                             }
                         }
@@ -2325,5 +2332,50 @@ class Main extends MY_Controller {
 
         echo json_encode($data);
 
+    }
+    public function getEventPage()
+    {
+        $data = array();
+        $post = $this->input->post();
+
+        $events = $this->dashboard_model->getAllApprovedEvents();
+        usort($events,
+            function($a, $b) {
+                $ts_a = strtotime($a['eventDate']);
+                $ts_b = strtotime($b['eventDate']);
+
+                return $ts_a > $ts_b;
+            }
+        );
+
+        $data['eventDetails'] = $events;
+
+        if(isset($post['isAjax']) && $post['isAjax'] == '1')
+        {
+            $aboutView = $this->load->view('desktop/EventsPageView', $data);
+            echo json_encode($aboutView);
+        }
+        else
+        {
+            redirect(base_url());
+        }
+    }
+
+    public function getFnbPage()
+    {
+        $data = array();
+        $post = $this->input->post();
+
+        $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
+
+        if(isset($post['isAjax']) && $post['isAjax'] == '1')
+        {
+            $aboutView = $this->load->view('desktop/FnbPageView', $data);
+            echo json_encode($aboutView);
+        }
+        else
+        {
+            redirect(base_url());
+        }
     }
 }

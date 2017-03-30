@@ -91,6 +91,8 @@ $route['dashboard/decline/(:any)'] = 'dashboard/eventDeclined/$1';
 /* Mobile Routes */
 /*$route['mobile'] = 'mobile/main';*/
 $route['about'] = 'main/about';
+$route['events'] = 'main/getEventPage';
+$route['fnb'] = 'main/getFnbPage';
 $route['events/(:any)'] = 'main/eventFetch/$1';
 $route['eventEdit/(:any)'] = 'main/editEvent/$1';
 $route['create_event'] = 'main/createEvent';

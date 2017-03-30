@@ -91,7 +91,7 @@
                 </div>
                 <div class="event-header-name mdl-grid">
                     <div class="mdl-cell mdl-cell--6-col">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="location-div">
                             <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
                                 <option value="">Select</option>
                                 <?php
@@ -279,4 +279,7 @@
         dropdown: false
     });
     componentHandler.upgradeDom();
+    $(document).ready(function(){
+        $('#location-div').addClass('is-dirty');
+    });
 </script>
