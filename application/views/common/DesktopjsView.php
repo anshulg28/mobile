@@ -13,7 +13,8 @@
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/mobile/js/fullcalendar.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/jquery.lazy.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/datedropper.min.js"></script>
-<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/jquery.fastLiveFilter.js"></script>
+<!--<script type="application/javascript" src="<?php /*echo base_url(); */?>asset/js/jquery.fastLiveFilter.js"></script>-->
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/list.min.js"></script>
 
 
 <script>
@@ -621,11 +622,11 @@
         {
             $('.scrollUp').fadeOut('slow');
         }
-        if($('a[href="#timelineTab"]').hasClass('is-active'))
+        if($('#mainNavBar a:nth-child(1).mdl-layout__tab').hasClass('is-active'))
         {
             timelineScroll = $(this).scrollTop();
         }
-        else if($('a[href="#eventsTab"]').hasClass('is-active'))
+        else if($('#mainNavBar a:nth-child(2).mdl-layout__tab').hasClass('is-active'))
         {
             eventScroll = $(this).scrollTop();
         }
@@ -634,7 +635,7 @@
             fnbScroll = $(this).scrollTop();
         }
 
-        if($('a[href="#timelineTab"]').hasClass('is-active'))
+        if($('#mainNavBar a:nth-child(1).mdl-layout__tab').hasClass('is-active'))
         {
             // End of the document reached?
             if ($('section#timelineTab').height() - $('.mainHome').height() <= $(this).scrollTop())
@@ -1237,12 +1238,12 @@
             scrollTop: total
         },100);
 
-        $('a[href="#timelineTab"].mdl-layout__tab').find('i').addClass('mdl-badge');
+        $('#mainNavBar a:nth-child(1).mdl-layout__tab').find('i').addClass('mdl-badge');
         if(timelineScroll <=100)
         {
-            if($('a[href="#timelineTab"].mdl-layout__tab').find('i').hasClass('mdl-badge'))
+            if($('#mainNavBar a:nth-child(1).mdl-layout__tab').find('i').hasClass('mdl-badge'))
             {
-                $('a[href="#timelineTab"].mdl-layout__tab').find('i').removeClass('mdl-badge');
+                $('#mainNavBar a:nth-child(1).mdl-layout__tab').find('i').removeClass('mdl-badge');
             }
         }
         $("time.timeago").timeago();

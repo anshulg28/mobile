@@ -1497,6 +1497,37 @@ body
     background: #A2C760;
     z-index: 10000;
 }
+.mainHome #jukeboxTab .list-of-song
+{
+    list-style: none;
+    padding: 0;
+    text-align:right;
+    margin: 0;
+}
+.mainHome #jukeboxTab .list-of-song>li
+{
+    display: inline-block;
+    padding: 2px 0;
+}
+.mainHome #jukeboxTab .list-of-song>li a
+{
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 15px;
+}
+.mainHome #jukeboxTab .list-of-song>li.active
+{
+    background-color: #A2C760;
+}
+.mainHome #jukeboxTab .list-of-song>li.active a
+{
+    color:#fff;
+}
+.mainHome #jukeboxTab .list-of-song>li:hover:not(.active)
+{
+    background-color: #ddd;
+}
 .mainHome #juke-logout
 {
     background: #A2C760;

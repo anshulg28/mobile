@@ -1197,6 +1197,7 @@ myApp.onPageReinit('taproomPage', function(page) {
 });
 myApp.onPageInit('songlist', function(page){
 
+    appendScript(base_url+'asset/js/list.min.js');
     //appendScript(base_url+'asset/mobile/js/jquery.geolocation.min.js');
     setTimeout(function(){
         myApp.hideIndicator();
@@ -1434,6 +1435,12 @@ myApp.onPageInit('songlist', function(page){
             }
         });
     });
+    var monkeyList = new List('song-list', {
+        valueNames: ['item-title','item-subtitle'],
+        page: 20,
+        pagination: true
+    });
+    componentHandler.upgradeDom();
 });
 myApp.onPageBeforeAnimation('comming-up', function (page) {
     if (page.from === 'left') {

@@ -36,7 +36,7 @@
         if(isset($status) && $status === true)
         {
             ?>
-            <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title,.item-subtitle" data-found=".searchbar-found" data-not-found=".searchbar-not-found">
+            <!--<form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title,.item-subtitle" data-found=".searchbar-found" data-not-found=".searchbar-not-found">
                 <div class="searchbar-input">
                     <input type="search" placeholder="Search Music">
                     <a href="#" class="searchbar-clear"></a>
@@ -44,16 +44,15 @@
                 <a href="#" class="searchbar-cancel">Cancel</a>
             </form>
 
-            <!-- Search Bar overlay-->
-            <div class="searchbar-overlay"></div>
+            <div class="searchbar-overlay"></div>-->
             <?php
         }
         ?>
 
         <div class="page-content">
-            <div class="content-block searchbar-not-found">
+            <!--<div class="content-block searchbar-not-found">
                 Nothing found
-            </div>
+            </div>-->
             <?php
             if(isset($status) && $status === true)
             {
@@ -61,8 +60,18 @@
                 {
                     $songs = json_decode($tapSongs[0]['tapSongs'],true);
                     ?>
-                    <div class="list-block media-list list-block-search searchbar-found">
-                        <ul>
+                    <div class="list-block media-list list-block-search searchbar-found" id="song-list">
+                        <div class="search-container">
+                            <div>
+                                <i class="fa fa-search"></i>
+                                <div class="mdl-textfield mdl-js-textfield search-field">
+                                    <input class="mdl-textfield__input search" type="text" id="sample1">
+                                    <label class="mdl-textfield__label" for="sample1">Song Search</label>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="pagination list-of-song"></ul>
+                        <ul class="list">
                             <?php
                             foreach($songs[0] as $key => $row)
                             {

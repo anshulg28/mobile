@@ -708,6 +708,70 @@
 {
     border: 2px solid lightgray;
 }
+.iosHome .tapSong-page #song-list
+{
+    margin:10px 0;
+}
+.iosHome .tapSong-page .search-container
+{
+    background:#fff;
+    text-align:center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.iosHome .tapSong-page .search-field
+{
+    padding: 5px 0;
+    width:90%;
+    margin-left: 5px;
+}
+.iosHome .tapSong-page #sample1
+{
+    height:30px;
+}
+.iosHome .tapSong-page .search-field .mdl-textfield__label
+{
+    top:10px;
+}
+.iosHome .tapSong-page .search-field .mdl-textfield__label:after
+{
+    bottom:5px;
+    background-color:#000;
+}
+.iosHome .tapSong-page #song-list .list-of-song
+{
+    background: transparent;
+    text-align: right;
+    padding: 10px 5px;
+}
+.iosHome .tapSong-page #song-list .list-of-song>li
+{
+    position: static;
+    display: inline-block;
+}
+.iosHome .tapSong-page #song-list .list-of-song>li a
+{
+    position: static;
+    width: auto;
+    height: auto;
+    background: transparent;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 15px;
+}
+.iosHome .tapSong-page #song-list .list-of-song>li.active
+{
+    background-color: #A2C760;
+}
+.iosHome .tapSong-page #song-list .list-of-song>li.active a
+{
+    color:#fff;
+}
+.iosHome .tapSong-page #song-list .list-of-song>li:hover:not(.active)
+{
+    background-color: #ddd;
+}
 .iosHome .contact-page .card-content-inner .comment p
 {
     margin:0;

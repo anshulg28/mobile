@@ -8,19 +8,20 @@ if(isset($status) && $status === true)
     {
         $songs = json_decode($tapSongs[0]['tapSongs'],true);
         ?>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input search" type="text" id="sample3">
-            <label class="mdl-textfield__label" for="sample3">Search</label>
-        </div>
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pull-right" id="juke-logout">
-            Logout
-        </button>
-        <div class="list-block media-list clear" >
-            <ul class="demo-list-two mdl-list" id="song-list">
+        <div class="list-block media-list clear" id="song-list">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input search" type="text" id="sample3">
+                <label class="mdl-textfield__label" for="sample3">Search</label>
+            </div>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored pull-right" id="juke-logout">
+                Logout
+            </button>
+            <ul class="pagination list-of-song"></ul>
+            <ul class="demo-list-two mdl-list list clear">
                 <?php
+                //$songCount = 0;
                 foreach($songs[0] as $key => $row)
                 {
-
                     ?>
                     <li class="mdl-list__item mdl-list__item--two-line demo-card-square mdl-shadow--2dp request_song_btn" data-songId="<?php echo $row['id'];?>"
                         data-tapId="<?php echo $tapId;?>">
@@ -52,6 +53,7 @@ if(isset($status) && $status === true)
                         </span>
                     </li>
                     <?php
+                    //$songCount++;
                 }
                 ?>
             </ul>
@@ -92,9 +94,25 @@ else
 </div>
 <script>
     $(function() {
-        $('#sample3').fastLiveFilter('#song-list',{
-            selector:'.song-name,.artist-name'
+        var monkeyList = new List('song-list', {
+            valueNames: ['song-name','artist-name'],
+            page: 20,
+            pagination: true
         });
+        /*$('#sample3').fastLiveFilter('#song-list',{
+            selector:'.song-name,.artist-name',
+            callback: function(total) {
+                if($('#sample3').val() != '')
+                {
+                    $('#song-list .request_song_btn').each(function(i,val){
+                        if($(val).hasClass('hide') && typeof $(val).attr('style') == 'undefined')
+                        {
+                            $(val).removeClass('hide');
+                        }
+                    });
+                }
+            }
+        });*/
     });
     componentHandler.upgradeDom();
 </script>
