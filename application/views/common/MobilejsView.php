@@ -33,6 +33,18 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
+    function saveErrorLog(errorTxt)
+    {
+        $.ajax({
+            type:'POST',
+            dataType:'json',
+            url:base_url+'dashboard/saveErrorLog',
+            data:{errorTxt: errorTxt},
+            success: function(data){},
+            error: function(){}
+        });
+    }
+
 </script>
 
 <script>

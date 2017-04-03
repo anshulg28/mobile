@@ -2378,4 +2378,14 @@ class Main extends MY_Controller {
             redirect(base_url());
         }
     }
+    public function saveErrorLog()
+    {
+        $post = $this->input->post();
+
+        if(isset($post['errorTxt']))
+        {
+            $this->dashboard_model->saveErrorLog($post);
+        }
+        return true;
+    }
 }

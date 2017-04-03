@@ -449,11 +449,13 @@ myApp.onPageInit('eventAdd', function (page) {
                         });
                     }
                 },
-                error: function(){
+                error: function(xhr, status, error){
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
                         unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
                     });
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                 }
             });
         }
@@ -484,11 +486,13 @@ myApp.onPageInit('eventAdd', function (page) {
                         });
                     }
                 },
-                error: function(){
+                error: function(xhr, status, error){
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
                         unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
                     });
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                 }
             });
         }
@@ -692,7 +696,7 @@ myApp.onPageInit('eventAdd', function (page) {
                         //xhr.send();
                     }
                 },
-                error: function()
+                error: function(xhr, status, error)
                 {
                     myApp.hideIndicator();
                     myApp.addNotification({
@@ -701,6 +705,8 @@ myApp.onPageInit('eventAdd', function (page) {
                         hold:10*1000
                     });
                     xhr.abort();
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                     return false;
                 }
             });
@@ -1052,7 +1058,7 @@ myApp.onPageInit('eventEdit', function (page) {
                         //xhr.send();
                     }
                 },
-                error: function()
+                error: function(xhr, status, error)
                 {
                     myApp.hideIndicator();
                     myApp.addNotification({
@@ -1061,6 +1067,8 @@ myApp.onPageInit('eventEdit', function (page) {
                         hold:10*1000
                     });
                     xhr.abort();
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                     return false;
                 }
             });
@@ -1385,12 +1393,14 @@ myApp.onPageInit('songlist', function(page){
                             alert(data.errorMsg);
                         }
                     },
-                    error: function(){
+                    error: function(xhr, status, error){
                         myApp.hideIndicator();
                         vex.dialog.buttons.YES.text = 'Close';
                         vex.dialog.alert({
                             unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
                         });
+                        var err = '<pre>'+xhr.responseText+'</pre>';
+                        saveErrorLog(err);
                     }
                 });
 
@@ -1426,12 +1436,14 @@ myApp.onPageInit('songlist', function(page){
                     mainView.router.refreshPage();
                 }
             },
-            error: function(){
+            error: function(xhr, status, error){
                 myApp.hideIndicator();
                 myApp.addNotification({
                     title: 'Error!',
                     message: 'Some Error Occurred!'
                 });
+                var err = '<pre>'+xhr.responseText+'</pre>';
+                saveErrorLog(err);
             }
         });
     });
@@ -2557,12 +2569,14 @@ $$(document).on('click','#logout-btn', function(){
                 mainView.router.refreshPage();
             }
         },
-        error: function(){
+        error: function(xhr, status, errror){
             myApp.hideIndicator();
             myApp.addNotification({
                 title: 'Error!',
                 message: 'Some Error Occurred!'
             });
+            var err = '<pre>'+xhr.responseText+'</pre>';
+            saveErrorLog(err);
         }
     });
 });
@@ -2925,13 +2939,15 @@ function cancelEvent(eventId)
                 });
             }
         },
-        error: function(){
+        error: function(xhr, status, error){
             myApp.hideIndicator();
             myApp.addNotification({
                 title: 'Error!',
                 message: 'Some Error Occurred!'
             });
             vex.closeTop();
+            var err = '<pre>'+xhr.responseText+'</pre>';
+            saveErrorLog(err);
         }
     });
 }
@@ -3061,12 +3077,14 @@ function statusChangeCallback(response)
                     myApp.hideIndicator();
                     mainView.router.refreshPage();
                 },
-                error: function(){
+                error: function(xhr, status, error){
                     myApp.hideIndicator();
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
                         unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
                     });
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                 }
             });
         }
@@ -3091,12 +3109,14 @@ function onSuccess(googleUser) {
             myApp.hideIndicator();
             mainView.router.refreshPage();
         },
-        error: function(){
+        error: function(xhr, status, error){
             myApp.hideIndicator();
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({
                 unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
             });
+            var err = '<pre>'+xhr.responseText+'</pre>';
+            saveErrorLog(err);
         }
     });
 }
@@ -3153,13 +3173,15 @@ function jukeboxLoginFunc(ele)
             $(ele).removeAttr('disabled');
             mainView.router.refreshPage();
         },
-        error: function(){
+        error: function(xhr, status, error){
             myApp.hideIndicator();
             $(ele).removeAttr('disabled');
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({
                 unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
             });
+            var err = '<pre>'+xhr.responseText+'</pre>';
+            saveErrorLog(err);
         }
     });
 }
@@ -3234,12 +3256,14 @@ $(document).on('click','.eve-cancel-btn', function(){
                             });
                         }
                     },
-                    error: function(){
+                    error: function(xhr, status, error){
                         myApp.hideIndicator();
                         vex.dialog.buttons.YES.text = 'Close';
                         vex.dialog.alert({
                             unsafeMessage: '<label class="head-title">Error!</label><br><br>Some Error Occurred!'
                         });
+                        var err = '<pre>'+xhr.responseText+'</pre>';
+                        saveErrorLog(err);
                     }
                 });
             } else {

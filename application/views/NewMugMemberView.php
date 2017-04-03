@@ -184,13 +184,15 @@
                 }
 
             },
-            error: function(){
+            error: function(xhr, status, error){
                 hideProgressLoader();
                 $('button[type="submit"]').removeAttr('disabled');
                 vex.dialog.buttons.YES.text = 'Close';
                 vex.dialog.alert({
                     unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
                 });
+                var err = '<pre>'+xhr.responseText+'</pre>';
+                saveErrorLog(err);
             }
         });
 
@@ -233,9 +235,11 @@
                         $('.mug-suggestions').addClass('my-danger-text').html(suggHtml);
                     }
                 },
-                error: function()
+                error: function(xhr, status, error)
                 {
                     $('.mug-suggestions').addClass('my-danger-text').html('Unable To Connect To Server!');
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                 }
             });
         }

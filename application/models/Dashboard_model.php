@@ -916,4 +916,10 @@ class Dashboard_Model extends CI_Model
         $this->db->update('offersmaster', $details);
         return true;
     }
+    public function saveErrorLog($details)
+    {
+        $details['insertedDateTime'] = date('Y-m-d H:i:s');
+        $this->db->insert('errorlogger', $details);
+        return true;
+    }
 }
