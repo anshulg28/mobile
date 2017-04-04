@@ -919,6 +919,7 @@ class Dashboard_Model extends CI_Model
     public function saveErrorLog($details)
     {
         $details['insertedDateTime'] = date('Y-m-d H:i:s');
+        $details['fromWhere'] = 'Mobile';
         $this->db->insert('errorlogger', $details);
         return true;
     }

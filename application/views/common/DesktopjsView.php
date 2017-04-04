@@ -1429,6 +1429,19 @@
             });
         }
         $('.scrollUp').click();
+        setTimeout(function(){
+            $('.lazy').each(function(i,val){
+                if(typeof $(val).attr('data-src') != 'undefined')
+                {
+                    setTimeout(function(){
+                        $(val).attr('src',$(val).attr('data-src'));
+                    },500);
+                }
+            });
+           /* $(".lazy").lazy({
+                effect : "fadeIn"
+            });*/
+        },1000);
     }
 
     function checkForDynamic()
