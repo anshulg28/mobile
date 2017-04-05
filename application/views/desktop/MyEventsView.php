@@ -96,7 +96,14 @@
                                 <div class="mdl-card__supporting-text">
                                     <?php
                                     $isApprov = false;
-                                    if($row['ifApproved'] == EVENT_DECLINED)
+
+                                    if($row['isEventCancel'] == EVENT_CANCEL_REVIEW)
+                                    {
+                                        $isApprov = true;
+                                        ?>
+                                        <i class="material-icons">info_outline</i>&nbsp;&nbsp;Cancellation In Review<?php
+                                    }
+                                    elseif($row['ifApproved'] == EVENT_DECLINED)
                                     {
                                         ?>
                                         <i class="material-icons">info_outline</i>&nbsp;&nbsp;Event Declined!<?php

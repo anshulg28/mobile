@@ -2779,25 +2779,25 @@ $$(document).on('change', 'input[name="event-locations"]', function(){
     {
         if(event_initial_state == '')
         {
-            event_initial_state = $$('.event-section').html();
+            event_initial_state = $('.event-section').html();
         }
         $$('.clear-event-filter').removeClass('hide');
         $$('#tab2 .event-filter-toggler').addClass('on');
         var filterVal = $$(this).val();
         if(event_initial_state != '')
         {
-            $$('.event-section').html(event_initial_state);
+            $('.event-section').html(event_initial_state);
         }
-        var catArray = $$('#tab2 .eve-'+filterVal);
+        var catArray = $('#tab2 .eve-'+filterVal);
         if(catArray.length == 0)
         {
-            $$('.event-section').html('No Events Found!');
+            $('.event-section').html('No Events Found!');
         }
         else
         {
             $(catArray).hide();
-            $$('#tab2 .eve-'+filterVal).remove();
-            $$('.event-section').html(catArray);
+            $('#tab2 .eve-'+filterVal).remove();
+            $('.event-section').html(catArray);
             $(catArray).slideToggle();
         }
         //myApp.closeModal('.popover-event-filter');

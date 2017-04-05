@@ -154,7 +154,13 @@
                                                             <span>
                                                             <?php
                                                             $isApprov = false;
-                                                            if($row['ifApproved'] == EVENT_DECLINED)
+                                                            if($row['isEventCancel'] == EVENT_CANCEL_REVIEW)
+                                                            {
+                                                                $isApprov = true;
+                                                                ?>
+                                                                <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Cancellation In Review<?php
+                                                            }
+                                                            elseif($row['ifApproved'] == EVENT_DECLINED)
                                                             {
                                                                 ?>
                                                                 <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Declined!<?php
