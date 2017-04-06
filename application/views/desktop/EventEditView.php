@@ -102,7 +102,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <!--onfocus="scrollToField(this)"-->
-                                    <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="endTime" name="endTime"
+                                    <input class="mdl-textfield__input" type="text" id="endTime" name="endTime"
                                            value="<?php echo date("h:i A", strtotime($row['endTime']));?>"/>
                                     <label class="mdl-textfield__label" for="endTime">End Time</label>
                                 </div>
@@ -124,7 +124,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                         </div>-->
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <!--onfocus="scrollToField(this)"-->
-                                    <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="startTime" name="startTime"
+                                    <input class="mdl-textfield__input" type="text" id="startTime" name="startTime"
                                            value="<?php echo date("h:i A", strtotime($row['startTime']));?>"/>
                                     <label class="mdl-textfield__label" for="startTime">Start Time</label>
                                 </div>
@@ -250,7 +250,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                 else
                                 {
                                     ?>
-                                    <div class="projDiv disabledbutton">
+                                    <div class="projDiv">
                                         <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1" />
                                         <label for="ifProjectorRequired">
                                             <i class="ic_projector_icon"></i>
@@ -278,7 +278,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                     else
                                     {
                                         ?>
-                                        <div class="micDiv disabledbutton">
+                                        <div class="micDiv">
                                             <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1" />
                                             <label for="ifMicRequired">
                                                 <i class="ic_mic_icon"></i>

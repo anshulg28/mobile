@@ -64,14 +64,14 @@
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                             <!--onfocus="scrollToField(this)"-->
-                            <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="endTime" name="endTime">
+                            <input class="mdl-textfield__input" type="text" id="endTime" name="endTime">
                             <label class="mdl-textfield__label" for="endTime">End Time</label>
                         </div>
                     </div>
                     <div class="mdl-cell mdl-cell--6-col">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                             <!--onfocus="scrollToField(this)"-->
-                            <input class="mdl-textfield__input" type="text" onblur="timeCheck()" id="startTime" name="startTime">
+                            <input class="mdl-textfield__input" type="text" id="startTime" name="startTime">
                             <label class="mdl-textfield__label" for="startTime">Start Time</label>
                         </div>
                         <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -157,7 +157,7 @@
                         <p class="event-cost-head my-NoMargin">Need Accessories: </p>
                     </div>
                     <div class="mdl-cell mdl-cell--6-col text-right projSection">
-                        <div class="projDiv disabledbutton">
+                        <div class="projDiv">
                             <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1" />
                             <label for="ifProjectorRequired">
                                 <i class="ic_projector_icon"></i>
@@ -166,7 +166,7 @@
                         </div>
                     </div>
                     <div class="mdl-cell mdl-cell--6-col micSection">
-                        <div class="micDiv disabledbutton">
+                        <div class="micDiv">
                             <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1" />
                             <label for="ifMicRequired">
                                 <i class="ic_mic_icon"></i>

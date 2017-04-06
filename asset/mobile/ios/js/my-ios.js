@@ -601,10 +601,10 @@ myApp.onPageInit('eventAdd', function (page) {
             return false;
         }
 
-        var d = new Date($$('.event-add #eventDate').val());
+        /*var d = new Date($$('.event-add #eventDate').val());
         var startT = ConvertTimeformat('24',$$('.event-add input[name="startTime"]').val());
-        var endT = ConvertTimeformat('24',$$('.event-add input[name="endTime"]').val());
-        if(d.getDay() == 6 || d.getDay() == 0)
+        var endT = ConvertTimeformat('24',$$('.event-add input[name="endTime"]').val());*/
+        /*if(d.getDay() == 6 || d.getDay() == 0)
         {
             if(startT < "07:00")
             {
@@ -649,9 +649,9 @@ myApp.onPageInit('eventAdd', function (page) {
                 xhr.abort();
                 return false;
             }
-        }
+        }*/
 
-        if(startT >= endT)
+        /*if(startT >= endT)
         {
             myApp.addNotification({
                 title: 'Error!',
@@ -660,7 +660,7 @@ myApp.onPageInit('eventAdd', function (page) {
             });
             xhr.abort();
             return false;
-        }
+        }*/
         if(typeof cropData['imgUrl'] != 'undefined' && eventAddStatus === false)
         {
             xhr.abort();
@@ -963,10 +963,10 @@ myApp.onPageInit('eventEdit', function (page) {
             return false;
         }
 
-        var d = new Date($$('.event-add #eventDate').val());
+        /*var d = new Date($$('.event-add #eventDate').val());
         var startT = ConvertTimeformat('24',$$('.event-add input[name="startTime"]').val());
-        var endT = ConvertTimeformat('24',$$('.event-add input[name="endTime"]').val());
-        if(d.getDay() == 6 || d.getDay() == 0)
+        var endT = ConvertTimeformat('24',$$('.event-add input[name="endTime"]').val());*/
+        /*if(d.getDay() == 6 || d.getDay() == 0)
         {
             if(startT < "07:00")
             {
@@ -1011,9 +1011,9 @@ myApp.onPageInit('eventEdit', function (page) {
                 xhr.abort();
                 return false;
             }
-        }
+        }*/
 
-        if(startT > endT)
+        /*if(startT > endT)
         {
             myApp.addNotification({
                 title: 'Error!',
@@ -1022,7 +1022,7 @@ myApp.onPageInit('eventEdit', function (page) {
             });
             xhr.abort();
             return false;
-        }
+        }*/
         if(typeof cropData['imgUrl'] != 'undefined' && eventEditStatus === false)
         {
             xhr.abort();
@@ -2797,7 +2797,8 @@ $$(document).on('change', 'input[name="event-locations"]', function(){
         {
             $(catArray).hide();
             $('#tab2 .eve-'+filterVal).remove();
-            $('.event-section').html(catArray);
+            $('.event-section').prepend(catArray);
+            /*$('.event-section').html(catArray);*/
             $(catArray).slideToggle();
         }
         //myApp.closeModal('.popover-event-filter');

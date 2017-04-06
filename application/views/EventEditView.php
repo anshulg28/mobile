@@ -104,13 +104,13 @@
                                             <div class="row">
                                                 <div class="col-50">
                                                     <div class="input-group">
-                                                        <input id="startTime" onblur="timeCheck()" type="text" class="mdl-textfield__input" name="startTime" placeholder="Start Time"
+                                                        <input id="startTime" type="text" class="mdl-textfield__input" name="startTime" placeholder="Start Time"
                                                                value="<?php echo date("h:i A", strtotime($row['startTime']));?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-50">
                                                     <div class="input-group">
-                                                        <input id="endTime" onblur="timeCheck()" type="text" class="mdl-textfield__input" name="endTime" placeholder="End Time"
+                                                        <input id="endTime" type="text" class="mdl-textfield__input" name="endTime" placeholder="End Time"
                                                                value="<?php echo date("h:i A", strtotime($row['endTime']));?>">
                                                     </div>
                                                 </div>
@@ -289,7 +289,7 @@
                                                         else
                                                         {
                                                             ?>
-                                                            <li id="micWrapper" disabled="disabled">
+                                                            <li id="micWrapper">
                                                                 <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1"/>
                                                                 <label for="ifMicRequired">
                                                                     <i class="ic_mic_icon"></i>
@@ -315,7 +315,7 @@
                                                         else
                                                         {
                                                             ?>
-                                                            <li id="projWrapper" disabled="disabled">
+                                                            <li id="projWrapper">
                                                                 <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1"/>
                                                                 <label for="ifProjectorRequired">
                                                                     <i class="ic_projector_icon"></i>

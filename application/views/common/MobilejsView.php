@@ -38,7 +38,7 @@
         $.ajax({
             type:'POST',
             dataType:'json',
-            url:base_url+'dashboard/saveErrorLog',
+            url:base_url+'main/saveErrorLog',
             data:{errorTxt: errorTxt},
             success: function(data){},
             error: function(){}

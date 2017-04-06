@@ -658,6 +658,8 @@ class Dashboard_Model extends CI_Model
     }
     public function checkEventSpace($details)
     {
+        $data['status'] = false;
+        return $data;
         $query = "SELECT * FROM eventmaster
                   WHERE eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."' AND 
                   ((TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')) OR 

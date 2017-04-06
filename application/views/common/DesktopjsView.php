@@ -42,7 +42,7 @@
         $.ajax({
             type:'POST',
             dataType:'json',
-            url:base_url+'dashboard/saveErrorLog',
+            url:base_url+'main/saveErrorLog',
             data:{errorTxt: errorTxt},
             success: function(data){},
             error: function(){}
@@ -2158,10 +2158,10 @@
             return false;
         }
 
-        var d = new Date($('.event-add-page #eventDate').val());
+        /*var d = new Date($('.event-add-page #eventDate').val());
         var startT = ConvertTimeformat('24',$('.event-add-page input[name="startTime"]').val());
-        var endT = ConvertTimeformat('24',$('.event-add-page input[name="endTime"]').val());
-        if(d.getDay() == 6 || d.getDay() == 0)
+        var endT = ConvertTimeformat('24',$('.event-add-page input[name="endTime"]').val());*/
+        /*if(d.getDay() == 6 || d.getDay() == 0)
         {
             if(startT < "07:00")
             {
@@ -2186,13 +2186,13 @@
                 mySnackTime('On weekdays, events can be organised from 7 am to 6 pm!');
                 return false;
             }
-        }
+        }*/
 
-        if(startT > endT)
+        /*if(startT > endT)
         {
             mySnackTime('Event Time is not proper!');
             return false;
-        }
+        }*/
         if(typeof cropData['imgUrl'] != 'undefined' && eventAddStatus === false)
         {
             showProgressLoader();
@@ -2341,10 +2341,10 @@
             return false;
         }
 
-        var d = new Date($('.event-add-page #eventDate').val());
+       /* var d = new Date($('.event-add-page #eventDate').val());
         var startT = ConvertTimeformat('24',$('.event-add-page input[name="startTime"]').val());
-        var endT = ConvertTimeformat('24',$('.event-add-page input[name="endTime"]').val());
-        if(d.getDay() == 6 || d.getDay() == 0)
+        var endT = ConvertTimeformat('24',$('.event-add-page input[name="endTime"]').val());*/
+        /*if(d.getDay() == 6 || d.getDay() == 0)
         {
             if(startT < "07:00")
             {
@@ -2369,13 +2369,13 @@
                 mySnackTime('On weekdays, events can be organised from 7 am to 6 pm!');
                 return false;
             }
-        }
+        }*/
 
-        if(startT > endT)
+        /*if(startT > endT)
         {
             mySnackTime('Event Time is not proper!');
             return false;
-        }
+        }*/
         if(typeof cropData['imgUrl'] != 'undefined' && eventEditStatus === false)
         {
             showProgressLoader();
@@ -2446,7 +2446,7 @@
             success: function(data){
                 if(data.status == true)
                 {
-                    if(data.noChange == true)
+                    if(data.noChange === true)
                     {
                         vex.dialog.buttons.YES.text = 'Close';
                         vex.dialog.alert({
@@ -2458,16 +2458,19 @@
                             }
                         });
                     }
-                    vex.dialog.buttons.YES.text = 'Close';
-                    vex.dialog.alert({
-                        unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Your event is now in review state, ' +
-                        'We will sent you mail once review is done, you can check for event status in My Events section.',
-                        callback: function(){
-                            setTimeout(function(){
-                                pushHistory('Doolally','event_dash',true);
-                            },500);
-                        }
-                    });
+                    else
+                    {
+                        vex.dialog.buttons.YES.text = 'Close';
+                        vex.dialog.alert({
+                            unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Your event is now in review state, ' +
+                            'We will sent you mail once review is done, you can check for event status in My Events section.',
+                            callback: function(){
+                                setTimeout(function(){
+                                    pushHistory('Doolally','event_dash',true);
+                                },500);
+                            }
+                        });
+                    }
                 }
                 else
                 {
@@ -2725,8 +2728,13 @@
             {
                 $(catArray).hide();
                 $('#eventsTab .eve-'+filterVal).remove();
-                $('#eventsTab .event-section').html(catArray);
+                $('#eventsTab .event-section').prepend(catArray);
                 $(catArray).slideToggle();
+
+               /* $(catArray).hide();
+                $('#eventsTab .eve-'+filterVal).remove();
+                $('#eventsTab .event-section').html(catArray);
+                $(catArray).slideToggle();*/
             }
             //myApp.closeModal('.popover-event-filter');
         }
