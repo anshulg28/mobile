@@ -16,7 +16,7 @@
             if(isset($mailData['refundId']))
             {
                 ?>
-                For paid events, the money will be fully refunded to you. The coupon code that we sent you in the earlier mail is now invalid.<br><br>
+                For paid events, the money will be fully refunded to you.<br><br>
                 Refund Id: <?php echo $mailData['refundId'];?><br>
                 <b>
                     <a href="https://www.instamojo.com/resolutioncenter/cases/<?php echo $mailData['refundId'];?>/?from=email"

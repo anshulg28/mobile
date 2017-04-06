@@ -618,6 +618,7 @@ class Sendemail_library
     // Mail send to organiser about cancellation of attendee
     public function eventCancelSendMail($userData)
     {
+        $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
         $data['mailData'] = $userData;
 
         $content = $this->CI->load->view('emailtemplates/regisCancelMailView', $data, true);
@@ -628,8 +629,13 @@ class Sendemail_library
 
         $cc = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
+        if($mailRecord['status'] === true)
+        {
+            $fromName = $mailRecord['userData']['firstName'];
+            $replyTo = $mailRecord['userData']['emailId'];
+        }
 
-        $subject = $userData['firstName'].' '.$userData['lastName'].' has withdrawn from '.$userData['eventName'];
+        $subject = $userData['firstName'].' has withdrawn from '.$userData['eventName'];
         $toEmail = $userData['creatorEmail'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
