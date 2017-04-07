@@ -129,6 +129,7 @@
                        style="text-decoration: none;border: 2px solid #000;padding: 5px;border-radius: 5px;color:green;">Go To Dashboard</a>
                 </td>
             </tr>
+            <tr height="20"><td width="208"></td><td></td></tr>
         </tbody>
     </table>
         <!--<a href="<?php /*echo base_url().'dashboard/eventEmailApprove/'.$mailData['senderUser'].'/'.$mailData[0]['eventId'];*/?>"
