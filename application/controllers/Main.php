@@ -1416,6 +1416,12 @@ class Main extends MY_Controller {
             "eventDate" => $post['eventDate']
         );
         $eventSpace = $this->dashboard_model->checkEventSpace($Edetails);
+        $isEventExists = $this->dashboard_model->isExistingEvent($Edetails);
+        $existEveNames = '';
+        if($isEventExists['status'] === TRUE)
+        {
+            $existEveNames = $isEventExists['eveData'][0]['eventNames'];
+        }
 
         //Event space is empty
         if($eventSpace['status'] === FALSE)
@@ -1533,6 +1539,8 @@ class Main extends MY_Controller {
                 $mailVerify[0]['locData'] = $loc['locData'];
                 $mailVerify[0]['attachment'] = $img_names[0];
                 $post['locData'] = $loc['locData'];
+                $mailVerify['isEventExists'] = $isEventExists['status'];
+                $mailVerify['eveNames'] = $existEveNames;
                 $this->sendemail_library->newEventMail($mailEvent);
                 $this->sendemail_library->eventVerifyMail($mailVerify);
                 $data['status'] = TRUE;
@@ -1625,6 +1633,8 @@ class Main extends MY_Controller {
                 $mailVerify = $this->dashboard_model->getEventById($eventId);
                 $mailVerify[0]['locData'] = $loc['locData'];
                 $mailVerify[0]['attachment'] = $img_names[0];
+                $mailVerify['isEventExists'] = $isEventExists['status'];
+                $mailVerify['eveNames'] = $existEveNames;
                 $this->sendemail_library->newEventMail($mailEvent);
                 $this->sendemail_library->eventVerifyMail($mailVerify);
                 $data['status'] = true;
@@ -2384,6 +2394,10 @@ class Main extends MY_Controller {
 
         if(isset($post['errorTxt']))
         {
+            if(isset($_SERVER['HTTP_REFERER']))
+            {
+                $post['refUrl'] = $_SERVER['HTTP_REFERER'];
+            }
             $this->dashboard_model->saveErrorLog($post);
         }
         return true;

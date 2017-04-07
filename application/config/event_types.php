@@ -39,11 +39,6 @@ $config['ccList'] = array(
 
 $config['eventTc'] = '<div class="page-content">
     <div class="content-block">
-        <h6><strong>Timings:</strong></h6>
-        <p><ol><li>Doolally is open all days of the week.</li>
-            <li>On weekdays, events can be organised from 7 am to 6 pm.</li>
-            <li>On weekends, events can be organised from 7 am to 2 pm</li></ol></p>
-
         <h6><strong>General rules:</strong></h6>
         <p><ol><li>All events have to be open for all.</li>
             <li>Events with corporate sponsorship are not allowed.</li>

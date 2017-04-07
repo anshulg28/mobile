@@ -217,7 +217,7 @@ class Sendemail_library
         $cc        = implode(',',$this->CI->config->item('ccList'));
         $fromName  = 'Doolally';
 
-        $subject = 'Event Details';
+        $subject = $userData[0]['eventName'].' On '.$userData[0]['eventDate'].' Review Details';
         $toEmail = 'events@brewcraftsindia.com';
 
         if($mailRecord['status'] === true)

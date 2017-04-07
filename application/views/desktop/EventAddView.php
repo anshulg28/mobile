@@ -137,7 +137,7 @@
                             <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                             <span class="mdl-radio__label">Paid</span>
                         </label>
-                        <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                        <p class="event-sub-text">For paid events, we charge an additional Rs 250 per attendee which includes a pint or house fries.</p>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
                             <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. 250 Doolally Fee</label>

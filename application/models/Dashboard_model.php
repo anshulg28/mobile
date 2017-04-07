@@ -678,6 +678,28 @@ class Dashboard_Model extends CI_Model
         return $data;
 
     }
+
+    public function isExistingEvent($details)
+    {
+        $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ';') as eventNames FROM eventmaster
+                  WHERE eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."' AND 
+                  ((TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')) OR 
+                   (TIME(endTime) > TIME('".$details['startTime']."') AND TIME(endTime) <= TIME('".$details['endTime']."')) OR
+                   (TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')))";
+
+        $result = $this->db->query($query)->result_array();
+        $data['eveData'] = $result;
+        if(myIsArray($result) && isset($result[0]['eventNames']))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+        return $data;
+
+    }
     public function activateEventRecord($eventId)
     {
         $data['ifActive'] = 1;

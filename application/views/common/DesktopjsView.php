@@ -1370,6 +1370,7 @@
                 {
                     replaceContent('',data);
                 }
+                componentHandler.upgradeDom();
             },
             error: function(xhr, status ,error)
             {
