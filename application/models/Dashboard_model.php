@@ -662,7 +662,7 @@ class Dashboard_Model extends CI_Model
         return $data;
         $query = "SELECT * FROM eventmaster
                   WHERE eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."' AND 
-                  ((TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')) OR 
+                  ((TIME(startTime) >= TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')) OR 
                    (TIME(endTime) > TIME('".$details['startTime']."') AND TIME(endTime) <= TIME('".$details['endTime']."')) OR
                    (TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')))";
 
@@ -682,10 +682,8 @@ class Dashboard_Model extends CI_Model
     public function isExistingEvent($details)
     {
         $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ';') as eventNames FROM eventmaster
-                  WHERE eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."' AND 
-                  ((TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')) OR 
-                   (TIME(endTime) > TIME('".$details['startTime']."') AND TIME(endTime) <= TIME('".$details['endTime']."')) OR
-                   (TIME(startTime) > TIME('".$details['startTime']."') AND TIME(startTime) < TIME('".$details['endTime']."')))";
+                  WHERE eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."' AND ifApproved != ".EVENT_DECLINED." AND 
+                  (TIME(startTime) < TIME('".$details['endTime']."') AND TIME(endTime) > TIME('".$details['startTime']."'))";
 
         $result = $this->db->query($query)->result_array();
         $data['eveData'] = $result;

@@ -23,7 +23,12 @@
             <tr height="20"><td width="208"></td><td></td></tr>
             <tr>
                 <td width="208">Event Date :</td>
-                <td><?php echo $mailData[0]['eventDate'];?></td>
+                <td>
+                    <?php
+                    $d = date_create($mailData[0]['eventDate']);
+                    echo date_format($d,'l, jS F');;
+                    ?>
+                </td>
             </tr>
             <tr height="20"><td width="208"></td><td></td></tr>
             <tr>
