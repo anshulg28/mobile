@@ -140,10 +140,12 @@
                         <p class="event-sub-text">For paid events, we charge an additional Rs 250 per attendee which includes a pint or house fries.</p>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
-                            <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. 250 Doolally Fee</label>
+                            <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                             <span class="mdl-textfield__error">Input is not a number!</span>
                         </div>
-                        <div>Total Price: Rs. <span class="total-event-price">250</span></div>
+                        <div>Total Price: Rs. <span class="total-event-price">250</span><br>
+                            ( + Rs 250 Doolally Fee)
+                        </div>
                         <input type="hidden" name="eventPrice" value="0"/>
                     </div>
                     <div class="mdl-cell mdl-cell--6-col">

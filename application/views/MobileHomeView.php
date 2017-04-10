@@ -841,6 +841,31 @@
                                                                 </div>
                                                                 <?php
                                                             }
+                                                            else
+                                                            {
+                                                                if(isset($mainLocs) && myIsArray($mainLocs))
+                                                                {
+                                                                    foreach($mainLocs as $locKey => $locRow)
+                                                                    {
+                                                                        $mapSplit = explode('/',$locRow['mapLink']);
+                                                                        $cords = explode(',',$mapSplit[count($mapSplit)-1]);
+                                                                        ?>
+                                                                        <div style="opacity:0;position:absolute;z-index:-1" itemprop="location" itemscope itemtype="http://schema.org/Place">
+                                                                            <span itemprop="name"><?php echo 'Doolally Taproom '.$locRow['locName'];?></span>
+                                                                            <div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+                                                                                <meta itemprop="latitude" content="<?php echo $cords[0];?>" />
+                                                                                <meta itemprop="longitude" content="<?php echo $cords[1];?>" />
+                                                                            </div>
+                                                                            <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                                                                            <span itemprop="streetAddress">
+                                                                                <?php echo $locRow['locAddress'];?>
+                                                                            </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                            }
                                                             ?>
                                                             <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['isEventEverywhere'] == STATUS_YES){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
                                                             <?php

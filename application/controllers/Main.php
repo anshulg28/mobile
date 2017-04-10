@@ -413,13 +413,13 @@ class Main extends MY_Controller {
                 $data['myFeeds'] = $myFeeds; //json_decode($myFeeds[0]['feedText'], true);
             }
 
-            $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
+            //$data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
 
             //$data['beerCount'] = $this->dashboard_model->getBeersCount();
 
             $data['mainLocs'] = $this->locations_model->getAllLocations();
 
-            $data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();
+            //$data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();
 
             $events = $this->dashboard_model->getAllApprovedEvents();
             usort($events,
