@@ -765,7 +765,11 @@
                                         <div class="card demo-card-header-pic <?php
                                             if(isset($row['eventPlace']))
                                             {
-                                                if($row['isEventEverywhere'] == STATUS_YES)
+                                                if($row['isSpecialEvent'] == STATUS_YES)
+                                                {
+                                                    echo 'eve-special';
+                                                }
+                                                elseif($row['isEventEverywhere'] == STATUS_YES)
                                                 {
                                                     echo 'eve-all';
                                                 }
@@ -867,7 +871,7 @@
                                                                 }
                                                             }
                                                             ?>
-                                                            <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['isEventEverywhere'] == STATUS_YES){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
+                                                            <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['isSpecialEvent'] == STATUS_YES){echo 'Pune';} elseif($row['isEventEverywhere'] == STATUS_YES){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
                                                             <?php
                                                                 if($row['showEventDate'] == STATUS_YES)
                                                                 {

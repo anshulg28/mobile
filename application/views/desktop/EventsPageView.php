@@ -34,7 +34,18 @@
             <div itemscope itemtype="http://schema.org/Event" class="mdl-card mdl-shadow--2dp demo-card-header-pic <?php
             if(isset($row['eventPlace']))
             {
-                echo 'eve-'.$row['eventPlace'];
+                if($row['isSpecialEvent'] == STATUS_YES)
+                {
+                    echo 'eve-special';
+                }
+                elseif($row['isEventEverywhere'] == STATUS_YES)
+                {
+                    echo 'eve-all';
+                }
+                else
+                {
+                    echo 'eve-'.$row['eventPlace'];
+                }
             }
             ?>" data-eveTitle="<?php echo $row['eventName'];?>">
                 <?php
@@ -110,7 +121,7 @@
                         <?php
                         }
                         ?>
-                            <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['isEventEverywhere'] == STATUS_YES){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
+                            <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php if($row['isSpecialEvent'] == STATUS_YES){echo 'Pune';} elseif($row['isEventEverywhere'] == STATUS_YES){echo 'All Taprooms';}else{ echo $row['locName'];} ?>
                             <?php
                             if($row['showEventDate'] == STATUS_YES)
                             {
@@ -134,7 +145,7 @@
                                         echo 'Rs '.$row['eventPrice'];
                                 }
                             }
-                            if($row['ifAutoCreated'] == '1')
+                            if($row['isEventEverywhere'] == '1')
                             {
                                 ?>
                                 <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="event-bookNow dynamic">View Details</a>

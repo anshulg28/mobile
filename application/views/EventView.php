@@ -49,7 +49,11 @@
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
                                     <?php
-                                        if($row['isEventEverywhere'] == STATUS_YES)
+                                        if($row['isSpecialEvent'] == STATUS_YES)
+                                        {
+                                            echo 'Pune';
+                                        }
+                                        elseif($row['isEventEverywhere'] == STATUS_YES)
                                         {
                                             echo 'All Taprooms';
                                         }
@@ -189,7 +193,13 @@
                                 <div class="col-5"></div>
                                 <div class="col-90">
                                     <?php
-                                        if($row['isEventEverywhere'] == STATUS_YES)
+                                        if($row['isSpecialEvent'] == '1')
+                                        {
+                                            ?>
+                                            <a href="http://beerolympics.in" target="_blank" class="button button-big button-fill bookNow-event-btn">Visit Now </a>
+                                            <?php
+                                        }
+                                        elseif($row['isEventEverywhere'] == STATUS_YES)
                                         {
                                             ?>
                                             <!--<a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Thank you for creating! </a>-->

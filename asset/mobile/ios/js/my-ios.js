@@ -8,20 +8,35 @@ var myApp = new Framework7({
     //template7Pages: true,
     smartSelectOpenIn:'picker',
     //hideNavbarOnPageScroll: true,
-    swipePanel: 'left'
+    swipePanel: 'left',
     /*preprocess: function (content, url, next) {
         if(typeof url != 'undefined')
         {
-            if(url.indexOf('events') != -1 || url.indexOf('create_event') != -1 || url.indexOf('event_dash') != -1
+            if(url == 'events')
+            {
+                tabToShow = '#tab2';
+                return false;
+            }
+            /!*if(url.indexOf('events') != -1 || url.indexOf('create_event') != -1 || url.indexOf('event_dash') != -1
                 || url.indexOf('eventEdit') != -1 || url.indexOf('event_details') != -1 || url.indexOf('contact_us') != -1
                 || url.indexOf('jukebox') != -1 || url.indexOf('taprom') != -1 || url.indexOf('songlist') != -1)
             {
                 console.log('under url ' + url);
                 tabToShow = '#tab2';
-            }
+            }*!/
         }
         return content;
-    }*/
+    },*/
+    preroute: function(view, options){
+        if(typeof options.url != 'undefined')
+        {
+            if(options.url == 'events')
+            {
+                tabToShow = '#tab2';
+                return false;
+            }
+        }
+    }
 });
 
 var welcomescreen = myApp.welcomescreen(welcomescreen_slides, options);
@@ -1599,6 +1614,23 @@ $$(window).on('load', function (e) {
             });
         }
     },1000);
+
+    setTimeout(function(){
+        //Checking for special event
+        var specialEve = '';
+        $('#tab2 .event-section div.demo-card-header-pic').each(function(i,val){
+            if($(val).hasClass('eve-special'))
+            {
+                specialEve = $(val);
+                $(val).remove();
+                return false;
+            }
+        });
+        if(specialEve != '')
+        {
+            $('#tab2 .event-section').prepend(specialEve);
+        }
+    },500);
     //checkForUrl();
     /*setTimeout(function(){
         $('#calendar-glance').fullCalendar('render');
@@ -2788,6 +2820,8 @@ $$(document).on('change', 'input[name="event-locations"]', function(){
         {
             $('.event-section').html(event_initial_state);
         }
+        var specialEves = $('#tab2 .eve-special');
+        var allLocEves = $('#tab2 .eve-all');
         var catArray = $('#tab2 .eve-'+filterVal);
         if(catArray.length == 0)
         {
@@ -2800,6 +2834,14 @@ $$(document).on('change', 'input[name="event-locations"]', function(){
             $('.event-section').prepend(catArray);
             /*$('.event-section').html(catArray);*/
             $(catArray).slideToggle();
+        }
+        if(allLocEves.length != 0)
+        {
+            $('#tab2 .event-section').prepend(allLocEves);
+        }
+        if(specialEves.length != 0)
+        {
+            $('#tab2 .event-section').prepend(specialEves);
         }
         //myApp.closeModal('.popover-event-filter');
     }
@@ -2963,7 +3005,18 @@ function renderCalendar()
             header: false,
             height:'auto',
             firstDay: d.getDay(),
-            defaultDate: d
+            defaultDate: d,
+            viewRender: function(view, element)
+            {
+                $('#calendar-glance .fc-day-header.fc-widget-header').each(function(i,val){
+                    var txt = $(val).find('span').html();
+                    if(txt != '')
+                    {
+                        var newVal = txt.split(' ')[0].trim();
+                        $(val).find('span').html(newVal);
+                    }
+                });
+            }
         });
     }
     else
@@ -3010,7 +3063,18 @@ function renderCalendar()
             height:'auto',
             firstDay:d.getDay(),
             defaultDate: d,
-            events: events
+            events: events,
+            viewRender: function(view, element)
+            {
+                $('#calendar-glance .fc-day-header.fc-widget-header').each(function(i,val){
+                    var txt = $(val).find('span').html();
+                    if(txt != '')
+                    {
+                        var newVal = txt.split(' ')[0].trim();
+                        $(val).find('span').html(newVal);
+                    }
+                });
+            }
         });
     }
     $('#calendar-glance').fullCalendar('render');

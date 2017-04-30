@@ -1443,6 +1443,25 @@
                 effect : "fadeIn"
             });*/
         },1000);
+
+        setTimeout(function(){
+            //Checking for special event
+            var specialEve = '';
+            $('#eventsTab .event-section div.demo-card-header-pic').each(function(i,val){
+                if($(val).hasClass('eve-special'))
+                {
+                    console.log('in');
+                    specialEve = $(val);
+                    $(val).remove();
+                    return false;
+                }
+            });
+            if(specialEve != '')
+            {
+                console.log('doing');
+                $('#eventsTab .event-section').prepend(specialEve);
+            }
+        },1000);
     }
 
     function checkForDynamic()
@@ -2720,10 +2739,12 @@
             {
                 $('#eventsTab .event-section').html(event_initial_state);
             }
+            var specialEves = $('#eventsTab .eve-special');
+            var allLocEves = $('#eventsTab .eve-all');
             var catArray = $('#eventsTab .eve-'+filterVal);
             if(catArray.length == 0)
             {
-                $('#eventsTab .event-section').html('No Events Found!');
+                $('#eventsTab .event-section').append('No Events Found!');
             }
             else
             {
@@ -2731,12 +2752,16 @@
                 $('#eventsTab .eve-'+filterVal).remove();
                 $('#eventsTab .event-section').prepend(catArray);
                 $(catArray).slideToggle();
-
-               /* $(catArray).hide();
-                $('#eventsTab .eve-'+filterVal).remove();
-                $('#eventsTab .event-section').html(catArray);
-                $(catArray).slideToggle();*/
             }
+            if(allLocEves.length != 0)
+            {
+                $('#eventsTab .event-section').prepend(allLocEves);
+            }
+            if(specialEves.length != 0)
+            {
+                $('#eventsTab .event-section').prepend(specialEves);
+            }
+
             //myApp.closeModal('.popover-event-filter');
         }
     });
@@ -2751,7 +2776,7 @@
                 document.querySelector(inp).parentNode.MaterialRadio.uncheck();
             }
         });
-        $('.filter-events-list .clear-event-filter').addClass('hide');
+        $('.filter-events-list .clear-event-filter').addClass('my-vanish');
         if(event_initial_state != '')
         {
             $('#eventsTab .event-section').empty().html(event_initial_state);

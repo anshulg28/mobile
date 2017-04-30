@@ -46,7 +46,11 @@
                                         <span class="avatar-title">Where</span>
                                         <span class="mdl-list__item-sub-title item-description">
                                             <?php
-                                            if($row['ifAutoCreated'] == '1')
+                                            if($row['isSpecialEvent'] == STATUS_YES)
+                                            {
+                                                echo 'Pune';
+                                            }
+                                            elseif($row['isEventEverywhere'] == '1')
                                             {
                                                 echo 'All Taprooms';
                                             }
@@ -58,7 +62,7 @@
                                         </span>
                                     </span>
                                     <?php
-                                    if($row['ifAutoCreated'] == '0')
+                                    if($row['isEventEverywhere'] == '0')
                                     {
                                         ?>
                                         <span class="mdl-list__item-secondary-content">
@@ -173,7 +177,13 @@
                         <div class="mdl-cell mdl-cell--2-col"></div>
                         <div class="mdl-cell mdl-cell--8-col">
                             <?php
-                                if($row['isEventEverywhere'] == STATUS_YES)
+                                if($row['isSpecialEvent'] == '1')
+                                {
+                                    ?>
+                                    <a href="http://beerolympics.in" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored bookNow-event-btn">Visit Now </a>
+                                    <?php
+                                }
+                                elseif($row['isEventEverywhere'] == STATUS_YES)
                                 {
                                     ?>
                                     <!--<a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Thank you for creating! </a>-->

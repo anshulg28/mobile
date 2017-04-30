@@ -527,7 +527,7 @@ class Dashboard_Model extends CI_Model
                   em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
                   em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink, em.shortUrl, em.eventSlug,
                   em.eventPaymentLink,em.isEventEverywhere, em.showEventDate,em.showEventTime,em.showEventPrice,
-                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated, ea.filename, l.locName, l.mapLink, l.locAddress
+                   em.isRegFull, em.ifActive, em.ifApproved, em.ifAutoCreated,em.isSpecialEvent, ea.filename, l.locName, l.mapLink, l.locAddress
                   FROM `eventmaster` em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id

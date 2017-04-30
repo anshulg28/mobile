@@ -186,13 +186,13 @@
 
 .iosHome #tab3 .fnb-section .custom-beer-card
 {
-    height:30px;
+    height:auto;
 }
 .iosHome #tab3 .fnb-section .custom-beer-card .card-content-inner
 {
-    padding: 0;
+    padding: 0 0 5px 0;
     margin-left: 10px;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -202,6 +202,7 @@
     font-size: 16px;
     font-weight: 700;
     color:#000;
+    white-space: normal;
 }
 .iosHome #tab3 a.morelink {
     text-decoration:none;

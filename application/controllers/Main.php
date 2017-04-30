@@ -251,7 +251,7 @@ class Main extends MY_Controller {
                         }
                         else
                         {
-                            $data['meta']['img'] = base_url().BEVERAGE_PATH_THUMB.$fnbAtt[0]['filename'];
+                            $data['meta']['img'] = base_url().BEVERAGE_PATH_NORMAL.$fnbAtt[0]['filename'];
                         }
 
                     }
@@ -379,7 +379,7 @@ class Main extends MY_Controller {
                                     }
                                     else
                                     {
-                                        $data['meta']['img'] = base_url().BEVERAGE_PATH_THUMB.$fnbAtt[0]['filename'];
+                                        $data['meta']['img'] = base_url().BEVERAGE_PATH_NORMAL.$fnbAtt[0]['filename'];
                                     }
                                 }
                                 else
@@ -2348,27 +2348,27 @@ class Main extends MY_Controller {
         $data = array();
         $post = $this->input->post();
 
-        $events = $this->dashboard_model->getAllApprovedEvents();
-        usort($events,
-            function($a, $b) {
-                $ts_a = strtotime($a['eventDate']);
-                $ts_b = strtotime($b['eventDate']);
-
-                return $ts_a > $ts_b;
-            }
-        );
-
-        $data['eventDetails'] = $events;
-
         if(isset($post['isAjax']) && $post['isAjax'] == '1')
         {
+            $events = $this->dashboard_model->getAllApprovedEvents();
+            usort($events,
+                function($a, $b) {
+                    $ts_a = strtotime($a['eventDate']);
+                    $ts_b = strtotime($b['eventDate']);
+
+                    return $ts_a > $ts_b;
+                }
+            );
+
+            $data['eventDetails'] = $events;
             $aboutView = $this->load->view('desktop/EventsPageView', $data);
             echo json_encode($aboutView);
         }
         else
         {
-            redirect(base_url());
+            redirect(base_url().'?page/events');
         }
+
     }
 
     public function getFnbPage()
