@@ -196,7 +196,7 @@
                                         if($row['isSpecialEvent'] == '1')
                                         {
                                             ?>
-                                            <a href="http://beerolympics.in" target="_blank" class="button button-big button-fill bookNow-event-btn">Visit Now </a>
+                                            <a href="http://beerolympics.in" target="_blank" class="button button-big button-fill bookNow-event-btn external">Visit Now </a>
                                             <?php
                                         }
                                         elseif($row['isEventEverywhere'] == STATUS_YES)

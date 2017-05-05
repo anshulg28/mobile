@@ -70,6 +70,7 @@ myApp.onPageInit('event', function (page) {
     $("#share").jsSocials({
         url: $('#shareLink').val(),
         text:$('title').html(),
+        showCount: false,
         shares: ["whatsapp", "twitter", "facebook"]
     });
     $('.jssocials-share').find('a').addClass('external');
@@ -95,6 +96,7 @@ myApp.onPageInit('eventSingle', function (page) {
     $("#share").jsSocials({
         url: $('#shareLink').val(),
         text:$('title').html(),
+        showCount: false,
         shares: ["whatsapp", "twitter", "facebook"]
     });
     $('.jssocials-share').find('a').addClass('external');
@@ -2620,6 +2622,7 @@ $$(document).on('click','.event-card-share-btn, .fnb-card-share-btn', function()
         showLabel: true,
         text:$(this).parent().find('input[type="hidden"]').attr('data-name'),
         url: $(this).parent().find('input[type="hidden"]').val(),
+        showCount:false,
         shares: [
             { share: "whatsapp", label: "WhatsApp" },
             { share: "twitter", label: "Twitter" },
