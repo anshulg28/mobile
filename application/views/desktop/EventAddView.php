@@ -137,14 +137,14 @@
                             <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                             <span class="mdl-radio__label">Paid</span>
                         </label>
-                        <p class="event-sub-text">For paid events, we charge an additional Rs 250 per attendee which includes a pint or house fries.</p>
+                        <p class="event-sub-text">For paid events, we charge an additional Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
                             <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                             <span class="mdl-textfield__error">Input is not a number!</span>
                         </div>
-                        <div>Total Price: Rs. <span class="total-event-price">250</span><br>
-                            ( + Rs 250 Doolally Fee)
+                        <div>Total Price: Rs. <span class="total-event-price"><?php echo NEW_DOOLALLY_FEE;?></span><br>
+                            ( + Rs <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee)
                         </div>
                         <input type="hidden" name="eventPrice" value="0"/>
                     </div>

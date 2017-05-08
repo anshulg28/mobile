@@ -207,18 +207,18 @@
                                                     <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                                                     <span class="mdl-radio__label">Paid</span>
                                                 </label>
-                                                <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                                <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
                                                 <div class="row">
                                                     <div class="col-50">
                                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                                                   value="<?php if((int)$row['eventPrice'] > 250){ $price = (int)$row['eventPrice'] - 250; echo $price;}else{echo $row['eventPrice'];}?>">
+                                                                   value="<?php if((int)$row['eventPrice'] > (int)NEW_DOOLALLY_FEE){ $price = (int)$row['eventPrice'] - (int)NEW_DOOLALLY_FEE; echo $price;}else{echo $row['eventPrice'];}?>">
                                                             <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                                                             <span class="mdl-textfield__error">Input is not a number!</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-50">
-                                                        <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
+                                                        <p class="event-sub-text">+ Rs. <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee</p>
                                                     </div>
                                                 </div>
                                                 <div class="event-header-name">Total Price: Rs.
@@ -241,7 +241,7 @@
                                                     <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
                                                     <span class="mdl-radio__label">Paid</span>
                                                 </label>
-                                                <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                                <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
                                                 <div class="row">
                                                     <div class="col-50">
                                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
@@ -252,7 +252,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-50">
-                                                        <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
+                                                        <p class="event-sub-text">+ Rs. <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee</p>
                                                     </div>
                                                 </div>
                                                 <div class="event-header-name">Total Price: Rs.

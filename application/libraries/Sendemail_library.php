@@ -68,7 +68,7 @@ class Sendemail_library
         {
             for($i=0;$i<(int)$userData['buyQuantity'];$i++)
             {
-                if((int)$userData['doolallyFee'] > 250)
+                if((int)$userData['doolallyFee'] > (int)NEW_DOOLALLY_FEE)
                 {
                     $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
                 }
@@ -124,7 +124,7 @@ class Sendemail_library
         {
             for($i=0;$i<(int)$userData['buyQuantity'];$i++)
             {
-                if((int)$userData['doolallyFee'] > 250)
+                if((int)$userData['doolallyFee'] > (int)NEW_DOOLALLY_FEE)
                 {
                     $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
                 }

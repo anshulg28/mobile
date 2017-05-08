@@ -2052,7 +2052,7 @@
         });*/
     });
     $(document).on('keyup','.event-add-page #eventPrice', function(){
-        var basic = 250;
+        var basic = <?php echo NEW_DOOLALLY_FEE;?>;
         var inputVal = Number($(this).val());
         if(inputVal > 0)
         {

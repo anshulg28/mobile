@@ -155,3 +155,6 @@ defined('STATUS_NO') OR define('STATUS_NO','2');
 
 defined('DEFAULT_SENDER_EMAIL') OR define('DEFAULT_SENDER_EMAIL','happeningevents@brewcraftsindia.com');
 defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','doolally123');
+
+defined('OLD_DOOLALLY_FEE') OR define('OLD_DOOLALLY_FEE','250');
+defined('NEW_DOOLALLY_FEE') OR define('NEW_DOOLALLY_FEE','300');

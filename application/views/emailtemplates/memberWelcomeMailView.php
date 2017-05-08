@@ -22,7 +22,7 @@
             ?>
             As part of your fee for the event, you can also redeem one of the following:<br><br>
             <?php
-                if((int)$mailData['doolallyFee'] > 250)
+                if((int)$mailData['doolallyFee'] > (int)NEW_DOOLALLY_FEE)
                 {
                     ?>
                     As part of your fee for the event, you can also spend Rs <?php echo $mailData['doolallyFee'];?>

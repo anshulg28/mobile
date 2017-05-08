@@ -391,7 +391,7 @@ myApp.onPageInit('eventAdd', function (page) {
         });
     });
     $$(document).on('keyup','#eventPrice', function(){
-        var basic = 250;
+        var basic = 300;
         var inputVal = Number($(this).val());
         if(inputVal > 0)
         {
@@ -839,7 +839,7 @@ myApp.onPageInit('eventEdit', function (page) {
         });
     });
     $$(document).on('keyup','#eventPrice', function(){
-        var basic = 250;
+        var basic = 300;
         var feeVal = Number($('.event-add input[name="eventPrice"]').val());
         var inputVal = Number($(this).val());
         if(inputVal > 0)

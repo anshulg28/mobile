@@ -184,11 +184,11 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                         <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                                         <span class="mdl-radio__label">Paid</span>
                                     </label>
-                                    <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                    <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                               value="<?php $price = (int)$row['eventPrice'] - 250; echo $price;?>">
-                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. 250 Doolally Fee</label>
+                                               value="<?php $price = (int)$row['eventPrice'] - (int)NEW_DOOLALLY_FEE; echo $price;?>">
+                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee</label>
                                         <span class="mdl-textfield__error">Input is not a number!</span>
                                     </div>
                                     <div>Total Price: Rs. <span class="total-event-price"><?php echo ($row['eventPrice']); ?></span></div>
@@ -211,10 +211,10 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                         <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
                                         <span class="mdl-radio__label">Paid</span>
                                     </label>
-                                    <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                    <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
-                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. 250 Doolally Fee</label>
+                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. <?php echo NEW_DOOLALLY_FEE; ?>Doolally Fee</label>
                                         <span class="mdl-textfield__error">Input is not a number!</span>
                                     </div>
                                     <div>Total Price: Rs. <span class="total-event-price">0</span></div>
