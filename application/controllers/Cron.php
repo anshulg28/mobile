@@ -16,6 +16,7 @@ class Cron extends MY_Controller
         $this->load->model('dashboard_model');
         $this->load->model('locations_model');
     }
+
     public function index()
     {
         $this->load->view('Page404View');
@@ -28,7 +29,7 @@ class Cron extends MY_Controller
 
         $instagram = $this->getInstagramFeeds();
 
-        $facebook =  $this->getFacebookResponse();
+        $facebook = $this->getFacebookResponse();
 
         //facebook
         $fbData = $this->cron_model->checkFeedByType("1");
@@ -37,12 +38,9 @@ class Cron extends MY_Controller
             'feedText' => json_encode($facebook),
             'feedType' => '1'
         );
-        if($fbData['status'] === true)
-        {
-            $this->cron_model->updateFeedByType($fbPost,"1");
-        }
-        else
-        {
+        if ($fbData['status'] === true) {
+            $this->cron_model->updateFeedByType($fbPost, "1");
+        } else {
             $this->cron_model->insertFeedByType($fbPost);
         }
 
@@ -53,12 +51,9 @@ class Cron extends MY_Controller
             'feedText' => json_encode($twitter),
             'feedType' => '2'
         );
-        if($fbData['status'] === true)
-        {
+        if ($fbData['status'] === true) {
             $this->cron_model->updateFeedByType($fbPost, "2");
-        }
-        else
-        {
+        } else {
             $this->cron_model->insertFeedByType($fbPost);
         }
 
@@ -69,17 +64,15 @@ class Cron extends MY_Controller
             'feedText' => json_encode($instagram),
             'feedType' => '3'
         );
-        if($fbData['status'] === true)
-        {
+        if ($fbData['status'] === true) {
             $this->cron_model->updateFeedByType($fbPost, "3");
-        }
-        else
-        {
+        } else {
             $this->cron_model->insertFeedByType($fbPost);
         }
 
         $this->storeAllFeeds();
     }
+
     public function getTwitterFeeds()
     {
         $twitterFeeds = '';
@@ -97,63 +90,49 @@ class Cron extends MY_Controller
             'result_type' => 'recent'
         );
         //$responseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/statuses/user_timeline.json',$parmas);
-        $responseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/search/tweets.json',$parmas);
-        if($responseCode == 200)
-        {
+        $responseCode = $this->twitter->tmhOAuth->request('GET', 'https://api.twitter.com/1.1/search/tweets.json', $parmas);
+        if ($responseCode == 200) {
             $twitterFeeds = $this->twitter->tmhOAuth->response['response'];
-            $oldresponseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/statuses/user_timeline.json',$oldparmas);
+            $oldresponseCode = $this->twitter->tmhOAuth->request('GET', 'https://api.twitter.com/1.1/statuses/user_timeline.json', $oldparmas);
 
-            if($oldresponseCode == 200)
-            {
+            if ($oldresponseCode == 200) {
                 $oldTwitterFeeds = $this->twitter->tmhOAuth->response['response'];
-                $oldTwitterFeeds = json_decode($oldTwitterFeeds,true);
+                $oldTwitterFeeds = json_decode($oldTwitterFeeds, true);
             }
         }
-        $twitterFeeds = json_decode($twitterFeeds,true);
+        $twitterFeeds = json_decode($twitterFeeds, true);
 
-        if(isset($oldTwitterFeeds) && myIsMultiArray($oldTwitterFeeds))
-        {
+        if (isset($oldTwitterFeeds) && myIsMultiArray($oldTwitterFeeds)) {
             return array_merge($twitterFeeds['statuses'], $oldTwitterFeeds);
-        }
-        else
-        {
+        } else {
             return $twitterFeeds['statuses'];
         }
     }
+
     public function getInstagramFeeds()
     {
         $instaFeeds = $this->curl_library->getInstagramPosts();
         $moreInsta = $this->curl_library->getMoreInstaFeeds();
 
-        if(!isset($instaFeeds) && !myIsMultiArray($instaFeeds))
-        {
+        if (!isset($instaFeeds) && !myIsMultiArray($instaFeeds)) {
             $instaFeeds = null;
-        }
-        else
-        {
+        } else {
             $instaFeeds = $instaFeeds['posts']['items'];
         }
 
-        if(!isset($moreInsta) && !myIsMultiArray($moreInsta))
-        {
+        if (!isset($moreInsta) && !myIsMultiArray($moreInsta)) {
             $moreInsta = null;
-        }
-        else
-        {
+        } else {
             $moreInsta = $moreInsta['posts']['items'];
         }
 
-        if(myIsMultiArray($instaFeeds) && myIsMultiArray($moreInsta))
-        {
-            $totalFeeds = array_merge($instaFeeds,$moreInsta);
+        if (myIsMultiArray($instaFeeds) && myIsMultiArray($moreInsta)) {
+            $totalFeeds = array_merge($instaFeeds, $moreInsta);
             shuffle($totalFeeds);
-            if(count($totalFeeds) > 90)
-            {
-                $totalFeeds = array_slice($totalFeeds,0, 85);
+            if (count($totalFeeds) > 90) {
+                $totalFeeds = array_slice($totalFeeds, 0, 85);
             }
-        }
-        else
-        {
+        } else {
             $totalFeeds = (isset($instaFeeds) ? $instaFeeds : $moreInsta);
         }
 
@@ -167,23 +146,21 @@ class Cron extends MY_Controller
             'limit' => '15',
             'fields' => 'message,permalink_url,id,from,name,picture,source,updated_time'
         );
-        $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolallyandheri',$params);
-        $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolallybandra',$params);
+        $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolallyandheri', $params);
+        $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolallybandra', $params);
         //kemps
-        $fbFeeds[] = $this->curl_library->getFacebookPosts('1741740822733140',$params);
-        $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolally',$params);
+        $fbFeeds[] = $this->curl_library->getFacebookPosts('1741740822733140', $params);
+        $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolally', $params);
 
-        return array_merge($fbFeeds[0]['data'],$fbFeeds[1]['data'],$fbFeeds[2]['data']);
+        return array_merge($fbFeeds[0]['data'], $fbFeeds[1]['data'], $fbFeeds[2]['data']);
     }
 
     public function shiftEvents()
     {
         $events = $this->cron_model->findCompletedEvents();
 
-        if(isset($events) && myIsMultiArray($events))
-        {
-            foreach($events as $key => $row)
-            {
+        if (isset($events) && myIsMultiArray($events)) {
+            foreach ($events as $key => $row) {
                 $this->cron_model->updateEventRegis($row['eventId']);
                 $this->cron_model->transferEventRecord($row['eventId']);
             }
@@ -195,11 +172,9 @@ class Cron extends MY_Controller
         $locArray = $this->locations_model->getAllLocations();
         $feedbacks = $this->dashboard_model->getAllFeedbacks($locArray);
 
-        foreach($feedbacks['feedbacks'][0] as $key => $row)
-        {
-            $keySplit = explode('_',$key);
-            switch($keySplit[0])
-            {
+        foreach ($feedbacks['feedbacks'][0] as $key => $row) {
+            $keySplit = explode('_', $key);
+            switch ($keySplit[0]) {
                 case 'total':
                     $total[$keySplit[1]] = (int)$row;
                     break;
@@ -212,25 +187,21 @@ class Cron extends MY_Controller
             }
         }
 
-        if($total['overall'] != 0)
-        {
-            $data[] = (int)(($promo['overall']/$total['overall'])*100 - ($de['overall']/$total['overall'])*100);
+        if ($total['overall'] != 0) {
+            $data[] = (int)(($promo['overall'] / $total['overall']) * 100 - ($de['overall'] / $total['overall']) * 100);
         }
-        if($total['bandra'] != 0)
-        {
-            $data[] = (int)(($promo['bandra']/$total['bandra'])*100 - ($de['bandra']/$total['bandra'])*100);
+        if ($total['bandra'] != 0) {
+            $data[] = (int)(($promo['bandra'] / $total['bandra']) * 100 - ($de['bandra'] / $total['bandra']) * 100);
         }
-        if($total['andheri'] != 0)
-        {
-            $data[] = (int)(($promo['andheri']/$total['andheri'])*100 - ($de['andheri']/$total['andheri'])*100);
+        if ($total['andheri'] != 0) {
+            $data[] = (int)(($promo['andheri'] / $total['andheri']) * 100 - ($de['andheri'] / $total['andheri']) * 100);
         }
-        if($total['kemps-corner'] != 0)
-        {
-            $data[] = (int)(($promo['kemps-corner']/$total['kemps-corner'])*100 - ($de['kemps-corner']/$total['kemps-corner'])*100);
+        if ($total['kemps-corner'] != 0) {
+            $data[] = (int)(($promo['kemps-corner'] / $total['kemps-corner']) * 100 - ($de['kemps-corner'] / $total['kemps-corner']) * 100);
         }
 
         $details = array(
-            'locs' => implode(',',$data),
+            'locs' => implode(',', $data),
             'insertedDate' => date('Y-m-d')
         );
         $this->cron_model->insertWeeklyFeedback($details);
@@ -239,36 +210,29 @@ class Cron extends MY_Controller
     public function fetchJukeBoxLists()
     {
         $rests = $this->curl_library->getJukeboxTaprooms();
-        if(isset($rests) && myIsMultiArray($rests))
-        {
-            foreach($rests as $key => $row)
-            {
+        if (isset($rests) && myIsMultiArray($rests)) {
+            foreach ($rests as $key => $row) {
                 $details = array();
                 $resId = $row['id'];
                 $details['tapId'] = $resId;
                 $details['tapName'] = $row['name'];
                 $playlist = $this->curl_library->getTapPlaylist($resId);
-                if(isset($playlist) && myIsMultiArray($playlist))
-                {
+                if (isset($playlist) && myIsMultiArray($playlist)) {
                     $songs = array();
-                    foreach($playlist as $playSub => $playKey)
-                    {
+                    foreach ($playlist as $playSub => $playKey) {
                         /*if($playSub == 1)
                             break;*/
                         $playId = $playKey['id'];
-                        $songs[] = $this->curl_library->getTapSongsByPlaylist($resId,$playId);
+                        $songs[] = $this->curl_library->getTapSongsByPlaylist($resId, $playId);
                     }
                     $details['tapSongs'] = json_encode($songs);
                 }
 
                 //save to DB
                 $songs = $this->cron_model->checkTapSongs($resId);
-                if($songs['status'] === true)
-                {
-                    $this->cron_model->updateSongs($resId,$details);
-                }
-                else
-                {
+                if ($songs['status'] === true) {
+                    $this->cron_model->updateSongs($resId, $details);
+                } else {
                     $this->cron_model->insertSongs($details);
                 }
 
@@ -282,21 +246,17 @@ class Cron extends MY_Controller
 
         $fnbItems = $this->dashboard_model->getAllFnB();
 
-        foreach($events as $key => $row)
-        {
+        foreach ($events as $key => $row) {
             $shortDWName = $this->googleurlapi->shorten($row['eventShareLink']);
-            if($shortDWName !== false)
-            {
+            if ($shortDWName !== false) {
                 $details['shortUrl'] = $shortDWName;
                 $this->cron_model->updateEventShortLink($row['eventId'], $details);
             }
         }
 
-        foreach($fnbItems['fnbItems'] as $key => $row)
-        {
+        foreach ($fnbItems['fnbItems'] as $key => $row) {
             $shortDWName = $this->googleurlapi->shorten($row['fnbShareLink']);
-            if($shortDWName !== false)
-            {
+            if ($shortDWName !== false) {
                 $details['shortUrl'] = $shortDWName;
                 $this->cron_model->updatefnbShortLink($row['fnbId'], $details);
             }
@@ -312,25 +272,22 @@ class Cron extends MY_Controller
 
         $allFeeds = null;
 
-        if($feedData['status'] === true)
-        {
-            foreach($feedData['feedData'] as $key => $row)
-            {
-                switch($row['feedType'])
-                {
+        if ($feedData['status'] === true) {
+            foreach ($feedData['feedData'] as $key => $row) {
+                switch ($row['feedType']) {
                     case "1":
-                        $facebook = json_decode($row['feedText'],true);
+                        $facebook = json_decode($row['feedText'], true);
                         break;
                     case "2":
-                        $twitter = json_decode($row['feedText'],true);
+                        $twitter = json_decode($row['feedText'], true);
                         break;
                     case "3":
-                        $instagram  = json_decode($row['feedText'],true);
+                        $instagram = json_decode($row['feedText'], true);
                         break;
                 }
             }
 
-            $allFeeds = $this->sortNjoin($twitter,$instagram, $facebook);
+            $allFeeds = $this->sortNjoin($twitter, $instagram, $facebook);
         }
 
         //die();
@@ -340,12 +297,9 @@ class Cron extends MY_Controller
             'feedText' => json_encode($allFeeds),
             'feedType' => '0'
         );
-        if($fbData['status'] === true)
-        {
+        if ($fbData['status'] === true) {
             $this->cron_model->updateFeedByType($fbPost, "0");
-        }
-        else
-        {
+        } else {
             $this->cron_model->insertFeedByType($fbPost);
         }
     }
@@ -356,36 +310,31 @@ class Cron extends MY_Controller
         $arrs[] = $arr1;
         $arrs[] = $arr2;
         $arrs[] = $arr3;
-        foreach($arrs as $arr) {
-            if(is_array($arr)) {
+        foreach ($arrs as $arr) {
+            if (is_array($arr)) {
                 $all = array_merge($all, $arr);
             }
         }
         //$all = array_merge($arr1, $arr2,$arr3);
 
-        $sortedArray = array_map(function($fb) {
+        $sortedArray = array_map(function ($fb) {
             $arr = $fb;
-            if(isset($arr['updated_time']))
-            {
+            if (isset($arr['updated_time'])) {
                 $arr['socialType'] = 'f';
                 $arr['created_at'] = $arr['updated_time'];
                 unset($arr['updated_time']);
-            }
-            elseif (isset($arr['external_created_at']))
-            {
+            } elseif (isset($arr['external_created_at'])) {
                 $arr['socialType'] = 'i';
                 $arr['created_at'] = $arr['external_created_at'];
                 unset($arr['external_created_at']);
-            }
-            elseif (isset($arr['created_at']))
-            {
+            } elseif (isset($arr['created_at'])) {
                 $arr['socialType'] = 't';
             }
             return $arr;
-        },$all);
+        }, $all);
 
         usort($sortedArray,
-            function($a, $b) {
+            function ($a, $b) {
                 $ts_a = strtotime($a['created_at']);
                 $ts_b = strtotime($b['created_at']);
 
@@ -400,17 +349,15 @@ class Cron extends MY_Controller
     {
         $events = $this->dashboard_model->getAllCompletedEvents();
 
-        foreach($events as $key => $row)
-        {
+        foreach ($events as $key => $row) {
             $eveSlug = slugify($row['eventName']);
             $details = array(
                 'eventSlug' => $eveSlug,
-                'eventShareLink' => base_url().'?page/events/'.$eveSlug,
+                'eventShareLink' => base_url() . '?page/events/' . $eveSlug,
                 'shortUrl' => null
             );
-            $shortDWName = $this->googleurlapi->shorten(MOBILE_URL.'?page/events/'.$eveSlug);
-            if($shortDWName !== false)
-            {
+            $shortDWName = $this->googleurlapi->shorten(MOBILE_URL . '?page/events/' . $eveSlug);
+            if ($shortDWName !== false) {
                 $details['shortUrl'] = $shortDWName;
             }
             $this->cron_model->updateCompletedEvent($row['eventId'], $details);
@@ -423,8 +370,7 @@ class Cron extends MY_Controller
         $currentEvents = $this->dashboard_model->getAllEvents();
         $compEvents = $this->dashboard_model->getAllCompletedEvents();
 
-        foreach($currentEvents as $key => $row)
-        {
+        foreach ($currentEvents as $key => $row) {
             // Adding event slug to new table
             $newSlugTab = array(
                 'eventId' => $row['eventId'],
@@ -434,8 +380,7 @@ class Cron extends MY_Controller
             $this->dashboard_model->saveEventSlug($newSlugTab);
         }
 
-        foreach($compEvents as $key => $row)
-        {
+        foreach ($compEvents as $key => $row) {
             // Adding event slug to new table
             $newSlugTab = array(
                 'eventId' => $row['eventId'],
@@ -444,5 +389,70 @@ class Cron extends MY_Controller
             );
             $this->dashboard_model->saveEventSlug($newSlugTab);
         }
+    }
+
+    function sendInstaReport()
+    {
+        $allInsta = $this->cron_model->getIntaRecords();
+        if( isset($allInsta) && myIsArray($allInsta))
+        {
+            $file = fopen("./uploads/InstamojoRecords.csv","w");
+            $firstRow = true;
+            foreach($allInsta as $key => $row)
+            {
+                if($firstRow)
+                {
+                    $firstRow = false;
+                    $textToWrite = array_keys($row);
+                    fputcsv($file,$textToWrite);
+                }
+                $textToWrite = array_values($row);
+                fputcsv($file,$textToWrite);
+            }
+            fclose($file);
+        }
+
+        $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
+
+        $this->sendemail_library->sendEmail('saha@brewcraftsindia.com','',DEFAULT_SENDER_EMAIL,DEFAULT_SENDER_PASS,'Doolally'
+        ,DEFAULT_SENDER_EMAIL,'Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
+    }
+
+    public function sendEventSms()
+    {
+
+        $eveRecords = $this->cron_model->getTomorrowEvents();
+
+        if(isset($eveRecords) && myIsArray($eveRecords))
+        {
+            foreach($eveRecords as $key => $row)
+            {
+                $eventName = (strlen($row['eventName']) > 15) ? substr($row['eventName'], 0, 15) . '..' : $row['eventName'];
+                $d = date_create($row['eventDate']);
+                $signups = $this->cron_model->getEventSignups($row['eventId']);
+
+                if(isset($signups) && myIsArray($signups))
+                {
+                    foreach($signups as $subKey => $subRow)
+                    {
+                        if(isset($subRow['mobNum']) && isStringSet($subRow['mobNum']))
+                        {
+                            // Sending SMS to each number
+                            $postDetails = array(
+                                'apiKey' => TEXTLOCAL_API,
+                                'numbers' => implode(',', array($subRow['mobNum'])),
+                                'sender'=> urlencode('DOLALY'),
+                                'message' => rawurlencode('You have signed up for '.$eventName.' on '.
+                                    date_format($d,'l, jS Y').', '.
+                                    date('h:i a', strtotime($row['startTime'])).' at '.$row['locName'].' Taproom. '.
+                                'See you tomorrow! Doolally Crew')
+                            );
+                            $smsStatus = $this->curl_library->sendEventSMS($postDetails);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

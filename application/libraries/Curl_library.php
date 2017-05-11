@@ -293,4 +293,11 @@ class curl_library
         return $this->getDataByPost($url,$post,0,$headers);
     }
 
+    public function sendEventSMS($details)
+    {
+        $url = 'http://api.textlocal.in/send/';
+
+        return $this->getDataByPost($url,$details,0);
+    }
+
 }

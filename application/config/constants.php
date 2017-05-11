@@ -131,7 +131,7 @@ defined('INSTA_API_KEY') OR define('INSTA_API_KEY','362388bd44886b30aa0d9973d7b9
 defined('INSTA_AUTH_TOKEN') OR define('INSTA_AUTH_TOKEN','2e8a6cb6ddb931a722e05d2c99dc3888');
 defined('GOOGLE_API_KEY') OR define('GOOGLE_API_KEY','AIzaSyBG3wamyMbQqRlqysulunOuPvv3_51BmpI');
 defined('BCJUKEBOX_CLIENT') OR define('BCJUKEBOX_CLIENT','UUN5m270I7nxuuBDzukIVtAV0QxL5UQEV1FaYmUg');
-
+defined('TEXTLOCAL_API') OR define('TEXTLOCAL_API','cFIpDcHmYnc-mdteI9XWFa41zNZSq9Z3crlHtQAZCb');
 
 /* Image Paths for Fnb*/
 defined('FOOD_PATH_THUMB') OR define('FOOD_PATH_THUMB','uploads/food/thumb/');
@@ -153,7 +153,7 @@ defined('EVENT_DOOLALLY_FEE') OR define('EVENT_DOOLALLY_FEE','4');
 defined('STATUS_YES') OR define('STATUS_YES','1');
 defined('STATUS_NO') OR define('STATUS_NO','2');
 
-defined('DEFAULT_SENDER_EMAIL') OR define('DEFAULT_SENDER_EMAIL','happeningevents@brewcraftsindia.com');
+defined('DEFAULT_SENDER_EMAIL') OR define('DEFAULT_SENDER_EMAIL','events@brewcraftsindia.com');
 defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','doolally123');
 
 defined('OLD_DOOLALLY_FEE') OR define('OLD_DOOLALLY_FEE','250');

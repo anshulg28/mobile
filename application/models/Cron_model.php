@@ -201,4 +201,45 @@ class Cron_Model extends CI_Model
 
         return $data;
     }
+
+    public function getIntaRecords()
+    {
+        $query = "SELECT um.firstName as 'First Name', um.lastName as 'Last Name',
+                    CASE WHEN lm.locName IS NULL THEN lm1.locName ELSE lm.locName END AS 'Location', erm.paymentId as 'Payment Id',
+                    CASE WHEN em.eventName IS NULL THEN ecm.eventName ELSE em.eventName END AS 'Event Name',
+                    CASE WHEN em.eventPrice IS NULL THEN ecm.eventPrice ELSE em.eventPrice END AS 'Event Price',
+                    erm.quantity as 'Quantity', erm.createdDT as 'Transaction Date/Time'
+                    FROM eventregistermaster erm
+                    LEFT JOIN eventmaster em ON erm.eventId = em.eventId
+                    LEFT JOIN eventcompletedmaster ecm ON erm.eventId = ecm.eventId
+                    LEFT JOIN doolally_usersmaster um ON erm.bookerUserId = um.userId
+                    LEFT JOIN locationmaster lm1 ON ecm.eventPlace = lm1.id
+                    LEFT JOIN locationmaster lm ON em.eventPlace = lm.id
+                    WHERE DATE(erm.createdDT) >= CURRENT_DATE() - INTERVAL 1 MONTH";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+
+    }
+
+    public function getTomorrowEvents()
+    {
+        $query = "SELECT em.eventId, em.eventName, em.eventDate, em.startTime, l.locName
+                    FROM eventmaster em
+                    LEFT JOIN locationmaster l ON em.eventPlace = l.id
+                    where em.eventDate = (CURRENT_DATE() + INTERVAL 1 DAY)";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
+    public function getEventSignups($eventId)
+    {
+        $query = "SELECT um.mobNum
+                    FROM eventregistermaster erm
+                    LEFT JOIN doolally_usersmaster um ON erm.bookerUserId = um.userId
+                    WHERE erm.eventId = ".$eventId." AND eventDone != 1 AND isUserCancel != 1";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
 }

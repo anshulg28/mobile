@@ -32,7 +32,7 @@
                 else
                 {
                     ?>
-                    330ml Beer <b>OR</b> Drink & Garlic Bread <b>OR</b> House Fries.
+                    330ml Beer <b>OR</b> House Fries & Mocktail.
                     <?php
                 }
             ?>
