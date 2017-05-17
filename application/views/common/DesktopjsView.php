@@ -51,6 +51,9 @@
 </script>
 <!-- Loading bar -->
 <script>
+    $(document).bind("contextmenu",function(e){
+        e.preventDefault();
+    });
     function showProgressLoader()
     {
         $('#custom-progressBar').removeClass('hide');

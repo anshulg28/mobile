@@ -508,6 +508,7 @@ class Dashboard_Model extends CI_Model
     }
     public function getWeeklyEvents()
     {
+        $this->db->simple_query('SET SESSION group_concat_max_len=1000000');
         $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ';') as eventNames,
                   GROUP_CONCAT(eventPlace SEPARATOR ',') as eventPlaces,
                   GROUP_CONCAT(endTime SEPARATOR ',') as eventEndTimes,

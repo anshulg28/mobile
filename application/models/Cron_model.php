@@ -224,7 +224,7 @@ class Cron_Model extends CI_Model
 
     public function getTomorrowEvents()
     {
-        $query = "SELECT em.eventId, em.eventName, em.eventDate, em.startTime, l.locName
+        $query = "SELECT em.eventId, em.eventName, em.startTime, l.locName
                     FROM eventmaster em
                     LEFT JOIN locationmaster l ON em.eventPlace = l.id
                     where em.eventDate = (CURRENT_DATE() + INTERVAL 1 DAY)";

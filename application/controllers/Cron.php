@@ -427,8 +427,7 @@ class Cron extends MY_Controller
         {
             foreach($eveRecords as $key => $row)
             {
-                $eventName = (strlen($row['eventName']) > 15) ? substr($row['eventName'], 0, 15) . '..' : $row['eventName'];
-                $d = date_create($row['eventDate']);
+                $eventName = (strlen($row['eventName']) > 58) ? substr($row['eventName'], 0, 58) . '..' : $row['eventName'];
                 $signups = $this->cron_model->getEventSignups($row['eventId']);
 
                 if(isset($signups) && myIsArray($signups))
@@ -442,10 +441,9 @@ class Cron extends MY_Controller
                                 'apiKey' => TEXTLOCAL_API,
                                 'numbers' => implode(',', array($subRow['mobNum'])),
                                 'sender'=> urlencode('DOLALY'),
-                                'message' => rawurlencode('You have signed up for '.$eventName.' on '.
-                                    date_format($d,'l, jS Y').', '.
-                                    date('h:i a', strtotime($row['startTime'])).' at '.$row['locName'].' Taproom. '.
-                                'See you tomorrow! Doolally Crew')
+                                'message' => rawurlencode('Quick reminder-You have signed up for '.$eventName.
+                                    ' which is scheduled tomorrow at '. date('h:ia', strtotime($row['startTime'])).' at Doolally '.
+                                $row['locName'])
                             );
                             $smsStatus = $this->curl_library->sendEventSMS($postDetails);
                         }

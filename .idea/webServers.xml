@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="c2436191-d75a-4227-b4a2-119d586804f5" name="new mobile" url="http://doolally.in">
+        <fileTransfer host="doolally.in" port="22" privateKey="C:\Users\anshul\Downloads\doolProd.pem" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

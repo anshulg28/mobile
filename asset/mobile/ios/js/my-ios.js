@@ -3382,3 +3382,6 @@ function isEventFinished(eventDate, endTime)
     }
     return result;
 }
+$(document).bind("contextmenu",function(e){
+    e.preventDefault();
+});
