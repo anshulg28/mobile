@@ -946,4 +946,9 @@ class Dashboard_Model extends CI_Model
         $this->db->insert('errorlogger', $details);
         return true;
     }
+    public function saveMusicSearch($details)
+    {
+        $this->db->insert('musicsearchmaster', $details);
+        return true;
+    }
 }

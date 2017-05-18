@@ -93,6 +93,7 @@ else
 ?>
 </div>
 <script>
+    var tapId = <?php echo $tapId;?>;
     $(function() {
         var monkeyList = new List('song-list', {
             valueNames: ['song-name','artist-name'],
@@ -115,4 +116,24 @@ else
         });*/
     });
     componentHandler.upgradeDom();
+    $(document).on('keyup','#sample3', function(){
+        var keyText = $(this).val();
+
+        if(keyText != '' && $('.demo-list-two li').length == 0)
+        {
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:base_url+'main/saveMusicSearch',
+                data:{searchText:keyText,tapId:tapId,fromWhere:'Desktop'},
+                success: function(data){
+
+                },
+                error: function()
+                {
+
+                }
+            });
+        }
+    });
 </script>

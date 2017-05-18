@@ -1464,6 +1464,26 @@ myApp.onPageInit('songlist', function(page){
             }
         });
     });
+    $(document).on('keyup','#sample1', function(){
+        var keyText = $(this).val();
+        var tapId = $('#taproomId').val();
+        if(keyText != '' && $('.my-song-list li').length == 0)
+        {
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:base_url+'main/saveMusicSearch',
+                data:{searchText:keyText,tapId:tapId,fromWhere:'Mobile'},
+                success: function(data){
+
+                },
+                error: function()
+                {
+
+                }
+            });
+        }
+    });
     var monkeyList = new List('song-list', {
         valueNames: ['item-title','item-subtitle'],
         page: 20,

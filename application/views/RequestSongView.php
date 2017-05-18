@@ -60,6 +60,7 @@
                 {
                     $songs = json_decode($tapSongs[0]['tapSongs'],true);
                     ?>
+                    <input type="hidden" value="<?php echo $tapId;?>" id="taproomId"/>
                     <div class="list-block media-list list-block-search searchbar-found" id="song-list">
                         <div class="search-container">
                             <div>
@@ -71,7 +72,7 @@
                             </div>
                         </div>
                         <ul class="pagination list-of-song"></ul>
-                        <ul class="list">
+                        <ul class="list my-song-list">
                             <?php
                             foreach($songs[0] as $key => $row)
                             {

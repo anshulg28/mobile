@@ -2399,4 +2399,21 @@ class Main extends MY_Controller {
         }
         return true;
     }
+
+    public function saveMusicSearch()
+    {
+        $post = $this->input->post();
+
+        if(isset($post['searchText']))
+        {
+            $musicData = array(
+                'searchText' => $post['searchText'],
+                'taproomId' => $post['tapId'],
+                'fromWhere' => $post['fromWhere'],
+                'userEmail' => $this->userMobEmail,
+                'insertedDateTime' => date('Y-m-d H:i:s')
+            );
+            $this->dashboard_model->saveMusicSearch($musicData);
+        }
+    }
 }

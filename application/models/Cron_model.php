@@ -204,11 +204,10 @@ class Cron_Model extends CI_Model
 
     public function getIntaRecords()
     {
-        $query = "SELECT um.firstName as 'First Name', um.lastName as 'Last Name',
-                    CASE WHEN lm.locName IS NULL THEN lm1.locName ELSE lm.locName END AS 'Location', erm.paymentId as 'Payment Id',
-                    CASE WHEN em.eventName IS NULL THEN ecm.eventName ELSE em.eventName END AS 'Event Name',
-                    CASE WHEN em.eventPrice IS NULL THEN ecm.eventPrice ELSE em.eventPrice END AS 'Event Price',
-                    erm.quantity as 'Quantity', erm.createdDT as 'Transaction Date/Time'
+        $query = "SELECT um.firstName, um.lastName,
+                    CASE WHEN lm.locName IS NULL THEN lm1.locName ELSE lm.locName END AS 'locName', erm.paymentId,
+                    CASE WHEN em.eventName IS NULL THEN ecm.eventName ELSE em.eventName END AS 'eveName',
+                    erm.quantity, erm.createdDT
                     FROM eventregistermaster erm
                     LEFT JOIN eventmaster em ON erm.eventId = em.eventId
                     LEFT JOIN eventcompletedmaster ecm ON erm.eventId = ecm.eventId

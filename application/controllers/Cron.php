@@ -393,6 +393,8 @@ class Cron extends MY_Controller
 
     function sendInstaReport()
     {
+        $colKeys = array('Payment ID','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
+            'Sale Amount','Transaction Type','Instamojo Fees','Service Tax','Swachh Bharat Cess','Krishi Kalyan Cess','Net Sale Amount');
         $allInsta = $this->cron_model->getIntaRecords();
         if( isset($allInsta) && myIsArray($allInsta))
         {
@@ -403,19 +405,54 @@ class Cron extends MY_Controller
                 if($firstRow)
                 {
                     $firstRow = false;
-                    $textToWrite = array_keys($row);
+                    $textToWrite = $colKeys;
                     fputcsv($file,$textToWrite);
                 }
-                $textToWrite = array_values($row);
-                fputcsv($file,$textToWrite);
+                $instaRecord = $this->curl_library->getInstaMojoRecord($row['paymentId']);
+                if(isset($instaRecord) && myIsArray($instaRecord) && $instaRecord['success'] === true)
+                {
+                    if($instaRecord['payment']['currency'] != 'Free' && (double)$instaRecord['payment']['amount'] != 0)
+                    {
+                        $finalAmt = (double)$instaRecord['payment']['amount'];
+                        $serviceTax = ($finalAmt * 0.266)/100;
+                        $swachTax = ($finalAmt * 0.0095) / 100;
+                        $netAmt = $finalAmt - ((double)$instaRecord['payment']['fees'] + $serviceTax + (2 * $swachTax));
+                        $recordRow = array(
+                            $row['paymentId'],
+                            $row['locName'],
+                            $row['createdDT'],
+                            $row['eveName'],
+                            $instaRecord['payment']['buyer_name'],
+                            $instaRecord['payment']['buyer_email'],
+                            $instaRecord['payment']['buyer_phone'],
+                            $instaRecord['payment']['amount'],
+                            $instaRecord['payment']['status'],
+                            $instaRecord['payment']['fees'],
+                            $serviceTax,
+                            $swachTax,
+                            $swachTax,
+                            $netAmt
+                            );
+                        $textToWrite = $recordRow;
+                        fputcsv($file,$textToWrite);
+                    }
+                }
             }
             fclose($file);
         }
 
         $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
 
-        $this->sendemail_library->sendEmail('saha@brewcraftsindia.com','',DEFAULT_SENDER_EMAIL,DEFAULT_SENDER_PASS,'Doolally'
-        ,DEFAULT_SENDER_EMAIL,'Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
+        $this->sendemail_library->sendEmail('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net,accountsexecutive@brewcraftsindia.com,anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
+        ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
+        try
+        {
+            delete("./uploads/InstamojoRecords.csv");
+        }
+        catch(Exception $ex)
+        {
+
+        }
     }
 
     public function sendEventSms()
