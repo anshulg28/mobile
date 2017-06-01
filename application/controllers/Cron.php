@@ -439,19 +439,18 @@ class Cron extends MY_Controller
                 }
             }
             fclose($file);
-        }
+            $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
 
-        $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
+            $this->sendemail_library->sendEmail('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net,accountsexecutive@brewcraftsindia.com,anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
+                ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
+            try
+            {
+                unlink("./uploads/InstamojoRecords.csv");
+            }
+            catch(Exception $ex)
+            {
 
-        $this->sendemail_library->sendEmail('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net,accountsexecutive@brewcraftsindia.com,anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-        ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
-        try
-        {
-            delete("./uploads/InstamojoRecords.csv");
-        }
-        catch(Exception $ex)
-        {
-
+            }
         }
     }
 
@@ -490,4 +489,44 @@ class Cron extends MY_Controller
         }
 
     }
+
+    public function musicWeeklyReport()
+    {
+        $musicResult = $this->cron_model->getMusicWeeklyReport();
+
+        if(isset($musicResult) && myIsArray($musicResult))
+        {
+            $file = fopen("./uploads/Music_Search_Records.csv","w");
+            $firstRow = true;
+
+            foreach($musicResult as $key => $row)
+            {
+                if($firstRow)
+                {
+                    $firstRow = false;
+                    $textToWrite = array_keys($row);
+                    fputcsv($file,$textToWrite);
+                }
+
+                $textToWrite = array_values($row);
+                fputcsv($file,$textToWrite);
+            }
+
+            fclose($file);
+
+            $content = '<html><body><p>Weekly Music search keys when no result is found!<br>PFA</p></body></html>';
+
+            $this->sendemail_library->sendEmail('tresha@brewcraftsindia.com','saha@brewcraftsindia.com,anshul@brewcraftsindia.com,rishi@bcjukebox.in,deb.dutta@bcjukebox.in','admin@brewcraftsindia.com','ngks2009','Doolally'
+                ,'admin@brewcraftsindia.com','Weekly Jukebox Records',$content,array("./uploads/Music_Search_Records.csv"));
+            try
+            {
+                unlink("./uploads/Music_Search_Records.csv");
+            }
+            catch(Exception $ex)
+            {
+
+            }
+        }
+    }
+
 }

@@ -793,7 +793,7 @@
                                         {
                                             $foodFlag = 1;
                                             ?>
-                                            <div class="content-block-title">Food</div>
+                                            <div class="content-block-title food-title">Food</div>
                                             <?php
                                         }
                                         ?>

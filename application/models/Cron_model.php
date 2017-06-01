@@ -241,4 +241,14 @@ class Cron_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
         return $result;
     }
+
+    public function getMusicWeeklyReport()
+    {
+        $query = "SELECT ms.searchText as 'Searched Text',ms.userEmail as 'Email', 
+                    ms.insertedDateTime as 'Logged Date/Time', l.locName as 'Location' 
+                    FROM musicsearchmaster ms LEFT JOIN locationmaster l ON ms.taproomId = l.jukeboxId
+                    ORDER BY l.locName";
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
 }

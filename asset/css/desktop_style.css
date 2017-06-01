@@ -699,7 +699,24 @@ body
 }
 .mainHome #mainContent-view
 {
-    margin-top:-5px;
+    /*margin-top:-5px;*/
+    /*padding-top: 18px;*/
+}
+.mainHome #timelineTab
+{
+    padding-top: 18px;
+}
+.mainHome #jukeboxTab, .mainHome #contactTab
+{
+    padding-top: 28px;
+}
+.mainHome .food-title
+{
+    margin-bottom: -8px;
+}
+.mainHome .weekly-cal
+{
+    margin-bottom:8px;
 }
 .mainHome .main-avatar-list
 {
@@ -733,6 +750,7 @@ body
 {
     padding-left:20px;
     background: #fff;
+    margin-top: 28px;
 }
 .mainHome #eventsTab .event-creator-box .mdl-textfield
 {
@@ -1032,7 +1050,7 @@ body
 }
 .my-filter-row
 {
-    width:calc(32% - 16px);
+    width:calc(25% - 16px);
     z-index:5;
 }
 .main-site-logo
@@ -1115,6 +1133,10 @@ body
 .mainHome .mdl-card__actions.mdl-card--border
 {
     padding-bottom:15px;
+}
+.mainHome .event-add-page
+{
+    margin-top: 28px;
 }
 .mainHome .event-add-page .event-img-space {
     height: 250px;
@@ -1674,7 +1696,7 @@ body
     }
     .my-filter-row
     {
-        width:calc(28% - 5px);
+        width:calc(23% - 5px);
     }
 }
 @media screen and (min-width: 1280px) and (max-width: 1499px)
@@ -1693,7 +1715,7 @@ body
     }
     .my-filter-row
     {
-        width:calc(25% - 5px);
+        width:calc(21% - 5px);
     }
 }
 @media screen and (min-width: 1500px) and (max-width: 1699px)
@@ -1713,14 +1735,14 @@ body
     }
     .my-filter-row
     {
-        width:calc(25% - 5px);
+        width:calc(21% - 5px);
     }
 }
 @media screen and (min-width: 1700px)
 {
     .my-filter-row
     {
-        width:calc(25% - 5px);
+        width:calc(21% - 5px);
     }
     .mdl-layout__tab-bar
     {

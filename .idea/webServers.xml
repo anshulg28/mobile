@@ -2,14 +2,6 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="676b90ae-4ba2-418b-86d3-96759de91d58" name="mobile" url="http://doolally.io">
-        <fileTransfer host="doolally.io" port="22" privateKey="C:\Users\anshul\Downloads\doolallydev.pem" accessType="SFTP" keyPair="true">
-          <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" />
-          </advancedOptions>
-          <option name="port" value="22" />
-        </fileTransfer>
-      </webServer>
       <webServer id="c2436191-d75a-4227-b4a2-119d586804f5" name="new mobile" url="http://doolally.in">
         <fileTransfer host="doolally.in" port="22" privateKey="C:\Users\anshul\Downloads\doolProd.pem" accessType="SFTP" keyPair="true">
           <advancedOptions>

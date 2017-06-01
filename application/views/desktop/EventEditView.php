@@ -133,7 +133,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                         <div class="event-header-name mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
+                                    <select id="eventPlace" class="mdl-textfield__input" disabled>
                                         <option value="">Select</option>
                                         <?php
                                         if(isset($locData))
@@ -152,6 +152,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                         ?>
                                     </select>
                                     <label class="mdl-textfield__label" for="eventPlace">Event Place</label>
+                                    <input type="hidden" name="eventPlace" value="<?php echo $row['eventPlace'];?>"/>
                                 </div>
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">

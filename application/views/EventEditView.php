@@ -143,7 +143,7 @@
                                                     <li>
                                                         <a href="#" class="item-link smart-select" data-back-on-select="true">
                                                             <!-- select -->
-                                                            <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
+                                                            <select id="eventPlace" name="eventPlace" class="mdl-textfield__input" disabled>
                                                                 <option value="">Select</option>
                                                                 <?php
                                                                 if(isset($locData))
@@ -161,6 +161,7 @@
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <input type="hidden" name="eventPlace" value="<?php echo $row['eventPlace'];?>"/>
                                                             <div class="item-content">
                                                                 <div class="item-inner">
                                                                     <!-- Select label -->

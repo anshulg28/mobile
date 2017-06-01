@@ -1,4 +1,4 @@
-<div class="content-block-title">What's happening this week</div>
+<div class="content-block-title weekly-cal">What's happening this week</div>
 <?php
 if(isset($weekEvents) && myIsMultiArray($weekEvents))
 {
