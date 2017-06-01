@@ -72,6 +72,10 @@ class Sendemail_library
                 {
                     $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
                 }
+                elseif((int)$userData['doolallyFee'] < (int)NEW_DOOLALLY_FEE && (int)$userData['doolallyFee'] != 0)
+                {
+                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
+                }
                 else
                 {
                     $userData['eveOfferCode'][] = $this->generateEventCode($userData['eventId'],$userData['bookerId']);
@@ -125,6 +129,10 @@ class Sendemail_library
             for($i=0;$i<(int)$userData['buyQuantity'];$i++)
             {
                 if((int)$userData['doolallyFee'] > (int)NEW_DOOLALLY_FEE)
+                {
+                    $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
+                }
+                elseif((int)$userData['doolallyFee'] < (int)NEW_DOOLALLY_FEE && (int)$userData['doolallyFee'] != 0)
                 {
                     $userData['eveOfferCode'][] = $this->generateCustomCode($userData['eventId'],$userData['bookerId'],$userData['doolallyFee']);
                 }

@@ -29,6 +29,12 @@
                     at any of our taprooms.
                     <?php
                 }
+                elseif((int)$mailData['doolallyFee'] < (int)NEW_DOOLALLY_FEE && (int)$mailData['doolallyFee'] != 0)
+                {
+                    ?>
+                    180ml Beer <b>OR</b> House Fries.
+                    <?php
+                }
                 else
                 {
                     ?>
