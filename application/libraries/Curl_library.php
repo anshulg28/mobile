@@ -157,6 +157,15 @@ class curl_library
         );
         return $this->getDataByPost($url,$details,0, $header);
     }
+    public function allInstaRefunds()
+    {
+        $url = 'https://www.instamojo.com/api/1.1/refunds/';
+        $header = array(
+            'X-Api-Key:'.INSTA_API_KEY,
+            'X-Auth-Token:'.INSTA_AUTH_TOKEN
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
 
     public function archiveInstaLink($slug)
     {

@@ -214,7 +214,7 @@ class Cron_Model extends CI_Model
                     LEFT JOIN doolally_usersmaster um ON erm.bookerUserId = um.userId
                     LEFT JOIN locationmaster lm1 ON ecm.eventPlace = lm1.id
                     LEFT JOIN locationmaster lm ON em.eventPlace = lm.id
-                    WHERE DATE(erm.createdDT) >= CURRENT_DATE() - INTERVAL 1 MONTH";
+                    WHERE DATE(erm.createdDT) >= CURRENT_DATE() - INTERVAL 15 DAY";
 
         $result = $this->db->query($query)->result_array();
         return $result;
@@ -246,8 +246,9 @@ class Cron_Model extends CI_Model
     {
         $query = "SELECT ms.searchText as 'Searched Text',ms.userEmail as 'Email', 
                     ms.insertedDateTime as 'Logged Date/Time', l.locName as 'Location' 
-                    FROM musicsearchmaster ms LEFT JOIN locationmaster l ON ms.taproomId = l.jukeboxId
-                    ORDER BY l.locName";
+                    FROM musicsearchmaster ms LEFT JOIN locationmaster l ON ms.taproomId = l.jukeboxId 
+                    WHERE DATE(ms.insertedDateTime) >= (CURRENT_DATE() - INTERVAL 1 WEEK) AND DATE(ms.insertedDateTime) <= CURRENT_DATE()
+                     ORDER BY l.locName";
         $result = $this->db->query($query)->result_array();
         return $result;
     }

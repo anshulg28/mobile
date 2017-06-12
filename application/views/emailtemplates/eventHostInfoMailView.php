@@ -17,8 +17,9 @@
         You can also access your events from <a href="<?php echo base_url();?>?page/event_dash" target="_blank">My Events</a>.
         This is your dashboard where information on the number of sign ups, fees collected, payout details will be available to you. You can also edit your event or cancel your event from this dashboard.<br><br>
 
-        In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at
-        <?php echo $commNum;?><br><br>
+        In case you have any questions/queries please don't hesitate to write to me at this mail address<br><br>
+        <!--or you can reach me at
+        --><?php /*echo $commNum;*/?>
 
         Cheers!<br>
         <?php echo ucfirst($commName);?>

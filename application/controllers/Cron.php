@@ -393,9 +393,12 @@ class Cron extends MY_Controller
 
     function sendInstaReport()
     {
-        $colKeys = array('Payment ID','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
+        $colKeys = array('Payment ID','Refund Id','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
             'Sale Amount','Transaction Type','Instamojo Fees','Service Tax','Swachh Bharat Cess','Krishi Kalyan Cess','Net Sale Amount');
         $allInsta = $this->cron_model->getIntaRecords();
+        $allRefunds = $this->curl_library->allInstaRefunds();
+
+        $refundArray = array();
         if( isset($allInsta) && myIsArray($allInsta))
         {
             $file = fopen("./uploads/InstamojoRecords.csv","w");
@@ -413,12 +416,24 @@ class Cron extends MY_Controller
                 {
                     if($instaRecord['payment']['currency'] != 'Free' && (double)$instaRecord['payment']['amount'] != 0)
                     {
+                        $refundId = '';
+                        //Checking if payment id has refund or not
+                        if($allRefunds['success'] === true)
+                        {
+                            $refundKey = array_search($row['paymentId'], array_column($allRefunds['refunds'], 'payment_id'));
+                            if($refundKey)
+                            {
+                                $refundId = $allRefunds['refunds'][$refundKey]['id'];
+                            }
+                        }
+
                         $finalAmt = (double)$instaRecord['payment']['amount'];
                         $serviceTax = ($finalAmt * 0.266)/100;
                         $swachTax = ($finalAmt * 0.0095) / 100;
                         $netAmt = $finalAmt - ((double)$instaRecord['payment']['fees'] + $serviceTax + (2 * $swachTax));
                         $recordRow = array(
                             $row['paymentId'],
+                            $refundId,
                             $row['locName'],
                             $row['createdDT'],
                             $row['eveName'],
@@ -441,7 +456,7 @@ class Cron extends MY_Controller
             fclose($file);
             $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
 
-            $this->sendemail_library->sendEmail('saha@brewcraftsindia.com,pranjal.rathi@rubycapital.net,accountsexecutive@brewcraftsindia.com','anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
+            $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
                 ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
             try
             {
@@ -516,7 +531,7 @@ class Cron extends MY_Controller
 
             $content = '<html><body><p>Weekly Music search keys when no result is found!<br>PFA</p></body></html>';
 
-            $this->sendemail_library->sendEmail('tresha@brewcraftsindia.com,saha@brewcraftsindia.com,rishi@bcjukebox.in,deb.dutta@bcjukebox.in','anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
+            $this->sendemail_library->sendEmail(array('tresha@brewcraftsindia.com','saha@brewcraftsindia.com','rishi@bcjukebox.in','deb.dutta@bcjukebox.in'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
                 ,'admin@brewcraftsindia.com','Weekly Jukebox Records',$content,array("./uploads/Music_Search_Records.csv"));
             try
             {
