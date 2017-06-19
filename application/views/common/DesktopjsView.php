@@ -1918,6 +1918,7 @@
                         });
                         return false;
                     }
+                    filesArr = [];
                     filesArr.push(e.srcElement.responseText);
                     document.querySelector('#eventProgress').addEventListener('mdl-componentupgraded', function() {
                         this.MaterialProgress.setProgress(0);
@@ -2134,10 +2135,10 @@
             });
         }
     });
-    var eventAddStatus = false;
+
     $(document).on('submit', '.event-add-page #eventSave', function(e){
         e.preventDefault();
-
+        var eventAddStatus = false;
         var formObj = this;
 
         if($('.event-add-page #eventName').val() == '')
@@ -2253,11 +2254,6 @@
                 }
             });
         }
-        else if($('.event-add-page input[name="attachment"]').val() == '')
-        {
-            mySnackTime('Cover Image Required!');
-            return false;
-        }
         else if(eventAddStatus === false)
         {
             if($('.event-add-page input[name="attachment"]').val() != '')
@@ -2268,6 +2264,11 @@
             {
                 fillEventImgs();
             }
+        }
+        else if($('.event-add-page input[name="attachment"]').val() == '')
+        {
+            mySnackTime('Cover Image Required!');
+            return false;
         }
         else if(eventAddStatus === true)
         {

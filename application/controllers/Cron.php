@@ -401,7 +401,9 @@ class Cron extends MY_Controller
         $refundArray = array();
         if( isset($allInsta) && myIsArray($allInsta))
         {
-            $file = fopen("./uploads/InstamojoRecords.csv","w");
+            $startTime = date('d_M');
+            $endTime = date('d_M',strtotime('-15 day'));
+            $file = fopen("./uploads/InstamojoRecords".$endTime."_to_".$startTime.".csv","w");
             $firstRow = true;
             foreach($allInsta as $key => $row)
             {
@@ -457,10 +459,10 @@ class Cron extends MY_Controller
             $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
 
             $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-                ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords.csv"));
+                ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords".$endTime."_to_".$startTime.".csv"));
             try
             {
-                unlink("./uploads/InstamojoRecords.csv");
+                unlink("./uploads/InstamojoRecords".$endTime."_to_".$startTime.".csv");
             }
             catch(Exception $ex)
             {
@@ -511,7 +513,10 @@ class Cron extends MY_Controller
 
         if(isset($musicResult) && myIsArray($musicResult))
         {
-            $file = fopen("./uploads/Music_Search_Records.csv","w");
+            $startTime = date('d_M');
+            $endTime = date('d_M',strtotime('-7 day'));
+
+            $file = fopen("./uploads/Music_Search_Records".$endTime."_to_".$startTime.".csv","w");
             $firstRow = true;
 
             foreach($musicResult as $key => $row)
@@ -532,10 +537,10 @@ class Cron extends MY_Controller
             $content = '<html><body><p>Weekly Music search keys when no result is found!<br>PFA</p></body></html>';
 
             $this->sendemail_library->sendEmail(array('tresha@brewcraftsindia.com','saha@brewcraftsindia.com','rishi@bcjukebox.in','deb.dutta@bcjukebox.in'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-                ,'admin@brewcraftsindia.com','Weekly Jukebox Records',$content,array("./uploads/Music_Search_Records.csv"));
+                ,'admin@brewcraftsindia.com','Weekly Jukebox Records',$content,array("./uploads/Music_Search_Records".$endTime."_to_".$startTime.".csv"));
             try
             {
-                unlink("./uploads/Music_Search_Records.csv");
+                unlink("./uploads/Music_Search_Records".$endTime."_to_".$startTime.".csv");
             }
             catch(Exception $ex)
             {
