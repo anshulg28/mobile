@@ -41,7 +41,7 @@ class Login_Model extends CI_Model
         $query = "SELECT userId,ifActive "
             ."FROM doolally_usersmaster "
             ."where emailId = '".$userEmail."' "
-            ."AND mobNum = '".$userMob."' ";
+            ."AND mobNum = '".$userMob."' AND userType = ".GUEST_USER;
 
         $result = $this->db->query($query)->row_array();
 

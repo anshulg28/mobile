@@ -143,7 +143,7 @@
                                                     <li>
                                                         <a href="#" class="item-link smart-select" data-back-on-select="true">
                                                             <!-- select -->
-                                                            <select id="eventPlace" name="eventPlace" class="mdl-textfield__input" disabled>
+                                                            <select id="eventPlace" class="mdl-textfield__input" disabled>
                                                                 <option value="">Select</option>
                                                                 <?php
                                                                 if(isset($locData))
@@ -198,51 +198,65 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="event-header-name">Is the event Free or Paid?</div>
-
+                                            <!--<div class="event-header-name">Is the event Free or Paid?</div>-->
+                                            <input type="hidden" name="costType" value="<?php echo $row['costType'];?>"/>
                                             <?php
-                                            if($row['costType'] == EVENT_PAID || $row['costType'] == EVENT_PAID_NO_PINT || $row['costType'] == EVENT_DOOLALLY_FEE)
+                                            if($row['costType'] == EVENT_FREE)
                                             {
                                                 ?>
+                                                <input type="hidden" name="eventPrice" value="0"/>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>
+                                                <?php
+                                            }
+                                            ?>
+                                            <?php
+/*                                            if($row['costType'] == EVENT_PAID || $row['costType'] == EVENT_PAID_NO_PINT || $row['costType'] == EVENT_DOOLALLY_FEE)
+                                            {
+                                                */?><!--
                                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
                                                     <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                                                     <span class="mdl-radio__label">Paid</span>
                                                 </label>
-                                                <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
+                                                <p class="event-sub-text">For paid events, we charge Rs <?php /*echo NEW_DOOLALLY_FEE;*/?> per attendee which includes a pint or house fries.</p>
                                                 <div class="row">
                                                     <div class="col-50">
                                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                                                   value="<?php if((int)$row['eventPrice'] > (int)NEW_DOOLALLY_FEE){ $price = (int)$row['eventPrice'] - (int)NEW_DOOLALLY_FEE; echo $price;}else{echo $row['eventPrice'];}?>">
+                                                                   value="<?php /*if((int)$row['eventPrice'] > (int)NEW_DOOLALLY_FEE){ $price = (int)$row['eventPrice'] - (int)NEW_DOOLALLY_FEE; echo $price;}else{echo $row['eventPrice'];}*/?>">
                                                             <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                                                             <span class="mdl-textfield__error">Input is not a number!</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-50">
-                                                        <p class="event-sub-text">+ Rs. <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee</p>
+                                                        <p class="event-sub-text">+ Rs. <?php /*echo NEW_DOOLALLY_FEE;*/?> Doolally Fee</p>
                                                     </div>
                                                 </div>
                                                 <div class="event-header-name">Total Price: Rs.
                                                     <span class="total-event-price">
-                                                    <?php echo ($row['eventPrice']); ?>
+                                                    <?php /*echo ($row['eventPrice']); */?>
                                                 </span>
                                                 </div>
-                                                <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>
+                                                <input type="hidden" name="eventPrice" value="<?php /*echo $row['eventPrice'];*/?>"/>
                                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
                                                     <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1">
                                                     <span class="mdl-radio__label">Free</span>
                                                 </label>
                                                 <p class="event-sub-text">If you don't charge, we don't charge</p>
                                                 <?php
-                                            }
+/*                                            }
                                             elseif($row['costType'] == '1')
                                             {
-                                                ?>
+                                                */?>
                                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
                                                     <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
                                                     <span class="mdl-radio__label">Paid</span>
                                                 </label>
-                                                <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
+                                                <p class="event-sub-text">For paid events, we charge Rs <?php /*echo NEW_DOOLALLY_FEE;*/?> per attendee which includes a pint or house fries.</p>
                                                 <div class="row">
                                                     <div class="col-50">
                                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
@@ -253,7 +267,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-50">
-                                                        <p class="event-sub-text">+ Rs. <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee</p>
+                                                        <p class="event-sub-text">+ Rs. <?php /*echo NEW_DOOLALLY_FEE;*/?> Doolally Fee</p>
                                                     </div>
                                                 </div>
                                                 <div class="event-header-name">Total Price: Rs.
@@ -267,9 +281,9 @@
                                                     <span class="mdl-radio__label">Free</span>
                                                 </label>
                                                 <p class="event-sub-text">If you don't charge, we don't charge</p>
-                                                <?php
-                                            }
-                                            ?>
+                                                --><?php
+/*                                            }
+                                            */?>
                                             <div class="row">
                                                 <label class="col-100">Need Accessories: </label>
                                                 <div class="col-100">

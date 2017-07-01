@@ -543,11 +543,16 @@ class Dashboard extends MY_Controller {
         {
             if($_FILES['attachment']['error'] != 1)
             {
+                $filePath = $_FILES['attachment']['name'];
+                $fileName = preg_replace('/\(|\)/','',$filePath);
+                $fileName = preg_replace('/[^a-zA-Z0-9.]\.]/', '', $fileName);
+                $fileName = str_replace(' ','_',$fileName);
                 $config = array();
                 $config['upload_path'] = './uploads/events/';
                 $config['allowed_types'] = 'gif|jpg|png|jpeg|PNG|JPG';
                 $config['max_size']      = '0';
                 $config['overwrite']     = TRUE;
+                $config['file_name']     = $fileName;
 
                 $this->upload->initialize($config);
                 $this->upload->do_upload('attachment');

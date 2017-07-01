@@ -15,6 +15,7 @@
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/datedropper.min.js"></script>
 <!--<script type="application/javascript" src="<?php /*echo base_url(); */?>asset/js/jquery.fastLiveFilter.js"></script>-->
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/js/list.min.js"></script>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/tippy.min.js"></script>
 
 
 <script>
@@ -2334,11 +2335,11 @@
             mySnackTime('Event Description Required!');
             return false;
         }
-        if($('.event-add-page #eventPlace').val() == '')
+        /*if($('.event-add-page #eventPlace').val() == '')
         {
             mySnackTime('Event Place Required!');
             return false;
-        }
+        }*/
         if($('.event-add-page #creatorName').val() == '')
         {
             mySnackTime('Organiser Name Required!');
@@ -2848,5 +2849,99 @@
     $(document).on('click','#doolally-age-gate .age-gate-yes', function(){
         localStorageUtil.setLocal("ageGateGone","1");
         $('#doolally-age-gate').addClass('hide');
+    });
+
+    const eventTip =  tippy('#main-events-tab',{
+        //html: '#my-events-tooltip',
+        arrow: true,
+        position: 'bottom-start',
+        animation: 'scale',
+        duration: 1000,
+        interactive: true,
+        trigger: 'manual',
+        hideOnClick: false,
+        inertia: true
+    });
+    const eventEl = document.querySelector('#main-events-tab');
+    const eventPopper = eventTip.getPopperElement(eventEl);
+
+    const menuTip =  tippy('#main-web-menu',{
+        //html: '#my-events-tooltip',
+        arrow: true,
+        position: 'right',
+        animation: 'scale',
+        duration: 1000,
+        interactive: true,
+        trigger: 'manual',
+        hideOnClick: false,
+        inertia: true
+    });
+    const menuEl = document.querySelector('#main-web-menu');
+    const menuPopper = menuTip.getPopperElement(menuEl);
+
+    $(window).load(function(){
+        //my-events-tooltip
+        if(localStorageUtil.getLocal('isEventPop') != null)
+        {
+            if(localStorageUtil.getLocal('isEventPop') == '0')
+            {
+                eventTip.show(eventPopper);
+                $('.tippy-overlay').removeClass('hide');
+            }
+        }
+        else
+        {
+            eventTip.show(eventPopper);
+            $('.tippy-overlay').removeClass('hide');
+        }
+    });
+    $(document).on('click','#event-tip-dismis', function(e){
+        e.preventDefault();
+        localStorageUtil.setLocal('isEventPop','1');
+        eventTip.hide(eventPopper);
+        $('#demo-menu-lower-left').click();
+    });
+    $(document).on('click','#demo-menu-lower-left', function(){
+        localStorageUtil.setLocal('isEventPop','1');
+        eventTip.hide(eventPopper);
+        if(localStorageUtil.getLocal('isMenuPop') != null)
+        {
+            if(localStorageUtil.getLocal('isMenuPop') == '0')
+            {
+                menuTip.show(menuPopper);
+                var tempMenu = setInterval(function(){
+                    if(!$('.main-menu-container .mdl-menu__container.is-upgraded').hasClass('is-visible'))
+                    {
+                        localStorageUtil.setLocal('isMenuPop','1');
+                        menuTip.hide(menuPopper);
+                        $('.tippy-overlay').addClass('hide');
+                        clearInterval(tempMenu);
+                    }
+                },100);
+            }
+        }
+        else
+        {
+            menuTip.show(menuPopper);
+            var tempMenu = setInterval(function(){
+                if(!$('.main-menu-container .mdl-menu__container.is-upgraded').hasClass('is-visible'))
+                {
+                    localStorageUtil.setLocal('isMenuPop','1');
+                    menuTip.hide(menuPopper);
+                    $('.tippy-overlay').addClass('hide');
+                    clearInterval(tempMenu);
+                }
+            },100);
+        }
+    });
+    $(document).on('click','#menu-tip-dismis', function(e){
+        e.preventDefault();
+        localStorageUtil.setLocal('isMenuPop','1');
+        menuTip.hide(menuPopper);
+        $('.tippy-overlay').addClass('hide');
+    });
+    $(document).on('click', '.tippy-overlay', function(e){
+        e.preventDefault();
+        console.log('in');
     });
 </script>

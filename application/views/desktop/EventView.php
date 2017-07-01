@@ -207,6 +207,13 @@
                                     <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored bookNow-event-btn" disabled>Registration Full! </a>
                                     <?php
                                 }
+                                elseif($row['ifActive'] == NOT_ACTIVE || $row['isEventCancel'] == EVENT_CANCEL_REVIEW ||
+                                    $row['isEventCancel'] == EVENT_CANCEL_FINAL)
+                                {
+                                    ?>
+                                    <a href="#" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored bookNow-event-btn" disabled>Event Canceled </a>
+                                    <?php
+                                }
                                 elseif(isset($row['eventPaymentLink']) && isStringSet($row['eventPaymentLink']))
                                 {
                                     ?>

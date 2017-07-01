@@ -18,4 +18,5 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/desktop_style.css">
 <!--<link rel="stylesheet" href="<?php /*echo base_url(); */?>asset/css/dialog-polyfill.min.css">-->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/datedropper.min.css">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>asset/css/tippy.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre:400,700' rel='stylesheet' type='text/css'>

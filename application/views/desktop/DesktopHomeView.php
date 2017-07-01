@@ -26,7 +26,7 @@
         <meta property="og:title" content="<?php echo $meta['title'];?>" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="<?php echo $meta['link'];?>" />
-        <meta property="og:image" content="<?php echo $meta['img'];?>" />
+        <meta property="og:image:secure_url" itemprop="image" content="<?php echo $meta['img'];?>" />
         <meta property="og:description" content="<?php echo $meta['description'];?>" />
         <?php
     }
@@ -65,6 +65,7 @@
     <?php echo $desktopStyle ;?>
 </head>
 <body>
+<div class="tippy-overlay hide"></div>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <div id="custom-progressBar" class="mdl-progress mdl-js-progress mdl-progress__indeterminate hide"></div>
     <?php echo $deskHeader; ?>

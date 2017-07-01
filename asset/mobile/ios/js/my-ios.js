@@ -899,7 +899,7 @@ myApp.onPageInit('eventEdit', function (page) {
             xhr.abort();
             return false;
         }
-        if($$('.event-add #eventPlace').val() == '')
+        /*if($$('.event-add #eventPlace').val() == '')
         {
             myApp.addNotification({
                 title: 'Error!',
@@ -908,7 +908,7 @@ myApp.onPageInit('eventEdit', function (page) {
             });
             xhr.abort();
             return false;
-        }
+        }*/
         if($$('.event-add #eventDate').val() == '')
         {
             myApp.addNotification({
@@ -919,7 +919,7 @@ myApp.onPageInit('eventEdit', function (page) {
             xhr.abort();
             return false;
         }
-        if($('.event-add #paidType').is(':checked') && $('.event-add #eventPrice').val() == '0')
+        /*if($('.event-add #paidType').is(':checked') && $('.event-add #eventPrice').val() == '0')
         {
             myApp.addNotification({
                 title: 'Error!',
@@ -928,7 +928,7 @@ myApp.onPageInit('eventEdit', function (page) {
             });
             xhr.abort();
             return false;
-        }
+        }*/
         if($$('.event-add #creatorName').val() == '')
         {
             myApp.addNotification({
@@ -1382,10 +1382,14 @@ myApp.onPageInit('songlist', function(page){
                         {
                             $$(song).addClass('hide');
                             myApp.hideIndicator();
-                            vex.dialog.buttons.YES.text = 'Close';
+                            myApp.addNotification({
+                                title: 'Success!',
+                                message: 'Your Song Queued.'
+                            });
+                            /*vex.dialog.buttons.YES.text = 'Close';
                             vex.dialog.alert({
                                 unsafeMessage: '<label class="head-title">Success!</label><br><br>Your Song Queued.'
-                            });
+                            });*/
                         }
                         else if(data.errorNum == '1')
                         {

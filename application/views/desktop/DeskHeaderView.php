@@ -2,13 +2,13 @@
     <div class="mdl-layout__header-row">
         <!-- Title -->
         <div class="mdl-cell mdl-cell--2-col">
-            <span class="mdl-layout-title">
+            <span class="mdl-layout-title main-menu-container">
                 <button id="demo-menu-lower-left"
                         class="mdl-button mdl-js-button mdl-button--icon">
                     <i class="material-icons">menu</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                    data-mdl-for="demo-menu-lower-left">
+                    data-mdl-for="demo-menu-lower-left" id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Add Music, Check your created Events, and Contact details here.<a href='#' id='menu-tip-dismis' class='tooltip-common'>OK</a>">
                     <a href="<?php echo base_url();?>" class="my-noUnderline">
                         <li class="mdl-menu__item">
                             <i class="fa fa-home fa-14x mdl-list__item-icon"></i> Home
@@ -112,8 +112,14 @@
         <a href="<?php echo base_url();?>" class="mdl-layout__tab is-active">
             <i class="fa fa-hashtag fa-17x my-display-block common-main-tabs on header-tabs-reposition mdl-badge--overlap" data-badge=""></i><span class="head-txt-up">Doolally</span>
         </a>
-        <a href="events" class="mdl-layout__tab dynamic" data-title="Doolally Events">
+        <a href="events" id="main-events-tab" title="<i class='material-icons custom-info'>info</i>You can now browse through and create events in the events tab.<a href='#' id='event-tip-dismis' class='tooltip-common'>OK</a>" class="mdl-layout__tab dynamic" data-title="Doolally Events">
             <span class="ic_events_icon common-main-tabs header-tabs-reposition"></span><span class="head-txt-up">Events</span>
+            <!-- Custom tooltip design for event interstitial -->
+            <!--<div id="my-events-tooltip" style="display: none;">
+                <p><i class="material-icons">info_outline</i>&nbsp;&nbsp;You can now browse through and create events in the events tab.
+                    <a href="#" class="tooltip-common">OK</a>
+                </p>
+            </div>-->
         </a>
         <a href="fnb" class="mdl-layout__tab dynamic" data-title="Food n Beverages">
             <span class="ic_fnb_icon common-main-tabs header-tabs-reposition"></span><span class="head-txt-up">FnB</span>

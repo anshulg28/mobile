@@ -173,27 +173,43 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                             </div>
                         </div>
                         <div class="event-header-name mdl-grid">
-                            <div class="mdl-cell mdl-cell--12-col">
+                            <input type="hidden" name="costType" value="<?php echo $row['costType'];?>"/>
+                            <?php
+                                if($row['costType'] == EVENT_FREE)
+                                {
+                                    ?>
+                                    <input type="hidden" name="eventPrice" value="0"/>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>
+                                    <?php
+                                }
+                            ?>
+
+                            <!--<div class="mdl-cell mdl-cell--12-col">
                                 <p class="event-cost-head">Is the event Free or Paid?</p>
                             </div>
                             <?php
-                            if($row['costType'] == EVENT_PAID || $row['costType'] == EVENT_PAID_NO_PINT || $row['costType'] == EVENT_DOOLALLY_FEE)
+/*                            if($row['costType'] == EVENT_PAID || $row['costType'] == EVENT_PAID_NO_PINT || $row['costType'] == EVENT_DOOLALLY_FEE)
                             {
-                                ?>
+                                */?>
                                 <div class="mdl-cell mdl-cell--6-col">
                                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
                                         <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                                         <span class="mdl-radio__label">Paid</span>
                                     </label>
-                                    <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
+                                    <p class="event-sub-text">For paid events, we charge Rs <?php /*echo NEW_DOOLALLY_FEE;*/?> per attendee which includes a pint or house fries.</p>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                               value="<?php $price = (int)$row['eventPrice'] - (int)NEW_DOOLALLY_FEE; echo $price;?>">
-                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. <?php echo NEW_DOOLALLY_FEE;?> Doolally Fee</label>
+                                               value="<?php /*$price = (int)$row['eventPrice'] - (int)NEW_DOOLALLY_FEE; echo $price;*/?>">
+                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. <?php /*echo NEW_DOOLALLY_FEE;*/?> Doolally Fee</label>
                                         <span class="mdl-textfield__error">Input is not a number!</span>
                                     </div>
-                                    <div>Total Price: Rs. <span class="total-event-price"><?php echo ($row['eventPrice']); ?></span></div>
-                                    <input type="hidden" name="eventPrice" value="<?php echo ($row['eventPrice']); ?>"/>
+                                    <div>Total Price: Rs. <span class="total-event-price"><?php /*echo ($row['eventPrice']); */?></span></div>
+                                    <input type="hidden" name="eventPrice" value="<?php /*echo ($row['eventPrice']); */?>"/>
                                 </div>
                                 <div class="mdl-cell mdl-cell--6-col">
                                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
@@ -203,19 +219,19 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                     <p class="event-sub-text">If you don't charge, we don't charge</p>
                                 </div>
                                 <?php
-                            }
+/*                            }
                             else
                             {
-                                ?>
+                                */?>
                                 <div class="mdl-cell mdl-cell--6-col">
                                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
                                         <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
                                         <span class="mdl-radio__label">Paid</span>
                                     </label>
-                                    <p class="event-sub-text">For paid events, we charge Rs <?php echo NEW_DOOLALLY_FEE;?> per attendee which includes a pint or house fries.</p>
+                                    <p class="event-sub-text">For paid events, we charge Rs <?php /*echo NEW_DOOLALLY_FEE;*/?> per attendee which includes a pint or house fries.</p>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
-                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. <?php echo NEW_DOOLALLY_FEE; ?>Doolally Fee</label>
+                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee + Rs. <?php /*echo NEW_DOOLALLY_FEE; */?>Doolally Fee</label>
                                         <span class="mdl-textfield__error">Input is not a number!</span>
                                     </div>
                                     <div>Total Price: Rs. <span class="total-event-price">0</span></div>
@@ -228,9 +244,9 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                                     </label>
                                     <p class="event-sub-text">If you don't charge, we don't charge</p>
                                 </div>
-                                <?php
-                            }
-                            ?>
+                                --><?php
+/*                            }
+                            */?>
                             <div class="mdl-cell mdl-cell--12-col">
                                 <p class="event-cost-head my-NoMargin">Need Accessories: </p>
                             </div>

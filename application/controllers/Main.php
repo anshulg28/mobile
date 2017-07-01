@@ -1666,6 +1666,7 @@ class Main extends MY_Controller {
             'eventPrice','eventPlace');
         $changeCheck = array();
         $changesMade = array();
+        $changesRecord = array();
 
         if(isSessionVariableSet($this->userMobId))
         {
@@ -1715,6 +1716,7 @@ class Main extends MY_Controller {
                         if(myInArray($key,$impChanges))
                         {
                             $changeCheck[] = $key;
+                            $changesRecord[$key] = $row;
                         }
                         if($key == 'eventPlace')
                         {
@@ -1860,6 +1862,28 @@ class Main extends MY_Controller {
                 $mailVerify['eventId'] = $post['eventId'];
                 $commPlace = $eventOldInfo['eventPlace'];
                 $this->sendemail_library->eventEditMail($mailVerify,$commPlace);
+
+                $changesRecord['eventId'] = $post['eventId'];
+                $changesRecord['fromWhere'] = 'Host';
+                $changesRecord['insertedDT'] = date('Y-m-d H:i:s');
+                $changesRecord['isPending'] = 0;
+
+                $this->dashboard_model->saveEventChangeRecord($changesRecord);
+
+                //Pause Event listing on EventsHigh and Meetup
+                $meetupRecord = $this->dashboard_model->getMeetupRecord($post['eventId']);
+                if(isset($meetupRecord) && myIsArray($meetupRecord))
+                {
+                    $meetupResponse = $this->meetMeUp($meetupRecord['meetupId']);
+                }
+
+                //Checking any eventsHigh record in DB for corresponding event
+                $eventHighRecord = $this->dashboard_model->getEventHighRecord($post['eventId']);
+                if(isset($eventHighRecord) && myIsArray($eventHighRecord))
+                {
+                    $this->curl_library->disableEventsHigh($eventHighRecord['highId']);
+                }
+
                 $data['status'] = TRUE;
             }
             else
@@ -1871,6 +1895,38 @@ class Main extends MY_Controller {
             echo json_encode($data);
         }
 
+    }
+
+    public function meetMeUp($meetupId = '')
+    {
+        $meetData = array();
+
+        //Meetup Event On Pause
+        try
+        {
+            $meetUpPost = array(
+                'announce' => false
+            );
+            $meetupCreate = $this->meetup->updateEvent($meetUpPost,$meetupId);
+            $meetData['status'] = true;
+
+        }
+        catch(Exception $ex)
+        {
+            $meetData['status'] = false;
+            $meetData['errorMsg'] = $ex->getMessage();
+            $this->saveAPIError($ex->getMessage(),'Meetup');
+        }
+
+        return $meetData;
+    }
+
+    public function saveAPIError($errorText,$fromWhere)
+    {
+        $data['fromWhere'] = $fromWhere;
+        $data['errorTxt'] = $errorText;
+        $this->dashboard_model->saveAPIErrorLog($data);
+        return true;
     }
 
     public function getMoreFeeds($postCount)

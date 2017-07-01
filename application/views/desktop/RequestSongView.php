@@ -57,6 +57,7 @@ if(isset($status) && $status === true)
                 }
                 ?>
             </ul>
+            <ul class="pagination1 list-of-song"></ul>
         </div>
         <?php
     }
