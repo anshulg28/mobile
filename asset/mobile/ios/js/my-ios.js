@@ -3409,3 +3409,101 @@ function isEventFinished(eventDate, endTime)
 $(document).bind("contextmenu",function(e){
     e.preventDefault();
 });
+
+// Intertatails
+const eventTip =  tippy('#main-events-tab',{
+    //html: '#my-events-tooltip',
+    arrow: true,
+    position: 'top',
+    animation: 'scale',
+    duration: 1000,
+    interactive: true,
+    trigger: 'manual',
+    hideOnClick: false,
+    inertia: true
+});
+const eventEl = document.querySelector('#main-events-tab');
+const eventPopper = eventTip.getPopperElement(eventEl);
+$(window).load(function(){
+    var ageTimeout = setInterval(function(){
+        if(typeof $('.welcomescreen-container').val() === 'undefined')
+        {
+            clearInterval(ageTimeout);
+            if(localStorageUtil.getLocal('isMobEventPop') != null)
+            {
+                if(localStorageUtil.getLocal('isMobEventPop') == '0')
+                {
+                    eventTip.show(eventPopper);
+                    $('.tippy-overlay').removeClass('hide');
+                }
+            }
+            else
+            {
+                eventTip.show(eventPopper);
+                $('.tippy-overlay').removeClass('hide');
+            }
+        }
+    },1000);
+});
+$(document).on('click','#event-tip-dismis', function(e){
+    e.preventDefault();
+    localStorageUtil.setLocal('isMobEventPop','1');
+    eventTip.hide(eventPopper);
+    myApp.openPanel('left',true);
+});
+const menuTip =  tippy('#main-web-menu',{
+    //html: '#my-events-tooltip',
+    arrow: true,
+    position: 'bottom-start',
+    animation: 'scale',
+    duration: 1000,
+    interactive: true,
+    trigger: 'manual',
+    hideOnClick: false,
+    inertia: true
+});
+const menuEl = document.querySelector('#main-web-menu');
+const menuPopper = menuTip.getPopperElement(menuEl);
+$$('.panel-left').on('panel:opened', function () {
+    localStorageUtil.setLocal('isMobEventPop','1');
+    eventTip.hide(eventPopper);
+    if(localStorageUtil.getLocal('isMobMenuPop') != null)
+    {
+        if(localStorageUtil.getLocal('isMobMenuPop') == '0')
+        {
+            menuTip.show(menuPopper);
+            var panClose = setInterval(function(){
+                if(!$('body').hasClass('with-panel-left-cover'))
+                {
+                    clearInterval(panClose);
+                    localStorageUtil.setLocal('isMobMenuPop','1');
+                    menuTip.hide(menuPopper);
+                    $('.tippy-overlay').addClass('hide');
+                }
+            },500);
+        }
+    }
+    else
+    {
+        menuTip.show(menuPopper);
+        var panClose = setInterval(function(){
+            if(!$('body').hasClass('with-panel-left-cover'))
+            {
+                clearInterval(panClose);
+                localStorageUtil.setLocal('isMobMenuPop','1');
+                menuTip.hide(menuPopper);
+                $('.tippy-overlay').addClass('hide');
+            }
+        },500);
+    }
+});
+$(document).on('click','#menu-tip-dismis', function(e){
+    e.preventDefault();
+    localStorageUtil.setLocal('isMobMenuPop','1');
+    menuTip.hide(menuPopper);
+    $('.tippy-overlay').addClass('hide');
+    myApp.closePanel();
+});
+$(document).on('click', '.tippy-overlay', function(e){
+    e.preventDefault();
+});

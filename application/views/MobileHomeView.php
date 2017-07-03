@@ -67,6 +67,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body class="iosHome">
+    <div class="tippy-overlay hide"></div>
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
@@ -74,7 +75,7 @@
     <!-- Left panel with reveal effect-->
     <div class="panel panel-left panel-cover">
         <div class="content-block">
-            <ul class="demo-list-icon mdl-list">
+            <ul id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Add Music, Check your created Events, and Contact details here.<a href='#' id='menu-tip-dismis' class='tooltip-common'>OK</a>" class="demo-list-icon mdl-list">
                 <li class="mdl-list__item">
                     <a href="#" id="global-home-btn" class="my-fullWidth">
                         <span class="mdl-list__item-primary-content">
@@ -1137,7 +1138,7 @@
                     </i>
                     <span class="tabbar-label">/doolally</span>
                 </a>
-                <a href="#tab2" class="tab-link my-events-tab-icon">
+                <a href="#tab2" id="main-events-tab" title="<i class='material-icons custom-info'>info</i>You can now browse through and create events in the events tab.<a href='#' id='event-tip-dismis' class='tooltip-common'>OK</a>" class="tab-link my-events-tab-icon">
                     <!--<i class="fa fa-hashtag"></i>-->
                     <!--<i class="fa fa-calendar"></i>-->
                     <span class="ic_events_icon"></span>

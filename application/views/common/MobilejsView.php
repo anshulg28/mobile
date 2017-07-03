@@ -13,6 +13,7 @@
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/mobile/js/moment.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/mobile/js/fullcalendar.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url(); ?>asset/mobile/js/vex.combined.min.js"></script>
+<script type="application/javascript" src="<?php echo base_url(); ?>asset/js/tippy.min.js"></script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
 
 <script>

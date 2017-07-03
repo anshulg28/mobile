@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="new mobile">
+  <component name="PublishConfigData" serverName="new mobile" persistUploadOnCheckin="false">
     <serverData>
       <paths name="demo mobile">
         <serverdata>

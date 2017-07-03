@@ -19,6 +19,37 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
+.tooltip-common
+{
+    font-weight: bold;
+    color: #7ed321;
+    text-decoration: none;
+    margin-left:15px;
+}
+.tippy-popper
+{
+    max-width:none !important;
+    z-index: 13502 !important;
+}
+.tippy-tooltip
+{
+    padding:0.8rem 1rem !important;
+}
+.custom-info
+{
+    vertical-align: middle;
+    font-size: 1.8em;
+    margin-right: 15px;
+}
+.tippy-overlay
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    z-index: 13501;
+    overflow: hidden;
+}
 .iosHome .smart-select-picker .picker-modal .toolbar
 {
     background: crimson;
