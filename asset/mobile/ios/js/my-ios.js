@@ -3415,7 +3415,7 @@ const eventTip =  tippy('#main-events-tab',{
     arrow: true,
     position: 'top',
     animation: 'scale',
-    duration: 1000,
+    duration: 500,
     trigger: 'manual',
     hidden: function() {
         //eventTip.hide(eventPopper);
@@ -3458,7 +3458,7 @@ const menuTip =  tippy('#main-web-menu',{
     arrow: true,
     position: 'bottom-start',
     animation: 'scale',
-    duration: 1000,
+    duration: 500,
     //interactive: true,
     trigger: 'manual',
     //hideOnClick: false,
