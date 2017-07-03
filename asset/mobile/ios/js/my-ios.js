@@ -3412,14 +3412,16 @@ $(document).bind("contextmenu",function(e){
 
 // Intertatails
 const eventTip =  tippy('#main-events-tab',{
-    //html: '#my-events-tooltip',
     arrow: true,
     position: 'top',
     animation: 'scale',
     duration: 1000,
-    interactive: true,
     trigger: 'manual',
-    hideOnClick: false,
+    hidden: function() {
+        //eventTip.hide(eventPopper);
+        myApp.openPanel('left',true);
+        localStorageUtil.setLocal('isMobEventPop','1');
+    },
     inertia: true
 });
 const eventEl = document.querySelector('#main-events-tab');
@@ -3445,28 +3447,34 @@ $(window).load(function(){
         }
     },1000);
 });
-$(document).on('click','#event-tip-dismis', function(e){
+/*$(document).on('click','#event-tip-dismis', function(e){
     e.preventDefault();
     localStorageUtil.setLocal('isMobEventPop','1');
     eventTip.hide(eventPopper);
     myApp.openPanel('left',true);
-});
+});*/
 const menuTip =  tippy('#main-web-menu',{
     //html: '#my-events-tooltip',
     arrow: true,
-    position: 'bottom-start',
+    position: 'bottom',
     animation: 'scale',
     duration: 1000,
-    interactive: true,
+    //interactive: true,
     trigger: 'manual',
-    hideOnClick: false,
+    //hideOnClick: false,
+    hidden: function(){
+        //menuTip.hide(menuPopper);
+        $('.tippy-overlay').addClass('hide');
+        localStorageUtil.setLocal('isMobMenuPop','1');
+        myApp.closePanel();
+    },
     inertia: true
 });
 const menuEl = document.querySelector('#main-web-menu');
 const menuPopper = menuTip.getPopperElement(menuEl);
 $$('.panel-left').on('panel:opened', function () {
-    localStorageUtil.setLocal('isMobEventPop','1');
-    eventTip.hide(eventPopper);
+    //localStorageUtil.setLocal('isMobEventPop','1');
+    //eventTip.hide(eventPopper);
     if(localStorageUtil.getLocal('isMobMenuPop') != null)
     {
         if(localStorageUtil.getLocal('isMobMenuPop') == '0')
@@ -3497,6 +3505,7 @@ $$('.panel-left').on('panel:opened', function () {
         },500);
     }
 });
+/*
 $(document).on('click','#menu-tip-dismis', function(e){
     e.preventDefault();
     localStorageUtil.setLocal('isMobMenuPop','1');
@@ -3506,4 +3515,4 @@ $(document).on('click','#menu-tip-dismis', function(e){
 });
 $(document).on('click', '.tippy-overlay', function(e){
     e.preventDefault();
-});
+});*/
