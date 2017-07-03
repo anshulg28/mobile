@@ -3456,7 +3456,7 @@ $(window).load(function(){
 const menuTip =  tippy('#main-web-menu',{
     //html: '#my-events-tooltip',
     arrow: true,
-    position: 'bottom',
+    position: 'bottom-start',
     animation: 'scale',
     duration: 1000,
     //interactive: true,
