@@ -8,7 +8,7 @@
                     <i class="material-icons">menu</i>
                 </button>
                 <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                    data-mdl-for="demo-menu-lower-left" id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Add Music, Check your created Events, and Contact details here.">
+                    data-mdl-for="demo-menu-lower-left" id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Request a song, access your events dashboard, tour our other taprooms.">
                     <a href="<?php echo base_url();?>" class="my-noUnderline">
                         <li class="mdl-menu__item">
                             <i class="fa fa-home fa-14x mdl-list__item-icon"></i> Home
@@ -112,7 +112,7 @@
         <a href="<?php echo base_url();?>" class="mdl-layout__tab is-active">
             <i class="fa fa-hashtag fa-17x my-display-block common-main-tabs on header-tabs-reposition mdl-badge--overlap" data-badge=""></i><span class="head-txt-up">Doolally</span>
         </a>
-        <a href="events" id="main-events-tab" title="<i class='material-icons custom-info'>info</i>You can now browse through and create events in the events tab." class="mdl-layout__tab dynamic" data-title="Doolally Events">
+        <a href="events" id="main-events-tab" title="<i class='material-icons custom-info'>info</i>Create and sign up for events here." class="mdl-layout__tab dynamic" data-title="Doolally Events">
             <span class="ic_events_icon common-main-tabs header-tabs-reposition"></span><span class="head-txt-up">Events</span>
             <!-- Custom tooltip design for event interstitial -->
             <!--<div id="my-events-tooltip" style="display: none;">

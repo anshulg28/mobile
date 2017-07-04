@@ -75,7 +75,7 @@
     <!-- Left panel with reveal effect-->
     <div class="panel panel-left panel-cover">
         <div class="content-block">
-            <ul id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Add Music, Check your created Events, and Contact details here." class="demo-list-icon mdl-list">
+            <ul id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Request a song, access your events dashboard, tour our other taprooms." class="demo-list-icon mdl-list">
                 <li class="mdl-list__item">
                     <a href="#" id="global-home-btn" class="my-fullWidth">
                         <span class="mdl-list__item-primary-content">
@@ -1139,7 +1139,7 @@
                     <span class="tabbar-label">/doolally</span>
                 </a>
                 <!--<a href='#' id='event-tip-dismis' class='tooltip-common'>OK</a>-->
-                <a href="#tab2" id="main-events-tab" title="<i class='material-icons custom-info'>info</i>You can now browse through and create events in the events tab." class="tab-link my-events-tab-icon">
+                <a href="#tab2" id="main-events-tab" title="<i class='material-icons custom-info'>info</i>Create and sign up for events here." class="tab-link my-events-tab-icon">
                     <!--<i class="fa fa-hashtag"></i>-->
                     <!--<i class="fa fa-calendar"></i>-->
                     <span class="ic_events_icon"></span>
