@@ -90,6 +90,7 @@ defined('FROM_NAME_EMAIL')  OR define('FROM_NAME_EMAIL', 'Doolally');
 defined('RESPONSE_JSON') OR define('RESPONSE_JSON','json');
 defined('RESPONSE_RETURN') OR define('RESPONSE_RETURN','return');
 defined('DATE_FORMAT_UI')   OR define('DATE_FORMAT_UI', 'jS M, Y');
+defined('DATE_FORMAT_SHARE')   OR define('DATE_FORMAT_SHARE', 'jS M');
 defined('EVENT_DATE_FORMAT')   OR define('EVENT_DATE_FORMAT', 'D, M j');
 defined('EVENT_INSIDE_DATE_FORMAT')   OR define('EVENT_INSIDE_DATE_FORMAT', 'D, M j, Y');
 defined('DATE_FORMAT_GRAPH_UI')   OR define('DATE_FORMAT_GRAPH_UI', 'j F');

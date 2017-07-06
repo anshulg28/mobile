@@ -48,7 +48,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -68,7 +68,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -204,7 +204,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -220,7 +220,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -338,7 +338,7 @@ class Main extends MY_Controller {
                                 $d = date_create($eventData[0]['eventDate']);
                                 $st = date_create($eventData[0]['startTime']);
                                 $et = date_create($eventData[0]['endTime']);
-                                $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                                $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
                                 $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                                 $data['meta']['description'] = $forDescription;
@@ -354,7 +354,7 @@ class Main extends MY_Controller {
                                 $d = date_create($eventData[0]['eventDate']);
                                 $st = date_create($eventData[0]['startTime']);
                                 $et = date_create($eventData[0]['endTime']);
-                                $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                                $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
                                 $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                                 $data['meta']['description'] = $forDescription;
@@ -893,7 +893,7 @@ class Main extends MY_Controller {
 
                 $data['meta']['title'] = $events[0]['eventName'];
                 $data['eventDetails'] = $events;
-                $eventHighRecord = $this->dashboard_model->getEventHighRecord($events[0]['eventId']);
+                $eventHighRecord = $this->dashboard_model->getEventHighRecord($eventId);
                 if(isset($eventHighRecord) && myIsArray($eventHighRecord))
                 {
                     $EHAtendees = $this->curl_library->attendeeEventsHigh($eventHighRecord['highId']);
