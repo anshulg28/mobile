@@ -49,7 +49,14 @@
                                                     <div class="item-inner">
                                                         <div class="item-title">
                                                             <?php echo $row['firstName'].' '.$row['lastName'];?>
-                                                            <span class="badge color-green">+<?php echo $remain;?></span>
+                                                            <?php
+                                                                if($remain != 0)
+                                                                {
+                                                                    ?>
+                                                                    <span class="badge color-green">+<?php echo $remain;?></span>
+                                                                    <?php
+                                                                }
+                                                            ?>
                                                         </div>
                                                         <div class="item-after">
                                                             <a href="mailto:<?php echo $row['emailId'];?>" class="external">
@@ -66,6 +73,44 @@
                                         </div>
                                         <?php
                                     }
+                                    if(isset($EHData) && myIsArray($EHData))
+                                {
+                                    ?>
+                                    <div class="list-block">
+                                        <ul>
+                                            <?php
+                                            foreach($EHData as $key => $row)
+                                            {
+                                                $remain = (int)$row['numTickets'] - 1;
+                                                ?>
+                                                <li class="item-content">
+                                                    <div class="item-inner">
+                                                        <div class="item-title">
+                                                            <?php echo $row['name'];?>
+                                                            <?php
+                                                            if($remain != 0)
+                                                            {
+                                                                ?>
+                                                                <span class="badge color-green">+<?php echo $remain;?></span>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                        <div class="item-after">
+                                                            <a href="mailto:<?php echo $row['email'];?>" class="external">
+                                                                <i class="ic_event_email_icon"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                    <?php
+                                }
                                 ?>
                             </div>
                         </div>

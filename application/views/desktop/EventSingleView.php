@@ -100,6 +100,11 @@
                                                 else
                                                 {
                                                     $total = (int)$row['eventPrice'] * (int)$row['totalQuant'];
+                                                    if(isset($EHTotal))
+                                                    {
+                                                        $EHAmt = (int)$row['eventPrice'] * (int)$EHTotal;
+                                                        $total = $total + $EHAmt;
+                                                    }
                                                     echo 'Rs. '.number_format($total);
                                                 }
                                                 ?>
@@ -114,7 +119,12 @@
                                                 <?php
                                                 if(isset($row['totalQuant']))
                                                 {
-                                                    echo $row['totalQuant'];
+                                                    $totQnt = $row['totalQuant'];
+                                                    if(isset($EHTotal))
+                                                    {
+                                                        $totQnt += $EHTotal;
+                                                    }
+                                                    echo $totQnt;
                                                 }
                                                 else
                                                 {
@@ -161,6 +171,37 @@
                                         <?php
                                     }
                                 }
+                            ?>
+                            <?php
+                                if(isset($EHData) && myIsArray($EHData))
+                            {
+                                foreach($EHData as $signKey => $signRow)
+                                {
+                                    $remain = (int)$signRow['numTickets'] - 1;
+                                    ?>
+                                    <div class="demo-list-action mdl-list">
+                                        <div class="mdl-list__item">
+                                                <span class="mdl-list__item-primary-content">
+                                                  <span><?php echo $signRow['name'];?></span>
+                                                    <?php
+                                                    if($remain != 0)
+                                                    {
+                                                        ?>
+                                                        <span class="mdl-chip mdl-list__item-avatar">
+                                                                <span class="mdl-chip__text">+<?php echo $remain;?></span>
+                                                            </span>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </span>
+                                            <i data-email="<?php echo $signRow['email'];?>" class="mdl-list__item-secondary-action contact-email">
+                                                <i class="ic_event_email_icon"></i>
+                                            </i>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            }
                             ?>
                             <div class="mdl-card__actions mdl-card--border">
                                 <?php

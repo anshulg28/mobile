@@ -845,6 +845,16 @@ class Main extends MY_Controller {
                 $pgError = $this->load->view('mobile/ios/EventView', $data);
                 echo json_encode($pgError);
             }*/
+            $eventHighRecord = $this->dashboard_model->getEventHighRecord($events[0]['eventId']);
+            if(isset($eventHighRecord) && myIsArray($eventHighRecord))
+            {
+                $EHAtendees = $this->curl_library->attendeeEventsHigh($eventHighRecord['highId']);
+                if(isset($EHAtendees['items']))
+                {
+                    $data['EHData'] = $EHAtendees['items'];
+                    $data['EHTotal'] = array_sum(array_map(function($foo){return $foo['numTickets'];},$EHAtendees['items']));
+                }
+            }
         }
 
         if(isset($post['isAjax']) && $post['isAjax'] == '1')
@@ -883,6 +893,15 @@ class Main extends MY_Controller {
 
                 $data['meta']['title'] = $events[0]['eventName'];
                 $data['eventDetails'] = $events;
+                $eventHighRecord = $this->dashboard_model->getEventHighRecord($events[0]['eventId']);
+                if(isset($eventHighRecord) && myIsArray($eventHighRecord))
+                {
+                    $EHAtendees = $this->curl_library->attendeeEventsHigh($eventHighRecord['highId']);
+                    if(isset($EHAtendees['items']))
+                    {
+                        $data['EHData'] = $EHAtendees['items'];
+                    }
+                }
             }
         }
 

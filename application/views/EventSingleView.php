@@ -80,14 +80,14 @@
                                                             Free
                                                             <?php
                                                         }
-                                                        elseif($row['costType'] == "2")
-                                                        {
-                                                            $total = (int)$row['eventPrice'] * (int)$row['totalQuant'];
-                                                            echo number_format($total);
-                                                        }
                                                         else
                                                         {
                                                             $total = (int)$row['eventPrice'] * (int)$row['totalQuant'];
+                                                            if(isset($EHTotal))
+                                                            {
+                                                                $EHAmt = (int)$row['eventPrice'] * (int)$EHTotal;
+                                                                $total = $total + $EHAmt;
+                                                            }
                                                             echo number_format($total);
                                                         }
                                                         ?>
@@ -110,7 +110,12 @@
                                                                 <label class="bigInfo"><?php
                                                                     if(isset($row['totalQuant']))
                                                                     {
-                                                                        echo $row['totalQuant'];
+                                                                        $totQnt = $row['totalQuant'];
+                                                                        if(isset($EHTotal))
+                                                                        {
+                                                                            $totQnt += $EHTotal;
+                                                                        }
+                                                                        echo $totQnt;
                                                                     }
                                                                     else
                                                                     {
