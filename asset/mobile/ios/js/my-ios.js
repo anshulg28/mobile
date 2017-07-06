@@ -2639,7 +2639,24 @@ $$(document).on('click','#logout-btn', function(){
     });
 });
 
-$$(document).on('click','.event-card-share-btn, .fnb-card-share-btn', function(){
+$$(document).on('click','.event-card-share-btn', function(){
+
+    $$('.popover-share').find('p').html('Share "'+$(this).parent().find('input[type="hidden"]').attr('data-name')+'"');
+    $('#main-share').jsSocials({
+        showLabel: true,
+        text:$(this).parent().find('input[type="hidden"]').attr('data-shareTxt'),
+        url: $(this).parent().find('input[type="hidden"]').val(),
+        showCount:false,
+        shares: [
+            { share: "whatsapp", label: "WhatsApp" },
+            { share: "twitter", label: "Twitter" },
+            { share: "facebook", label: "Facebook" }
+        ]
+    });
+    $('.jssocials-share').find('a').addClass('external');
+    myApp.popover('.popover-share',$(this));
+});
+$$(document).on('click','.fnb-card-share-btn', function(){
 
     $$('.popover-share').find('p').html('Share "'+$(this).parent().find('input[type="hidden"]').attr('data-name')+'"');
     $('#main-share').jsSocials({

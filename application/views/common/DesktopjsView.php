@@ -823,13 +823,13 @@
         });
     }
 
-    $(document).on('click','.event-card-share-btn, .fnb-card-share-btn', function(){
+    $(document).on('click','.event-card-share-btn', function(){
 
         $('#shareDialog .title-share').html('Share "'+$(this).parent().find('input[type="hidden"]').attr('data-name')+'"');
         $('#shareDialog #main-share').jsSocials({
             showLabel: true,
             shareIn: "blank",
-            text:$(this).parent().find('input[type="hidden"]').attr('data-name'),
+            text:$(this).parent().find('input[type="hidden"]').attr('data-shareTxt'),
             url: $(this).parent().find('input[type="hidden"]').val(),
             shares: [
                 { share: "twitter", label: "Twitter" },
@@ -847,6 +847,38 @@
         dialog.querySelector('.close').addEventListener('click', function() {
             dialog.close();
         });*/
+        vex.dialog.buttons.YES.text = 'Close';
+        vex.dialog.open({
+            unsafeMessage: $('#shareDialog').html(),
+            showCloseButton: false,
+            contentClassName: 'share-overlay-pop'
+        });
+        //myApp.popover('.popover-share',$(this));
+    });
+    $(document).on('click','.fnb-card-share-btn', function(){
+
+        $('#shareDialog .title-share').html('Share "'+$(this).parent().find('input[type="hidden"]').attr('data-name')+'"');
+        $('#shareDialog #main-share').jsSocials({
+            showLabel: true,
+            shareIn: "blank",
+            text:$(this).parent().find('input[type="hidden"]').attr('data-name'),
+            url: $(this).parent().find('input[type="hidden"]').val(),
+            shares: [
+                { share: "twitter", label: "Twitter" },
+                { share: "facebook", label: "Facebook" }
+            ]
+        });
+        var shUrl = $(this).parent().find('input[type="hidden"]').val();
+        $('#shareDialog #main-share .jssocials-shares').append('<i class="fa fa-link fa-15x copyToClip popupClipIcon" data-url="'+shUrl+'"><span>Copy Link</span></i>');
+        /*var dialog = document.querySelector('#shareDialog');
+
+         if (! dialog.showModal) {
+         dialogPolyfill.registerDialog(dialog);
+         }
+         dialog.showModal();
+         dialog.querySelector('.close').addEventListener('click', function() {
+         dialog.close();
+         });*/
         vex.dialog.buttons.YES.text = 'Close';
         vex.dialog.open({
             unsafeMessage: $('#shareDialog').html(),

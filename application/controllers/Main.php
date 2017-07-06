@@ -45,8 +45,13 @@ class Main extends MY_Controller {
                             }
                             //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                             $data['meta']['title'] = $eventData[0]['eventName'];
+                            $d = date_create($eventData[0]['eventDate']);
+                            $st = date_create($eventData[0]['startTime']);
+                            $et = date_create($eventData[0]['endTime']);
+                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                            $data['meta']['description'] = $truncated_RestaurantName;
+                            $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
                             $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
                         }
@@ -60,8 +65,13 @@ class Main extends MY_Controller {
                             }
                             //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                             $data['meta']['title'] = $eventData[0]['eventName'];
+                            $d = date_create($eventData[0]['eventDate']);
+                            $st = date_create($eventData[0]['startTime']);
+                            $et = date_create($eventData[0]['endTime']);
+                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                            $data['meta']['description'] = $truncated_RestaurantName;
+                            $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
                             $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
                         }
@@ -191,8 +201,13 @@ class Main extends MY_Controller {
                             $eventData = $this->dashboard_model->getFullEventInfoById($event[1]);
                             //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                             $data['meta']['title'] = $eventData[0]['eventName'];
+                            $d = date_create($eventData[0]['eventDate']);
+                            $st = date_create($eventData[0]['startTime']);
+                            $et = date_create($eventData[0]['endTime']);
+                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                            $data['meta']['description'] = $truncated_RestaurantName;
+                            $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
                             $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
                         }
@@ -202,8 +217,13 @@ class Main extends MY_Controller {
                             $eventData = $this->dashboard_model->getFullEventInfoBySlug($query[2]);
                             //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                             $data['meta']['title'] = $eventData[0]['eventName'];
+                            $d = date_create($eventData[0]['eventDate']);
+                            $st = date_create($eventData[0]['startTime']);
+                            $et = date_create($eventData[0]['endTime']);
+                            $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                            $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                            $data['meta']['description'] = $truncated_RestaurantName;
+                            $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
                             $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
                         }
@@ -315,8 +335,13 @@ class Main extends MY_Controller {
                                 }
                                 //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                                 $data['meta']['title'] = $eventData[0]['eventName'];
+                                $d = date_create($eventData[0]['eventDate']);
+                                $st = date_create($eventData[0]['startTime']);
+                                $et = date_create($eventData[0]['endTime']);
+                                $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                                $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                                $data['meta']['description'] = $truncated_RestaurantName;
+                                $data['meta']['description'] = $forDescription;
                                 $data['meta']['link'] = $eventData[0]['eventShareLink'];
                                 $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
                             }
@@ -326,8 +351,13 @@ class Main extends MY_Controller {
                                 $eventData = $this->dashboard_model->getFullEventInfoBySlug($query[2]);
                                 //$eventAtt = $this->dashboard_model->getEventAttById($event[1]);
                                 $data['meta']['title'] = $eventData[0]['eventName'];
+                                $d = date_create($eventData[0]['eventDate']);
+                                $st = date_create($eventData[0]['startTime']);
+                                $et = date_create($eventData[0]['endTime']);
+                                $forDescription = date_format($d,DATE_FORMAT_UI).", ".date_format($st,'g:i a')." - ".date_format($et,'g:i a');
+                                $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                                $data['meta']['description'] = $truncated_RestaurantName;
+                                $data['meta']['description'] = $forDescription;
                                 $data['meta']['link'] = $eventData[0]['eventShareLink'];
                                 $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
                             }
