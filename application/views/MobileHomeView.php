@@ -814,7 +814,7 @@
                                                             ?><br>
                                                             <span class="sub-card-bytag">By <?php echo $row['creatorName'];?></span>
                                                         </p>
-                                                        <input type="hidden" data-shareTxt="This workshop looks pretty cool, shall we?" data-name="<?php echo $row['eventName'];?>" value="<?php if(isset($row['shortUrl'])){echo $row['shortUrl'];}else{echo $row['eventShareLink'];} ?>"/>
+                                                        <input type="hidden" data-shareTxt="This looks pretty cool, shall we?" data-name="<?php echo $row['eventName'];?>" value="<?php if(isset($row['shortUrl'])){echo $row['shortUrl'];}else{echo $row['eventShareLink'];} ?>"/>
                                                         <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
                                                     </div>
 
