@@ -53,7 +53,16 @@ class Main extends MY_Controller {
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                            $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            $imgLink = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            if($eventData[0]['hasShareImg'] == ACTIVE)
+                            {
+                                $shareImg = $this->dashboard_model->getShareImg($eventData[0]['eventId']);
+                                if(isset($shareImg) && myIsArray($shareImg))
+                                {
+                                    $imgLink = base_url().EVENT_PATH_THUMB.$shareImg['filename'];
+                                }
+                            }
+                            $data['meta']['img'] = $imgLink;
                         }
                         else
                         {
@@ -73,7 +82,16 @@ class Main extends MY_Controller {
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                            $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            $imgLink = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            if($eventData[0]['hasShareImg'] == ACTIVE)
+                            {
+                                $shareImg = $this->dashboard_model->getShareImg($eventData[0]['eventId']);
+                                if(isset($shareImg) && myIsArray($shareImg))
+                                {
+                                    $imgLink = base_url().EVENT_PATH_THUMB.$shareImg['filename'];
+                                }
+                            }
+                            $data['meta']['img'] = $imgLink;
                         }
                     }
                     else
@@ -209,7 +227,16 @@ class Main extends MY_Controller {
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                            $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            $imgLink = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            if($eventData[0]['hasShareImg'] == ACTIVE)
+                            {
+                                $shareImg = $this->dashboard_model->getShareImg($eventData[0]['eventId']);
+                                if(isset($shareImg) && myIsArray($shareImg))
+                                {
+                                    $imgLink = base_url().EVENT_PATH_THUMB.$shareImg['filename'];
+                                }
+                            }
+                            $data['meta']['img'] = $imgLink;
                         }
                         else
                         {
@@ -225,7 +252,16 @@ class Main extends MY_Controller {
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
                             $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                            $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            $imgLink = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                            if($eventData[0]['hasShareImg'] == ACTIVE)
+                            {
+                                $shareImg = $this->dashboard_model->getShareImg($eventData[0]['eventId']);
+                                if(isset($shareImg) && myIsArray($shareImg))
+                                {
+                                    $imgLink = base_url().EVENT_PATH_THUMB.$shareImg['filename'];
+                                }
+                            }
+                            $data['meta']['img'] = $imgLink;
                         }
                     }
                     else
@@ -343,7 +379,16 @@ class Main extends MY_Controller {
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                                 $data['meta']['description'] = $forDescription;
                                 $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                                $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                                $imgLink = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                                if($eventData[0]['hasShareImg'] == ACTIVE)
+                                {
+                                    $shareImg = $this->dashboard_model->getShareImg($eventData[0]['eventId']);
+                                    if(isset($shareImg) && myIsArray($shareImg))
+                                    {
+                                        $imgLink = base_url().EVENT_PATH_THUMB.$shareImg['filename'];
+                                    }
+                                }
+                                $data['meta']['img'] = $imgLink;
                             }
                             else
                             {
@@ -359,7 +404,16 @@ class Main extends MY_Controller {
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                                 $data['meta']['description'] = $forDescription;
                                 $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                                $data['meta']['img'] = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                                $imgLink = base_url().EVENT_PATH_THUMB.$eventData[0]['filename'];
+                                if($eventData[0]['hasShareImg'] == ACTIVE)
+                                {
+                                    $shareImg = $this->dashboard_model->getShareImg($eventData[0]['eventId']);
+                                    if(isset($shareImg) && myIsArray($shareImg))
+                                    {
+                                        $imgLink = base_url().EVENT_PATH_THUMB.$shareImg['filename'];
+                                    }
+                                }
+                                $data['meta']['img'] = $imgLink;
                             }
                         }
                         else

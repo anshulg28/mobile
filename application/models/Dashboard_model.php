@@ -980,4 +980,10 @@ class Dashboard_Model extends CI_Model
         $this->db->insert('eventchangesmaster', $details);
         return true;
     }
+    function getShareImg($eventId)
+    {
+        $query = "SELECT filename FROM eventimgsharemaster WHERE ifUsing = 1 AND eventId = ".$eventId;
+        $result = $this->db->query($query)->row_array();
+        return $result;
+    }
 }
