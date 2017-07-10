@@ -31,15 +31,11 @@
                 }
                 elseif((int)$mailData['doolallyFee'] < (int)NEW_DOOLALLY_FEE && (int)$mailData['doolallyFee'] != 0)
                 {
-                    ?>
-                    180ml Beer <b>OR</b> House Fries.
-                    <?php
+                    echo DOOLALLY_CUSTOM_FEE_MAIL_TEXT;
                 }
                 else
                 {
-                    ?>
-                    330ml Beer <b>OR</b> House Fries & Mocktail <b>OR</b> Pancakes & Coffee.
-                    <?php
+                    echo DOOLALLY_FEE_MAIL_TEXT;
                 }
                 ?>
                 Just show this code(s) <?php echo implode(',',$mailData['eveOfferCode']);?> to the waiter who is serving you.<br><br>

@@ -163,3 +163,5 @@ defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','doolally123');
 
 defined('OLD_DOOLALLY_FEE') OR define('OLD_DOOLALLY_FEE','250');
 defined('NEW_DOOLALLY_FEE') OR define('NEW_DOOLALLY_FEE','300');
+defined('DOOLALLY_FEE_MAIL_TEXT') OR define('DOOLALLY_FEE_MAIL_TEXT' ,'330ml Beer <b>OR</b> House Fries & Mocktail <b>OR</b> Pancakes & Coffee.');
+defined('DOOLALLY_CUSTOM_FEE_MAIL_TEXT') OR define('DOOLALLY_CUSTOM_FEE_MAIL_TEXT','Half Pint of Beer <b>OR</b> House Fries <b>OR</b> A Cocktail.');
