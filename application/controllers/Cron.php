@@ -426,21 +426,24 @@ class Cron extends MY_Controller
                     {
                         foreach($ehArray['items'] as $subKey => $subRow)
                         {
-                            $ehRow = array(
-                                $subRow['bookingId'],
-                                $row['locName'],
-                                $subRow['bookedOn'],
-                                $row['eveName'],
-                                $subRow['name'],
-                                $subRow['email'],
-                                $subRow['mobile'],
-                                $subRow['saleAmount'],
-                                $subRow['registrationStatus'],
-                                $subRow['ehCommission'],
-                                $subRow['amountForOrganizer']
-                            );
-                            $textToWrite = $ehRow;
-                            fputcsv($file1,$textToWrite);
+                            if($subRow['amount'] != 0)
+                            {
+                                $ehRow = array(
+                                    $subRow['bookingId'],
+                                    $row['locName'],
+                                    $subRow['bookedOn'],
+                                    $row['eveName'],
+                                    $subRow['name'],
+                                    $subRow['email'],
+                                    $subRow['mobile'],
+                                    $subRow['saleAmount'],
+                                    $subRow['registrationStatus'],
+                                    $subRow['ehCommission'],
+                                    $subRow['amountForOrganizer']
+                                );
+                                $textToWrite = $ehRow;
+                                fputcsv($file1,$textToWrite);
+                            }
                         }
                     }
                 }
