@@ -395,15 +395,19 @@ class Cron extends MY_Controller
     {
         $colKeys = array('Payment ID','Refund Id','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
             'Sale Amount','Transaction Type','Instamojo Fees','Service Tax','Swachh Bharat Cess','Krishi Kalyan Cess','Net Sale Amount');
+        $ehColKeys = array('Payment ID','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
+            'Sale Amount','Transaction Type','EventsHigh Fees','Net Sale Amount');
         $allInsta = $this->cron_model->getIntaRecords();
         $allRefunds = $this->curl_library->allInstaRefunds();
+
 
         $refundArray = array();
         if( isset($allInsta) && myIsArray($allInsta))
         {
-            $startTime = date('d_M');
+            $startTime = date('d_M_Y');
             $endTime = date('d_M',strtotime('-15 day'));
-            $file = fopen("./uploads/InstamojoRecords".$endTime."_to_".$startTime.".csv","w");
+            $file = fopen("./uploads/InstamojoRecords_".$startTime.".csv","w");
+            $file1 = fopen("./uploads/EventsHighRecords_".$startTime.".csv","w");
             $firstRow = true;
             foreach($allInsta as $key => $row)
             {
@@ -412,7 +416,35 @@ class Cron extends MY_Controller
                     $firstRow = false;
                     $textToWrite = $colKeys;
                     fputcsv($file,$textToWrite);
+                    $textToWrite = $ehColKeys;
+                    fputcsv($file1,$textToWrite);
                 }
+                if(isset($row['highId']))
+                {
+                    $ehArray = $this->curl_library->attendeeEventsHigh($row['highId']);
+                    if(isset($ehArray) && myIsArray($ehArray) && isset($ehArray['items']))
+                    {
+                        foreach($ehArray['items'] as $subKey => $subRow)
+                        {
+                            $ehRow = array(
+                                $subRow['bookingId'],
+                                $row['locName'],
+                                $subRow['bookedOn'],
+                                $row['eveName'],
+                                $subRow['name'],
+                                $subRow['email'],
+                                $subRow['mobile'],
+                                $subRow['saleAmount'],
+                                $subRow['registrationStatus'],
+                                $subRow['ehCommission'],
+                                $subRow['amountForOrganizer']
+                            );
+                            $textToWrite = $ehRow;
+                            fputcsv($file1,$textToWrite);
+                        }
+                    }
+                }
+                fclose($file1);
                 $instaRecord = $this->curl_library->getInstaMojoRecord($row['paymentId']);
                 if(isset($instaRecord) && myIsArray($instaRecord) && $instaRecord['success'] === true)
                 {
@@ -456,18 +488,26 @@ class Cron extends MY_Controller
                 }
             }
             fclose($file);
-            $content = '<html><body><p>Instamojo Events Records With Location Filtered!<br>PFA</p></body></html>';
+            $content = '<html><body><p>Instamojo and Eventshigh Records With Location Filtered!<br>PFA</p></body></html>';
 
             $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-                ,'admin@brewcraftsindia.com','Instamojo Events Records With Location',$content,array("./uploads/InstamojoRecords".$endTime."_to_".$startTime.".csv"));
+                ,'admin@brewcraftsindia.com','Instamojo and Eventshigh Records With Location',$content,array("./uploads/InstamojoRecords_".$startTime.".csv","./uploads/EventsHighRecords_".$startTime.".csv"));
             try
             {
-                unlink("./uploads/InstamojoRecords".$endTime."_to_".$startTime.".csv");
+                unlink("./uploads/InstamojoRecords_".$startTime.".csv");
+                unlink("./uploads/EventsHighRecords_".$startTime.".csv");
             }
             catch(Exception $ex)
             {
 
             }
+        }
+        else
+        {
+            $content = '<html><body><p>No Records Found Today</p></body></html>';
+
+            $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
+                ,'admin@brewcraftsindia.com','No Transaction records Today',$content,array());
         }
     }
 

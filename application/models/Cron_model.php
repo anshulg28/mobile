@@ -207,14 +207,15 @@ class Cron_Model extends CI_Model
         $query = "SELECT um.firstName, um.lastName,
                     CASE WHEN lm.locName IS NULL THEN lm1.locName ELSE lm.locName END AS 'locName', erm.paymentId,
                     CASE WHEN em.eventName IS NULL THEN ecm.eventName ELSE em.eventName END AS 'eveName',
-                    erm.quantity, erm.createdDT
+                    erm.quantity, erm.createdDT, ehm.highId
                     FROM eventregistermaster erm
                     LEFT JOIN eventmaster em ON erm.eventId = em.eventId
                     LEFT JOIN eventcompletedmaster ecm ON erm.eventId = ecm.eventId
                     LEFT JOIN doolally_usersmaster um ON erm.bookerUserId = um.userId
                     LEFT JOIN locationmaster lm1 ON ecm.eventPlace = lm1.id
                     LEFT JOIN locationmaster lm ON em.eventPlace = lm.id
-                    WHERE DATE(erm.createdDT) >= CURRENT_DATE() - INTERVAL 15 DAY";
+                    LEFT JOIN eventshighmaster ehm ON erm.eventId = ehm.eventId AND ehm.highStatus = 1
+                    WHERE DATE(erm.createdDT) = CURRENT_DATE()";
 
         $result = $this->db->query($query)->result_array();
         return $result;
