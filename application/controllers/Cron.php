@@ -1,14 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Class Cron
+ * @property Cron_model $cron_model
+ * @property Dashboard_Model $dashboard_model
+ * @property Locations_Model $locations_model
+ */
+
 class Cron extends MY_Controller
 {
-    /**
-     * Class Cron
-     * @property Cron_model $cron_model
-     * @property Dashboard_Model $dashboard_model
-     * @property Locations_Model $locations_model
-     */
     function __construct()
     {
         parent::__construct();
@@ -394,7 +395,7 @@ class Cron extends MY_Controller
     function sendInstaReport()
     {
         $colKeys = array('Payment ID','Refund Id','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
-            'Sale Amount','Transaction Type','Instamojo Fees','Service Tax','Swachh Bharat Cess','Krishi Kalyan Cess','Net Sale Amount');
+            'Sale Amount','Transaction Type','Instamojo Fees','Total Tax','Net Sale Amount');
         $ehColKeys = array('Payment ID','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
             'Sale Amount','Transaction Type','EventsHigh Fees','Net Sale Amount');
         $allInsta = $this->cron_model->getIntaRecords();
@@ -465,9 +466,9 @@ class Cron extends MY_Controller
                         }
 
                         $finalAmt = (double)$instaRecord['payment']['amount'];
-                        $serviceTax = ($finalAmt * 0.266)/100;
+                        $serviceTax = ((double)$instaRecord['payment']['fees'] * 18)/100;
                         $swachTax = ($finalAmt * 0.0095) / 100;
-                        $netAmt = $finalAmt - ((double)$instaRecord['payment']['fees'] + $serviceTax + (2 * $swachTax));
+                        $netAmt = $finalAmt - ((double)$instaRecord['payment']['fees'] + $serviceTax);
                         $recordRow = array(
                             $row['paymentId'],
                             $refundId,
@@ -481,8 +482,6 @@ class Cron extends MY_Controller
                             $instaRecord['payment']['status'],
                             $instaRecord['payment']['fees'],
                             $serviceTax,
-                            $swachTax,
-                            $swachTax,
                             $netAmt
                             );
                         $textToWrite = $recordRow;
@@ -494,7 +493,7 @@ class Cron extends MY_Controller
             $content = '<html><body><p>Instamojo and Eventshigh Records With Location Filtered!<br>PFA</p></body></html>';
 
             $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-                ,'admin@brewcraftsindia.com','Instamojo and Eventshigh Records With Location',$content,array("./uploads/InstamojoRecords_".$startTime.".csv","./uploads/EventsHighRecords_".$startTime.".csv"));
+                ,'admin@brewcraftsindia.com','Instamojo and Eventshigh Records With Location | '.date('d_M_Y'),$content,array("./uploads/InstamojoRecords_".$startTime.".csv","./uploads/EventsHighRecords_".$startTime.".csv"));
             try
             {
                 unlink("./uploads/InstamojoRecords_".$startTime.".csv");
@@ -510,7 +509,7 @@ class Cron extends MY_Controller
             $content = '<html><body><p>No Records Found Today</p></body></html>';
 
             $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-                ,'admin@brewcraftsindia.com','No Transaction records Today',$content,array());
+                ,'admin@brewcraftsindia.com','No Transaction records Today | '.date('d_M_Y'),$content,array());
         }
     }
 

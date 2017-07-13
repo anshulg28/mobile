@@ -986,4 +986,9 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->row_array();
         return $result;
     }
+    public function saveUpiDump($details)
+    {
+        $this->db->insert('upidumpingtable', $details);
+        return true;
+    }
 }
