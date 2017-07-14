@@ -22,5 +22,6 @@ class Upi extends MY_Controller {
             'insertedDateTime' => date('Y-m-d H:i:s')
         );
         $this->dashboard_model->saveUpiDump($details);
+        echo 'Saved!';
     }
 }
