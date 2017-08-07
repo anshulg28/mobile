@@ -48,7 +48,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -77,7 +77,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -149,6 +149,24 @@ class Main extends MY_Controller {
         {
             $get = $this->input->get();
 
+            //EventsHigh Payment handle
+            if(isset($get['bookingid']) && isset($get['eid']))
+            {
+                if(isset($get['status']) && $get['status'] == 'success'
+                    && isset($get['userName']) && isset($get['userEmail']) && isset($get['userMobile'])
+                    && isset($get['nTickets']))
+                {
+                    $ehArray = array(
+                        'bookingid' => $get['bookingid'],
+                        'userName' => urldecode($get['userName']),
+                        'userEmail' => $get['userEmail'],
+                        'userMobile' => $get['userMobile'],
+                        'nTickets' => $get['nTickets']
+                    );
+                    $this->thankYou1($get['eid'],$ehArray);
+                }
+            }
+
             if(isset($get['event']) && isStringSet($get['event']) && isset($get['hash']) && isStringSet($get['hash']))
             {
                 if(hash_compare(encrypt_data('EV-'.$get['event']),$get['hash']))
@@ -174,6 +192,24 @@ class Main extends MY_Controller {
             else
             {
                 $data['MojoStatus'] = 0;
+            }
+
+            //EventsHigh payment session
+            if(isSessionVariableSet($this->paymentStatus) && $this->paymentStatus == '1')
+            {
+                $this->generalfunction_library->setSessionVariable('paymentStatus','0');
+                $this->paymentStatus = '0';
+                $data['PaymentStatus'] = 1;
+            }
+            elseif(isSessionVariableSet($this->paymentStatus) && $this->paymentStatus == '2')
+            {
+                $this->generalfunction_library->setSessionVariable('paymentStatus','0');
+                $this->paymentStatus = '0';
+                $data['PaymentStatus'] = 2;
+            }
+            else
+            {
+                $data['PaymentStatus'] = 0;
             }
 
             $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
@@ -222,7 +258,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -247,7 +283,7 @@ class Main extends MY_Controller {
                             $d = date_create($eventData[0]['eventDate']);
                             $st = date_create($eventData[0]['startTime']);
                             $et = date_create($eventData[0]['endTime']);
-                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
+                            $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia');
                             $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                             $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                             $data['meta']['description'] = $forDescription;
@@ -323,6 +359,23 @@ class Main extends MY_Controller {
         {
             $get = $this->input->get();
 
+            //EventsHigh Payment handle
+            if(isset($get['bookingid']) && isset($get['eid']))
+            {
+                if(isset($get['status']) && $get['status'] == 'success'
+                && isset($get['userName']) && isset($get['userEmail']) && isset($get['userMobile'])
+                && isset($get['nTickets']))
+                {
+                    $ehArray = array(
+                        'bookingid' => $get['bookingid'],
+                        'userName' => urldecode($get['userName']),
+                        'userEmail' => $get['userEmail'],
+                        'userMobile' => $get['userMobile'],
+                        'nTickets' => $get['nTickets']
+                    );
+                    $this->thankYou1($get['eid'],$ehArray);
+                }
+            }
             if(isset($get['event']) && isStringSet($get['event']) && isset($get['hash']) && isStringSet($get['hash']))
             {
                 if(hash_compare(encrypt_data('EV-'.$get['event']),$get['hash']))
@@ -349,6 +402,24 @@ class Main extends MY_Controller {
             {
                 $data['MojoStatus'] = 0;
             }
+
+            //EventsHigh payment session
+            if(isSessionVariableSet($this->paymentStatus) && $this->paymentStatus == '1')
+            {
+                $this->generalfunction_library->setSessionVariable('paymentStatus','0');
+                $this->paymentStatus = '0';
+                $data['PaymentStatus'] = 1;
+            }
+            elseif(isSessionVariableSet($this->paymentStatus) && $this->paymentStatus == '2')
+            {
+                $this->generalfunction_library->setSessionVariable('paymentStatus','0');
+                $this->paymentStatus = '0';
+                $data['PaymentStatus'] = 2;
+            }
+            else
+            {
+                $data['PaymentStatus'] = 0;
+            }
             if(isStringSet($_SERVER['QUERY_STRING']))
             {
                 $query = explode('/',$_SERVER['QUERY_STRING']);
@@ -374,7 +445,7 @@ class Main extends MY_Controller {
                                 $d = date_create($eventData[0]['eventDate']);
                                 $st = date_create($eventData[0]['startTime']);
                                 $et = date_create($eventData[0]['endTime']);
-                                $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
+                                $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia');
                                 $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                                 $data['meta']['description'] = $forDescription;
@@ -399,7 +470,7 @@ class Main extends MY_Controller {
                                 $d = date_create($eventData[0]['eventDate']);
                                 $st = date_create($eventData[0]['startTime']);
                                 $et = date_create($eventData[0]['endTime']);
-                                $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia')."-".date_format($et,'g:ia');
+                                $forDescription = date_format($d,DATE_FORMAT_SHARE).", ".date_format($st,'g:ia');
                                 $forDescription .= " @ ".$eventData[0]['locName']." Taproom";
                                 $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
                                 $data['meta']['description'] = $forDescription;
@@ -736,7 +807,7 @@ class Main extends MY_Controller {
             {
                 $this->dashboard_model->cancelEventOffers($cancelInfo['eventId'],$cancelInfo['paymentId']);
             }
-            if(myIsArray($cancelInfo))
+            if(myIsArray($cancelInfo) && $cancelInfo['eventId'] != 398)
             {
                 if($cancelInfo['eventPrice'] != '0')
                 {
@@ -761,6 +832,97 @@ class Main extends MY_Controller {
                     $this->instaEventId= 0;
                     $this->generalfunction_library->unSetSessionVariable('instaMojoStatus');
                     $this->instaMojoStatus = '0';
+                }
+                $this->sendemail_library->attendeeCancelMail($cancelInfo);
+                $this->sendemail_library->eventCancelSendMail($cancelInfo);
+                $data['status'] = TRUE;
+            }
+            elseif(myIsArray($cancelInfo) && $cancelInfo['eventId'] == 398)
+            {
+                $details = array(
+                    'event_id' => $cancelInfo['highId'],
+                    'booking_id' => $cancelInfo['paymentId'],
+                    'charge_commission_to_user' => true,
+                    'refund_amount' => ((int)$cancelInfo['eventPrice'] * (int)$cancelInfo['quantity'])
+                );
+                $ehRefund = $this->curl_library->refundEventsHigh($details);
+
+                if($ehRefund['status'] == 'success')
+                {
+                    if(isset($ehRefund['refund_info']['id']))
+                    {
+                        $refDetails = array(
+                            'eventId' => $cancelInfo['eventId'],
+                            'transType' => 'Paid',
+                            'refundId' => $ehRefund['refund_info']['id'],
+                            'refundAmount' => $ehRefund['refund_info']['refundAmount'],
+                            'refundReason' => $ehRefund['refund_info']['refundReason'],
+                            'refundGateway' => $ehRefund['refund_info']['refundGateway'],
+                            'bookingId' => $cancelInfo['paymentId'],
+                            'pgRefundId' => $ehRefund['refund_info']['paymentGatewayRefundId'],
+                            'transStatus' => 'Success',
+                            'refundError' => null,
+                            'refundDateTime' => date('Y-m-d H:i:s')
+                        );
+                        $cancelInfo['refundId'] = $ehRefund['refund_info']['id'];
+                    }
+                    else
+                    {
+                        $refDetails = array(
+                            'eventId' => $cancelInfo['eventId'],
+                            'transType' => 'Free',
+                            'refundId' => null,
+                            'refundAmount' => 0,
+                            'refundReason' => null,
+                            'refundGateway' => null,
+                            'bookingId' => $cancelInfo['paymentId'],
+                            'pgRefundId' => null,
+                            'transStatus' => 'Success',
+                            'refundError' => null,
+                            'refundDateTime' => date('Y-m-d H:i:s')
+                        );
+                    }
+
+                }
+                else
+                {
+                    $errorTxt = '';
+                    if(isset($ehRefund['message']))
+                    {
+                        $errr = json_decode($ehRefund['message'],true);
+                        $errorTxt = $errr['type'];
+                    }
+                    $refDetails = array(
+                        'eventId' => $cancelInfo['eventId'],
+                        'transType' => 'Failed',
+                        'refundId' => null,
+                        'refundAmount' => 0,
+                        'refundReason' => null,
+                        'refundGateway' => null,
+                        'bookingId' => $cancelInfo['paymentId'],
+                        'pgRefundId' => null,
+                        'transStatus' => 'Failed',
+                        'refundError' => $errorTxt,
+                        'refundDateTime' => date('Y-m-d H:i:s')
+                    );
+                    if($errorTxt != '')
+                    {
+                        $mailTxt = array(
+                            'eventName' => $cancelInfo['eventName'],
+                            'bookingId' => $cancelInfo['paymentId'],
+                            'errorTxt' => $errorTxt,
+                            'refundDateTime' => date('Y-m-d H:i:s')
+                        );
+                        $this->sendemail_library->refundFailSendMail($mailTxt);
+                    }
+                }
+                $this->dashboard_model->saveEhRefundDetails($refDetails);
+                if(isSessionVariableSet($this->paymentEventId))
+                {
+                    $this->generalfunction_library->unSetSessionVariable('paymentEventId');
+                    $this->paymentEventId= 0;
+                    $this->generalfunction_library->unSetSessionVariable('paymentStatus');
+                    $this->paymentStatus = '0';
                 }
                 $this->sendemail_library->attendeeCancelMail($cancelInfo);
                 $this->sendemail_library->eventCancelSendMail($cancelInfo);
@@ -903,10 +1065,10 @@ class Main extends MY_Controller {
             if(isset($eventHighRecord) && myIsArray($eventHighRecord))
             {
                 $EHAtendees = $this->curl_library->attendeeEventsHigh($eventHighRecord['highId']);
-                if(isset($EHAtendees['items']))
+                if(isset($EHAtendees) && myIsArray($EHAtendees))
                 {
-                    $data['EHData'] = $EHAtendees['items'];
-                    $data['EHTotal'] = array_sum(array_map(function($foo){return $foo['numTickets'];},$EHAtendees['items']));
+                    $data['EHData'] = $EHAtendees;
+                    $data['EHTotal'] = array_sum(array_map(function($foo){return $foo['numTickets'];},$EHAtendees));
                 }
             }
         }
@@ -951,9 +1113,9 @@ class Main extends MY_Controller {
                 if(isset($eventHighRecord) && myIsArray($eventHighRecord))
                 {
                     $EHAtendees = $this->curl_library->attendeeEventsHigh($eventHighRecord['highId']);
-                    if(isset($EHAtendees['items']))
+                    if(isset($EHAtendees) && myIsArray($EHAtendees))
                     {
-                        $data['EHData'] = $EHAtendees['items'];
+                        $data['EHData'] = $EHAtendees;
                     }
                 }
             }
@@ -1127,6 +1289,179 @@ class Main extends MY_Controller {
             {
                 $this->generalfunction_library->setSessionVariable('instaMojoStatus','2');
                 $this->instaMojoStatus = '2';
+            }
+
+        }
+        return TRUE;
+    }
+
+    function thankYou1($eventId, $ehArray)
+    {
+        $sessionDone = TRUE;
+        $this->generalfunction_library->setSessionVariable('paymentEventId',$eventId);
+        $this->paymentEventId= $eventId;
+        $this->generalfunction_library->setSessionVariable('paymentStatus','1');
+        $this->paymentStatus = '1';
+        /*if(isSessionVariableSet($this->paymentEventId))
+        {
+            if($this->paymentEventId != $eventId)
+            {
+                $this->generalfunction_library->setSessionVariable('paymentEventId',$eventId);
+                $this->paymentEventId= $eventId;
+                $this->generalfunction_library->setSessionVariable('paymentStatus','1');
+                $this->paymentStatus = '1';
+                $sessionDone = TRUE;
+                //redirect(base_url().'mobile');
+            }
+        }
+        else
+        {
+            $this->generalfunction_library->setSessionVariable('paymentEventId',$eventId);
+            $this->paymentEventId= $eventId;
+            $this->generalfunction_library->setSessionVariable('paymentStatus','1');
+            $this->paymentStatus = '1';
+            $sessionDone = TRUE;
+            //redirect(base_url().'mobile');
+        }*/
+        if($sessionDone === TRUE)
+        {
+            $this->load->model('login_model');
+            $userId = '';
+
+            $requiredInfo = array();
+            $ehDetails = $this->dashboard_model->getEventInfoByEhId($eventId);
+            if(isset($ehDetails) && myIsMultiArray($ehDetails))
+            {
+                $mojoNumber = $this->clearMobNumber($ehArray['userMobile']);
+                $userStatus = $this->checkPublicUser($ehArray['userEmail'],$mojoNumber);
+                $isSavedAlready = false;
+                if($userStatus['status'] === FALSE)
+                {
+                    $userId = $userStatus['userData']['userId'];
+                    $checkUserAlreadyReg = $this->dashboard_model->checkUserBookedWithMojo($userId,$ehDetails['eventId'],$ehArray['bookingid']);
+                    if($checkUserAlreadyReg['status'] === false)
+                    {
+                        $userName = explode(' ',$ehArray['userName']);
+                        if(count($userName)< 2)
+                        {
+                            $userName[1] = '';
+                        }
+                        if($userStatus['userData']['firstName'] == '' && $userStatus['userData']['lastName'] == '')
+                        {
+                            $detail = array(
+                                'firstName'=> $userName[0],
+                                'lastName' => $userName[1],
+                                'userId'=> $userId
+                            );
+                            $this->users_model->updatePublicUser($detail);
+                        }
+                        $eventData = $this->dashboard_model->getEventById($ehDetails['eventId']);
+                        $mailData= array(
+                            'creatorName' => $ehArray['userName'],
+                            'creatorEmail' => $ehArray['userEmail'],
+                            'creatorPhone' => $ehArray['userMobile'],
+                            'eventName' => $eventData[0]['eventName'],
+                            'eventDate' => $eventData[0]['eventDate'],
+                            'startTime' => $eventData[0]['startTime'],
+                            'endTime' => $eventData[0]['endTime'],
+                            'hostEmail' => $eventData[0]['creatorEmail'],
+                            'hostName' => $eventData[0]['creatorName'],
+                            'eventDescrip' => $eventData[0]['eventDescription'],
+                            'eventCost' => $eventData[0]['costType'],
+                            'eventId' => $eventData[0]['eventId'],
+                            'buyQuantity' => $ehArray['nTickets'],
+                            'doolallyFee' => $eventData[0]['doolallyFee'],
+                            'bookerId' => $ehArray['bookingid']
+                        );
+                        $this->sendemail_library->eventRegSuccessMail($mailData,$eventData[0]['eventPlace']);
+                        $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
+                    }
+                    else
+                    {
+                        $isSavedAlready = true;
+                    }
+                }
+                else
+                {
+                    $userName = explode(' ',$ehArray['userName']);
+                    if(count($userName)< 2)
+                    {
+                        $userName[1] = '';
+                    }
+
+                    $user = array(
+                        'userName' => $ehArray['userEmail'],
+                        'firstName' => $userName[0],
+                        'lastName' => $userName[1],
+                        'password' => md5($mojoNumber),
+                        'LoginPin' => null,
+                        'isPinChanged' => null,
+                        'emailId' => $ehArray['userEmail'],
+                        'mobNum' => $mojoNumber,
+                        'userType' => '4',
+                        'assignedLoc' => null,
+                        'ifActive' => '1',
+                        'insertedDate' => date('Y-m-d H:i:s'),
+                        'updateDate' => date('Y-m-d H:i:s'),
+                        'updatedBy' => $ehArray['userName'],
+                        'lastLogin' => date('Y-m-d H:i:s')
+                    );
+
+                    $userId = $this->users_model->savePublicUser($user);
+                    $checkUserAlreadyReg = $this->dashboard_model->checkUserBookedWithMojo($userId,$ehDetails['eventId'],$ehArray['bookingid']);
+                    if($checkUserAlreadyReg['status'] === false)
+                    {
+                        $eventData = $this->dashboard_model->getEventById($ehDetails['eventId']);
+                        $mailData= array(
+                            'creatorName' => $ehArray['userName'],
+                            'creatorEmail' => $ehArray['userEmail'],
+                            'creatorPhone' => $ehArray['userMobile'],
+                            'eventName' => $eventData[0]['eventName'],
+                            'eventDate' => $eventData[0]['eventDate'],
+                            'startTime' => $eventData[0]['startTime'],
+                            'endTime' => $eventData[0]['endTime'],
+                            'hostEmail' => $eventData[0]['creatorEmail'],
+                            'hostName' => $eventData[0]['creatorName'],
+                            'eventDescrip' => $eventData[0]['eventDescription'],
+                            'eventCost' => $eventData[0]['costType'],
+                            'eventId' => $eventData[0]['eventId'],
+                            'buyQuantity' => $ehArray['nTickets'],
+                            'doolallyFee' => $eventData[0]['doolallyFee'],
+                            'bookerId' => $ehArray['bookingId']
+                        );
+                        $this->sendemail_library->memberWelcomeMail($mailData,$eventData[0]['eventPlace']);
+                        $this->sendemail_library->eventHostSuccessMail($mailData,$eventData[0]['eventPlace']);
+                    }
+                    else
+                    {
+                        $isSavedAlready = true;
+                    }
+                }
+
+                //Save Booking Details
+
+                if(!$isSavedAlready)
+                {
+                    $requiredInfo = array(
+                        'bookerUserId' => $userId,
+                        'eventId' => $ehDetails['eventId'],
+                        'quantity' => $ehArray['nTickets'],
+                        'paymentId' => $ehArray['bookingid']
+                    );
+
+                    $this->dashboard_model->saveEventRegis($requiredInfo);
+                    //$this->sendemail_library->newEventMail($mailEvent);
+                    if(isSessionVariableSet($this->isMobUserSession) === FALSE)
+                    {
+                        $this->login_model->setLastLogin($userId);
+                        $this->generalfunction_library->setMobUserSession($userId);
+                    }
+                }
+            }
+            else
+            {
+                $this->generalfunction_library->setSessionVariable('paymentStatus','2');
+                $this->paymentStatus = '2';
             }
 
         }

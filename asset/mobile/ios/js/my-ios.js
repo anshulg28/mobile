@@ -1594,7 +1594,7 @@ $$(window).on('load', function (e) {
                 $$('.event-fab-btn').removeClass('hide');
             }
         }
-        if($$('#MojoStatus').val() == '1')
+        if($$('#MojoStatus').val() == '1' || $('#eventsHigh').val() == '1')
         {
             mainView.router.refreshPreviousPage();
             vex.dialog.buttons.YES.text = 'Close';
@@ -1609,7 +1609,7 @@ $$(window).on('load', function (e) {
             });
             myApp.showTab('#tab2');
         }
-        else if($$('#MojoStatus').val() == '2')
+        else if($$('#MojoStatus').val() == '2' || $('#eventsHigh').val() == '2')
         {
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({

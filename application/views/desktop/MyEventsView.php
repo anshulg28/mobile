@@ -244,6 +244,22 @@
                                                         <?php
                                                         ?>
                                                     </p>
+                                                    <?php
+                                                        $price = 0;
+                                                        if($row['costType'] != EVENT_FREE)
+                                                        {
+                                                            $price = ((int)$row['quantity'] * (int)$row['eventPrice']);
+                                                        }
+                                                    ?>
+                                                    <div class="attendee-pay-info"><i class="fa fa-money"></i> Booking Information</div>
+                                                    <span class="my-display-inline">Quantity: <?php echo $row['quantity'];?></span>&nbsp;
+                                                    <span class="my-display-inline">Amount Paid: <?php if($price==0){echo 'Free';}else{echo 'Rs '.$price;}?></span>
+                                                    <span class="my-display-inline">Booking Date/Time:
+                                                        <?php
+                                                            $d = date_create($row['createdDT']);
+                                                            echo date_format($d,DATE_TIME_FORMAT_UI);
+                                                        ?>
+                                                    </span>
                                                 </div>
                                                 <div class="mdl-card__actions mdl-card--border attending-action-btns">
                                                     <i data-email="<?php echo $row['creatorEmail'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect contact-email">

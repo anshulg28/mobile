@@ -223,6 +223,12 @@
                                             <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Registration Full! </a>
                                             <?php
                                         }
+                                        elseif(isset($row['highId']) && $row['eventId'] == '398')
+                                        {
+                                            ?>
+                                            <a href="#" onclick='d=document.createElement("script");d.src="https://ticketing.eventshigh.com/ticketModal.jsp?eid=<?php echo $row['highId'];?>&src=fbTicketWidget&theme=jet-black&bg0=1"; window.document.body.insertBefore(d, window.document.body.firstChild);' class="button button-big button-fill bookNow-event-btn">Try With EventsHigh</a>
+                                            <?php
+                                        }
                                         elseif($row['ifActive'] == NOT_ACTIVE || $row['isEventCancel'] == EVENT_CANCEL_REVIEW ||
                                             $row['isEventCancel'] == EVENT_CANCEL_FINAL)
                                         {

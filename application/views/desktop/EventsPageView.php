@@ -29,6 +29,10 @@
         $postImg = 0;
         foreach($eventDetails as $key => $row)
         {
+            if(isEventFinished($row['eventDate'], $row['endTime']))
+            {
+                continue;
+            }
             $img_collection = array();
             ?>
             <div itemscope itemtype="http://schema.org/Event" class="mdl-card mdl-shadow--2dp demo-card-header-pic <?php

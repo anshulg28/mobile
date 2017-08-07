@@ -50,6 +50,10 @@
     z-index: 13501;
     overflow: hidden;
 }
+.my-display-inline
+{
+    display:inline-block;
+}
 .iosHome .smart-select-picker .picker-modal .toolbar
 {
     background: crimson;
@@ -524,6 +528,14 @@
 .iosHome .even-dashboard .my-event-status
 {
     margin:-10px;
+}
+.iosHome .even-dashboard .my-event-status .attendee-pay-info
+{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+    background-color: rgba(162, 199, 96, 0.53);
+    padding: 5px;
 }
 .iosHome .even-dashboard .login-screen
 {

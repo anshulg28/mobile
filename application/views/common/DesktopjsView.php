@@ -416,7 +416,7 @@
         $('#mainContent-view').removeClass('my-vanish');
         $("time.timeago").timeago();
 
-        if($('#MojoStatus').val() == '1')
+        if($('#MojoStatus').val() == '1' || $('#eventsHigh').val() == '1')
         {
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({
@@ -428,7 +428,7 @@
                 pushHistory('Doolally','event_dash',true);
             },500);
         }
-        else if($('#MojoStatus').val() == '2')
+        else if($('#MojoStatus').val() == '2' || $('#eventsHigh').val() == '2')
         {
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({
@@ -2308,50 +2308,57 @@
             addEvent(formObj);
         }
     });
-
+    var isReqPending = false;
     function addEvent(ele)
     {
-        showProgressLoader();
-        $.ajax({
-            type:'POST',
-            dataType:'json',
-            url:$(ele).attr('action'),
-            data:$(ele).serialize(),
-            success: function(data){
-                if(data.status == true)
-                {
+        if(!isReqPending)
+        {
+            isReqPending = true;
+            showProgressLoader();
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:$(ele).attr('action'),
+                data:$(ele).serialize(),
+                success: function(data){
+                    isReqPending = false;
+                    if(data.status == true)
+                    {
+                        vex.dialog.buttons.YES.text = 'Close';
+                        vex.dialog.alert({
+                            unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Thank you for creating an event, ' +
+                            'We have sent you a confirmation email, please check for event status in My Events section.',
+                            callback: function(){
+                                setTimeout(function(){
+                                    pushHistory('Doolally','event_dash',true);
+                                },500);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        vex.dialog.buttons.YES.text = 'Close';
+                        vex.dialog.alert({
+                            unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
+                        });
+                    }
+                },
+                error: function(xhr, status, error){
+                    isReqPending= false;
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
-                        unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Thank you for creating an event, ' +
-                        'We have sent you a confirmation email, please check for event status in My Events section.',
-                        callback: function(){
-                            setTimeout(function(){
-                                pushHistory('Doolally','event_dash',true);
-                            },500);
-                        }
+                        unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
                     });
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                 }
-                else
-                {
-                    vex.dialog.buttons.YES.text = 'Close';
-                    vex.dialog.alert({
-                        unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
-                    });
-                }
-            },
-            error: function(xhr, status, error){
-                vex.dialog.buttons.YES.text = 'Close';
-                vex.dialog.alert({
-                    unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
-                });
-                var err = '<pre>'+xhr.responseText+'</pre>';
-                saveErrorLog(err);
-            }
-        });
+            });
+        }
     }
 
     //For Event Edit
     var eventEditStatus = false;
+    var isReqEditPending = false;
     $(document).on('submit', '.event-add-page #eventEditSave', function(e){
         e.preventDefault();
 
@@ -2494,58 +2501,65 @@
 
     function editEvent(ele)
     {
-        showProgressLoader();
-        $.ajax({
-            type:'POST',
-            dataType:'json',
-            url:$(ele).attr('action'),
-            data:$(ele).serialize(),
-            success: function(data){
-                if(data.status == true)
-                {
-                    if(data.noChange === true)
+        if(!isReqEditPending)
+        {
+            isReqEditPending = true;
+            showProgressLoader();
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:$(ele).attr('action'),
+                data:$(ele).serialize(),
+                success: function(data){
+                    isReqEditPending = false;
+                    if(data.status == true)
                     {
-                        vex.dialog.buttons.YES.text = 'Close';
-                        vex.dialog.alert({
-                            unsafeMessage: '<label class="head-title">Information</label><br><br>'+'No Changes Found!',
-                            callback: function(){
-                                setTimeout(function(){
-                                    pushHistory('Doolally','event_dash',true);
-                                },500);
-                            }
-                        });
+                        if(data.noChange === true)
+                        {
+                            vex.dialog.buttons.YES.text = 'Close';
+                            vex.dialog.alert({
+                                unsafeMessage: '<label class="head-title">Information</label><br><br>'+'No Changes Found!',
+                                callback: function(){
+                                    setTimeout(function(){
+                                        pushHistory('Doolally','event_dash',true);
+                                    },500);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            vex.dialog.buttons.YES.text = 'Close';
+                            vex.dialog.alert({
+                                unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Your event is now in review state, ' +
+                                'We will sent you mail once review is done, you can check for event status in My Events section.',
+                                callback: function(){
+                                    setTimeout(function(){
+                                        pushHistory('Doolally','event_dash',true);
+                                    },500);
+                                }
+                            });
+                        }
                     }
                     else
                     {
                         vex.dialog.buttons.YES.text = 'Close';
                         vex.dialog.alert({
-                            unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Your event is now in review state, ' +
-                            'We will sent you mail once review is done, you can check for event status in My Events section.',
-                            callback: function(){
-                                setTimeout(function(){
-                                    pushHistory('Doolally','event_dash',true);
-                                },500);
-                            }
+                            unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
                         });
                     }
-                }
-                else
-                {
+                },
+                error: function(xhr, status, error){
+                    isReqEditPending = false;
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
-                        unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
+                        unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
                     });
+                    var err = '<pre>'+xhr.responseText+'</pre>';
+                    saveErrorLog(err);
                 }
-            },
-            error: function(xhr, status, error){
-                vex.dialog.buttons.YES.text = 'Close';
-                vex.dialog.alert({
-                    unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
-                });
-                var err = '<pre>'+xhr.responseText+'</pre>';
-                saveErrorLog(err);
-            }
-        });
+            });
+        }
+
     }
 
     $(document).on('click','#dashboard-logout', function(){
@@ -2998,4 +3012,42 @@
         e.preventDefault();
         console.log('in');
     });*/
+
+    function createEventsHigh(eventData)
+    {
+
+        var postData = {
+            'event_id': 'e851c4854663c3aa71097066a647fec2',
+            'refund_amount' : 0,
+            'booking_id' : 'kiskX'
+        };
+
+        var ifError = '';
+        showCustomLoader();
+        $.ajax({
+            type:'POST',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            url:'https://developer.eventshigh.com/refund_booking?key=ev3nt5h1ghte5tK3y',
+            data: JSON.stringify(postData),
+            success: function(data){
+                console.log(data);
+                if(data.status == 'error')
+                {
+                    if(typeof data.message !== 'undefined')
+                    {
+                        hideCustomLoader();
+                        ifError = data.message;
+                        bootbox.alert(data.message);
+                    }
+                }
+            },
+            error: function(xhr, status, error){
+                hideCustomLoader();
+                bootbox.alert('Some Error Occurred!');
+                var err = '<pre>'+xhr.responseText+'</pre>';
+                saveErrorLog(err);
+            }
+        });
+    }
 </script>

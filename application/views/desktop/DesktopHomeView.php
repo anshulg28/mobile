@@ -596,6 +596,7 @@
                             </div>
                         </div>
                         <input type="hidden" id="MojoStatus" value="<?php echo $MojoStatus;?>"/>
+                        <input type="hidden" id="eventsHigh" value="<?php echo $PaymentStatus;?>"/>
                         <div class="event-section">
                             <?php
                             if(isset($eventDetails) && myIsMultiArray($eventDetails))
@@ -603,6 +604,10 @@
                                 $postImg = 0;
                                 foreach($eventDetails as $key => $row)
                                 {
+                                    if(isEventFinished($row['eventDate'], $row['endTime']))
+                                    {
+                                        continue;
+                                    }
                                     $img_collection = array();
                                     ?>
                                     <div itemscope itemtype="http://schema.org/Event" class="mdl-card mdl-shadow--2dp demo-card-header-pic <?php
@@ -775,9 +780,9 @@
                     </div>
                 </section>
                 <section class="mdl-layout__tab-panel" id="fnbTab">
-                    <div class="page-content">
+                    <!--<div class="page-content">
                         <?php
-                        if(isset($fnbItems) && myIsMultiArray($fnbItems))
+/*                        if(isset($fnbItems) && myIsMultiArray($fnbItems))
                         {
                             $postImg = 0;
                             $resetCard = 0;
@@ -788,53 +793,53 @@
                                 switch($row['itemType'])
                                 {
                                     case ITEM_FOOD:
-                                        ?>
+                                        */?>
                                         <?php
-                                        if($foodFlag == 0)
+/*                                        if($foodFlag == 0)
                                         {
                                             $foodFlag = 1;
-                                            ?>
+                                            */?>
                                             <div class="content-block-title food-title">Food</div>
                                             <?php
-                                        }
-                                        ?>
-                                        <div class="mdl-card mdl-shadow--2dp demo-card-header-pic" data-fnbId = "<?php echo $row['fnbId']; ?>">
+/*                                        }
+                                        */?>
+                                        <div class="mdl-card mdl-shadow--2dp demo-card-header-pic" data-fnbId = "<?php /*echo $row['fnbId']; */?>">
                                             <?php
-                                            if($postImg <=2)
+/*                                            if($postImg <=2)
                                             {
-                                                ?>
-                                                <img src="<?php echo base_url().FOOD_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                */?>
+                                                <img src="<?php /*echo base_url().FOOD_PATH_THUMB.$row['filename'];*/?>" class="mainFeed-img"/>
                                                 <?php
-                                            }
+/*                                            }
                                             else
                                             {
-                                                ?>
-                                                <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy"/>
+                                                */?>
+                                                <img data-src="<?php /*echo base_url().FOOD_PATH_THUMB.$row['filename'];*/?>" class="mainFeed-img lazy"/>
                                                 <?php
-                                            }
+/*                                            }
                                             $postImg++;
 
-                                            ?>
-                                            <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                            */?>
+
                                             <ul class="mdl-list main-avatar-list">
                                                 <li class="mdl-list__item mdl-list__item--two-line">
                                                     <span class="mdl-list__item-primary-content">
-                                                        <span class="avatar-title"><?php echo $row['itemName'];?></span>
+                                                        <span class="avatar-title"><?php /*echo $row['itemName'];*/?></span>
                                                     </span>
                                                     <span class="mdl-list__item-secondary-content">
                                                         <span class="mdl-list__item-secondary-info">
-                                                            <input type="hidden" data-name="<?php echo $row['itemName'];?>" value="<?php if(isset($row['shortUrl'])){ echo $row['shortUrl'];}else{echo $row['fnbShareLink'];}?>"/>
+                                                            <input type="hidden" data-name="<?php /*echo $row['itemName'];*/?>" value="<?php /*if(isset($row['shortUrl'])){ echo $row['shortUrl'];}else{echo $row['fnbShareLink'];}*/?>"/>
                                                             <i class="my-pointer-item ic_me_share_icon pull-right event-share-icn fnb-card-share-btn"></i>
                                                         </span>
                                                     </span>
                                                 </li>
                                             </ul>
                                             <div class="mdl-card__supporting-text">
-                                                <?php echo strip_tags($row['itemDescription'],'<br>');?>
+                                                <?php /*echo strip_tags($row['itemDescription'],'<br>');*/?>
                                             </div>
                                         </div>
                                         <?php
-                                        break;
+/*                                        break;
                                 }
                             }
                         }
@@ -842,8 +847,8 @@
                         {
                             echo 'No Items Found!';
                         }
-                        ?>
-                    </div>
+                        */?>
+                    </div>-->
                 </section>
                 <section class="mdl-layout__tab-panel" id="jukeboxTab"></section>
                 <section class="mdl-layout__tab-panel" id="contactTab"></section>

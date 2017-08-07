@@ -7,7 +7,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property Dashboard_Model $dashboard_model
  * @property Locations_Model $locations_model
  */
-
 class Cron extends MY_Controller
 {
     function __construct()
@@ -394,10 +393,10 @@ class Cron extends MY_Controller
 
     function sendInstaReport()
     {
-        $colKeys = array('Payment ID','Refund Id','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
-            'Sale Amount','Transaction Type','Instamojo Fees','Total Tax','Net Sale Amount');
-        $ehColKeys = array('Payment ID','Location','Transaction Date/Time','Link/Purpose','Buyer Name','Buyer Email','Buyer Phone Number',
-            'Sale Amount','Transaction Type','EventsHigh Fees','Net Sale Amount');
+        $colKeys = array('Payment ID','Refund Id','Location','Transaction Date/Time','Link/Purpose','No. of Tickets','Per Ticket Price',
+            'Sale Amount','Transaction Type','Instamojo Fees','Total Tax','Net Sale Amount','Buyer Name','Buyer Email','Buyer Phone Number');
+        $ehColKeys = array('Payment ID','Location','Transaction Date/Time','Link/Purpose','No. of Tickets','Per Ticket Price',
+            'Sale Amount','Transaction Type','EventsHigh Fees','Net Sale Amount','Buyer Name','Buyer Email','Buyer Phone Number');
         $allInsta = $this->cron_model->getIntaRecords();
         $allRefunds = $this->curl_library->allInstaRefunds();
 
@@ -405,7 +404,7 @@ class Cron extends MY_Controller
         $refundArray = array();
         if( isset($allInsta) && myIsArray($allInsta))
         {
-            $startTime = date('d_M_Y');
+            $startTime = date('d_M_Y',strtotime('-1 day'));
             $endTime = date('d_M',strtotime('-15 day'));
             $file = fopen("./uploads/InstamojoRecords_".$startTime.".csv","w");
             $file1 = fopen("./uploads/EventsHighRecords_".$startTime.".csv","w");
@@ -423,9 +422,9 @@ class Cron extends MY_Controller
                 if(isset($row['highId']))
                 {
                     $ehArray = $this->curl_library->attendeeEventsHigh($row['highId']);
-                    if(isset($ehArray) && myIsArray($ehArray) && isset($ehArray['items']))
+                    if(isset($ehArray) && myIsArray($ehArray))
                     {
-                        foreach($ehArray['items'] as $subKey => $subRow)
+                        foreach($ehArray as $subKey => $subRow)
                         {
                             if($subRow['amount'] != 0)
                             {
@@ -434,13 +433,15 @@ class Cron extends MY_Controller
                                     $row['locName'],
                                     $subRow['bookedOn'],
                                     $row['eveName'],
-                                    $subRow['name'],
-                                    $subRow['email'],
-                                    $subRow['mobile'],
+                                    $subRow['numTickets'],
+                                    $row['eventPrice'],
                                     $subRow['saleAmount'],
                                     $subRow['registrationStatus'],
                                     $subRow['ehCommission'],
-                                    $subRow['amountForOrganizer']
+                                    $subRow['amountForOrganizer'],
+                                    $subRow['name'],
+                                    $subRow['email'],
+                                    $subRow['mobile']
                                 );
                                 $textToWrite = $ehRow;
                                 fputcsv($file1,$textToWrite);
@@ -469,20 +470,23 @@ class Cron extends MY_Controller
                         $serviceTax = ((double)$instaRecord['payment']['fees'] * 18)/100;
                         $swachTax = ($finalAmt * 0.0095) / 100;
                         $netAmt = $finalAmt - ((double)$instaRecord['payment']['fees'] + $serviceTax);
+                        $d = date_create($row['createdDT']);
                         $recordRow = array(
                             $row['paymentId'],
                             $refundId,
                             $row['locName'],
-                            $row['createdDT'],
+                            date_format($d,'n/d/Y g:i a'),
                             $row['eveName'],
-                            $instaRecord['payment']['buyer_name'],
-                            $instaRecord['payment']['buyer_email'],
-                            $instaRecord['payment']['buyer_phone'],
+                            $row['quantity'],
+                            $row['eventPrice'],
                             $instaRecord['payment']['amount'],
                             $instaRecord['payment']['status'],
                             $instaRecord['payment']['fees'],
                             $serviceTax,
-                            $netAmt
+                            $netAmt,
+                            $instaRecord['payment']['buyer_name'],
+                            $instaRecord['payment']['buyer_email'],
+                            $instaRecord['payment']['buyer_phone']
                             );
                         $textToWrite = $recordRow;
                         fputcsv($file,$textToWrite);
@@ -490,10 +494,10 @@ class Cron extends MY_Controller
                 }
             }
             fclose($file);
-            $content = '<html><body><p>Instamojo and Eventshigh Records With Location Filtered!<br>PFA</p></body></html>';
+            $content = '<html><body><p>Instamojo and Eventshigh Records With Location Filtered!<br>Refund ID, if present, indicates that the ticket has been canceled and refund issued<br>PFA</p></body></html>';
 
             $this->sendemail_library->sendEmail(array('saha@brewcraftsindia.com','pranjal.rathi@rubycapital.net','accountsexecutive@brewcraftsindia.com'),'anshul@brewcraftsindia.com','admin@brewcraftsindia.com','ngks2009','Doolally'
-                ,'admin@brewcraftsindia.com','Instamojo and Eventshigh Records With Location | '.date('d_M_Y'),$content,array("./uploads/InstamojoRecords_".$startTime.".csv","./uploads/EventsHighRecords_".$startTime.".csv"));
+                ,'admin@brewcraftsindia.com','Instamojo and Eventshigh Records With Location | '.date('d_M_Y',strtotime('-1 day')),$content,array("./uploads/InstamojoRecords_".$startTime.".csv","./uploads/EventsHighRecords_".$startTime.".csv"));
             try
             {
                 unlink("./uploads/InstamojoRecords_".$startTime.".csv");
@@ -589,6 +593,21 @@ class Cron extends MY_Controller
 
             }
         }
+    }
+
+    public function checkehapi()
+    {
+        $details = array(
+            'event_id' => 'e851c4854663c3aa71097066a647fec2',
+            'refund_amount' => 0,
+            'booking_id' => 'kiskX'
+        );
+
+        $eh = $this->curl_library->refundEventsHigh($details);
+
+        echo '<pre>';
+        var_dump($eh);
+
     }
 
 }

@@ -207,7 +207,7 @@ class Cron_Model extends CI_Model
         $query = "SELECT um.firstName, um.lastName,
                     CASE WHEN lm.locName IS NULL THEN lm1.locName ELSE lm.locName END AS 'locName', erm.paymentId,
                     CASE WHEN em.eventName IS NULL THEN ecm.eventName ELSE em.eventName END AS 'eveName',
-                    erm.quantity, erm.createdDT, ehm.highId
+                    erm.quantity, erm.createdDT, ehm.highId, em.eventPrice 
                     FROM eventregistermaster erm
                     LEFT JOIN eventmaster em ON erm.eventId = em.eventId
                     LEFT JOIN eventcompletedmaster ecm ON erm.eventId = ecm.eventId
@@ -215,7 +215,7 @@ class Cron_Model extends CI_Model
                     LEFT JOIN locationmaster lm1 ON ecm.eventPlace = lm1.id
                     LEFT JOIN locationmaster lm ON em.eventPlace = lm.id
                     LEFT JOIN eventshighmaster ehm ON erm.eventId = ehm.eventId AND ehm.highStatus = 1
-                    WHERE DATE(erm.createdDT) = CURRENT_DATE()";
+                    WHERE DATE(erm.createdDT) = CURRENT_DATE() - INTERVAL 1 DAY";
 
         $result = $this->db->query($query)->result_array();
         return $result;
@@ -227,7 +227,8 @@ class Cron_Model extends CI_Model
         $query = "SELECT em.eventId, em.eventName, em.startTime, l.locName
                     FROM eventmaster em
                     LEFT JOIN locationmaster l ON em.eventPlace = l.id
-                    where em.eventDate = (CURRENT_DATE() + INTERVAL 1 DAY)";
+                    where em.eventDate = (CURRENT_DATE() + INTERVAL 1 DAY) 
+                    AND em.isEventCancel = 0 AND em.ifActive = ".ACTIVE." AND em.ifApproved = ".EVENT_APPROVED;
 
         $result = $this->db->query($query)->result_array();
         return $result;

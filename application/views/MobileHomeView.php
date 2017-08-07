@@ -725,6 +725,7 @@
                     <!-- Scrollable page content -->
                     <div class="page-content" id="my-page1">
                         <input type="hidden" id="MojoStatus" value="<?php echo $MojoStatus;?>"/>
+                        <input type="hidden" id="eventsHigh" value="<?php echo $PaymentStatus;?>"/>
                         <div class="content-block">
                             <?php
                                 if(isset($weekEvents) && myIsMultiArray($weekEvents))

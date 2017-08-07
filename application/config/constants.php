@@ -90,7 +90,7 @@ defined('FROM_NAME_EMAIL')  OR define('FROM_NAME_EMAIL', 'Doolally');
 defined('RESPONSE_JSON') OR define('RESPONSE_JSON','json');
 defined('RESPONSE_RETURN') OR define('RESPONSE_RETURN','return');
 defined('DATE_FORMAT_UI')   OR define('DATE_FORMAT_UI', 'jS M, Y');
-defined('DATE_FORMAT_SHARE')   OR define('DATE_FORMAT_SHARE', 'jS M');
+defined('DATE_FORMAT_SHARE')   OR define('DATE_FORMAT_SHARE', 'D, jS M');
 defined('EVENT_DATE_FORMAT')   OR define('EVENT_DATE_FORMAT', 'D, M j');
 defined('EVENT_INSIDE_DATE_FORMAT')   OR define('EVENT_INSIDE_DATE_FORMAT', 'D, M j, Y');
 defined('DATE_FORMAT_GRAPH_UI')   OR define('DATE_FORMAT_GRAPH_UI', 'j F');
@@ -133,7 +133,7 @@ defined('INSTA_AUTH_TOKEN') OR define('INSTA_AUTH_TOKEN','2e8a6cb6ddb931a722e05d
 defined('GOOGLE_API_KEY') OR define('GOOGLE_API_KEY','AIzaSyBG3wamyMbQqRlqysulunOuPvv3_51BmpI');
 defined('BCJUKEBOX_CLIENT') OR define('BCJUKEBOX_CLIENT','UUN5m270I7nxuuBDzukIVtAV0QxL5UQEV1FaYmUg');
 defined('TEXTLOCAL_API') OR define('TEXTLOCAL_API','cFIpDcHmYnc-mdteI9XWFa41zNZSq9Z3crlHtQAZCb');
-defined('EVENT_HIGH_KEY') OR define('EVENT_HIGH_KEY','ev3nt5h1ghte5tK3y');
+defined('EVENT_HIGH_KEY') OR define('EVENT_HIGH_KEY','D00la11y@ppKey');
 defined('EVENT_HIGH_ACCOUNT') OR define('EVENT_HIGH_ACCOUNT','doolally');
 defined('MEETUP_KEY') OR define('MEETUP_KEY','165c416c7672a5cc2f1a43292a2817');
 defined('MEETUP_GROUP') OR define('MEETUP_GROUP','meetup-group-XWIyWwft');
@@ -163,5 +163,5 @@ defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','doolally123');
 
 defined('OLD_DOOLALLY_FEE') OR define('OLD_DOOLALLY_FEE','250');
 defined('NEW_DOOLALLY_FEE') OR define('NEW_DOOLALLY_FEE','300');
-defined('DOOLALLY_FEE_MAIL_TEXT') OR define('DOOLALLY_FEE_MAIL_TEXT' ,'330ml Beer <b>OR</b> House Fries & Mocktail <b>OR</b> Pancakes & Coffee.');
+defined('DOOLALLY_FEE_MAIL_TEXT') OR define('DOOLALLY_FEE_MAIL_TEXT' ,'House Fries & Mocktail <b>OR</b> A Pint of Beer.');
 defined('DOOLALLY_CUSTOM_FEE_MAIL_TEXT') OR define('DOOLALLY_CUSTOM_FEE_MAIL_TEXT','Half Pint of Beer <b>OR</b> House Fries <b>OR</b> A Mocktail.');

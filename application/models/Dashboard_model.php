@@ -486,12 +486,12 @@ class Dashboard_Model extends CI_Model
     }
     public function getEventsRegisteredByUser($userId)
     {
-        $query = "SELECT erm.bookerId,erm.bookerUserId,erm.eventId,erm.quantity,erm.isUserCancel, em.*, ea.filename, l.locName
+        $query = "SELECT erm.bookerId,erm.bookerUserId,erm.eventId,erm.quantity,erm.createdDT,erm.isUserCancel, em.*, ea.filename, l.locName
                   FROM eventregistermaster erm
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
                   LEFT JOIN eventattachment ea ON ea.eventId = erm.eventId
                   LEFT JOIN locationmaster l ON l.id = em.eventPlace
-                  WHERE erm.eventDone != 1 AND bookerUserId = ".$userId." GROUP BY erm.eventId";
+                  WHERE erm.eventDone != 1 AND bookerUserId = ".$userId;
 
         $result = $this->db->query($query)->result_array();
 
@@ -788,11 +788,12 @@ class Dashboard_Model extends CI_Model
     }
     public function getFullEventInfoBySlug($eventSlug)
     {
-        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink
+        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink, eh.highId
                   FROM eventmaster em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
                   LEFT JOIN eventslugmaster esm ON em.eventId = esm.eventId
+                  LEFT JOIN eventshighmaster eh ON em.eventId = eh.eventId
                   WHERE esm.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
 
         $result = $this->db->query($query)->result_array();
@@ -824,6 +825,14 @@ class Dashboard_Model extends CI_Model
     public function getEventHighRecord($eventId)
     {
         $query = "SELECT highId FROM eventshighmaster WHERE highStatus = 1 AND eventId = ".$eventId;
+
+        $result = $this->db->query($query)->row_array();
+
+        return $result;
+    }
+    public function getEventInfoByEhId($ehId)
+    {
+        $query = "SELECT * FROM eventshighmaster WHERE highId = '".$ehId."'";
 
         $result = $this->db->query($query)->row_array();
 
@@ -890,11 +899,13 @@ class Dashboard_Model extends CI_Model
 
     public function getEventCancelInfo($bId)
     {
-        $query = 'SELECT erm.paymentId, em.eventId, em.eventPlace, em.eventPrice,
-                  em.eventName, em.creatorName, em.creatorEmail, um.firstName, um.lastName, um.emailId
+        $query = 'SELECT erm.paymentId, erm.quantity, em.eventId, em.eventPlace, em.eventPrice,
+                  em.eventName, em.creatorName, em.creatorEmail, um.firstName, um.lastName,
+                  um.emailId, ehm.highId 
                   FROM `eventregistermaster` erm
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
                   LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
+                  LEFT JOIN eventshighmaster ehm ON erm.eventId = ehm.eventId
                   WHERE erm.bookerId = '.$bId;
 
         $result = $this->db->query($query)->row_array();
@@ -989,6 +1000,11 @@ class Dashboard_Model extends CI_Model
     public function saveUpiDump($details)
     {
         $this->db->insert('upidumpingtable', $details);
+        return true;
+    }
+    function saveEhRefundDetails($details)
+    {
+        $this->db->insert('ehrefundmaster',$details);
         return true;
     }
 }

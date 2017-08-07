@@ -42,6 +42,8 @@ class MY_Controller extends CI_Controller
 
     public $instaMojoStatus = '';
     public $instaEventId = '';
+    public $paymentStatus = '';
+    public $paymentEventId = '';
 
 
 	function __construct()
@@ -120,6 +122,11 @@ class MY_Controller extends CI_Controller
             $this->instaMojoStatus = $this->session->instaMojoStatus;
         }
 
+        if(isSessionVariableSet($this->session->paymentEventId) === true)
+        {
+            $this->paymentEventId = $this->session->paymentEventId;
+            $this->paymentStatus = $this->session->paymentStatus;
+        }
 		//
 		$this->currentUrl = str_replace('/index.php', '', current_url());
 	}

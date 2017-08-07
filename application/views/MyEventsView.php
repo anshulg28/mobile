@@ -292,6 +292,22 @@
                                                                     echo date_format($d,EVENT_DATE_FORMAT); ?></u>
                                                                 </a>
                                                             </p>
+                                                            <?php
+                                                            $price = 0;
+                                                            if($row['costType'] != EVENT_FREE)
+                                                            {
+                                                                $price = ((int)$row['quantity'] * (int)$row['eventPrice']);
+                                                            }
+                                                            ?>
+                                                            <div class="attendee-pay-info"><i class="fa fa-money"></i> Booking Information</div>
+                                                            <span class="my-display-inline">Quantity: <?php echo $row['quantity'];?></span>&nbsp;
+                                                            <span class="my-display-inline">Amount Paid: <?php if($price==0){echo 'Free';}else{echo 'Rs '.$price;}?></span>
+                                                            <span class="my-display-inline">Booking Date/Time:
+                                                                <?php
+                                                                $d = date_create($row['createdDT']);
+                                                                echo date_format($d,DATE_TIME_FORMAT_UI);
+                                                                ?>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>

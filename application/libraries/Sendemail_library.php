@@ -686,6 +686,25 @@ class Sendemail_library
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
+    public function refundFailSendMail($userData)
+    {
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/refundFailMailView', $data, true);
+
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
+        $cc        = '';
+        $fromName  = 'Doolally';
+
+        $subject = 'EventsHigh Refund Failed Booking Id '.$userData['bookingId'];
+        $toEmail = array('saha@brewcraftsindia.com','anshul@brewcraftsindia.com','tresha@brewcraftsindia.com','taronish@brewcraftsindia.com');
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
+    }
+
     public function generateEventCode($eveId,$bookerId)
     {
         $allCodes = $this->CI->offers_model->getAllCodes();
