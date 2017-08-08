@@ -20,10 +20,6 @@ body
 {
     color:green;
 }
-.my-black-text
-{
-    color:#000;
-}
 .my-pointer-item
 {
     cursor: pointer;
@@ -195,6 +191,14 @@ body
     background: rgba(255,255,255,0.5);
     z-index: 1000;
     overflow: hidden;
+}
+.show-in-mobile
+{
+    display:none !important;
+}
+.hide-in-mobile
+{
+    display:block !important;
 }
 /* Desktop Version general Style*/
 
@@ -396,6 +400,11 @@ body
 {
     position:relative;
     top:-5px;
+    color:#929292;
+}
+.my-black-text
+{
+    color:#000;
 }
 .ic_events_icon
 {
@@ -1721,6 +1730,53 @@ body
     .mainHome #eventsTab .mdl-event-info-list .list-header
     {
         display:block;
+    }
+}
+@media screen and (max-width:1024px)
+{
+    .mainHome .mdl-grid.page-content
+    {
+        margin:0;
+    }
+    .mainHome .strip-sides-on-mobile
+    {
+        display:none;
+    }
+    .mainHome #mainContent-view
+    {
+        width:calc(100% - 16px);
+    }
+    .show-in-mobile
+    {
+        display:block !important;
+    }
+    .hide-in-mobile
+    {
+        display:none !important;
+    }
+    footer.mdl-layout__header
+    {
+        height:auto;
+        box-shadow:0 -3px 5px 0 rgba(0,0,0,.14), 0 -3px 5px -5px rgba(0,0,0,.2), 0 -1px 1px -5px rgba(0,0,0,.12);
+    }
+    footer .mdl-layout__header-row
+    {
+        padding:0;
+    }
+    footer .mdl-cell--12-col
+    {
+        width:100%;
+        height: inherit;
+    }
+    footer .mdl-layout__tab-bar
+    {
+        padding:0;
+        justify-content: center;
+        margin:0 auto;
+    }
+    footer .mdl-layout__tab-bar .mdl-layout__tab
+    {
+        padding:0 30px;
     }
 }
 @media screen and (min-width: 1025px) and (max-width: 1279px)

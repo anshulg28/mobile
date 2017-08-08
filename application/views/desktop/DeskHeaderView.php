@@ -108,7 +108,7 @@
         </div>
         <div class="mdl-cell mdl-cell--3-col"></div>
     </div>
-    <div class="mdl-layout__tab-bar mdl-js-ripple-effect hide" id="mainNavBar">
+    <div class="mdl-layout__tab-bar mdl-js-ripple-effect hide hide-in-mobile" id="mainNavBar">
         <a href="<?php echo base_url();?>" class="mdl-layout__tab is-active">
             <i class="fa fa-hashtag fa-17x my-display-block common-main-tabs on header-tabs-reposition mdl-badge--overlap" data-badge=""></i><span class="head-txt-up">Doolally</span>
         </a>

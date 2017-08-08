@@ -30,13 +30,13 @@
 
 
     //Facebook Script
-        (function(d, s, id) {
+        /*(function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId=635771029924628";
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+        }(document, 'script', 'facebook-jssdk'));*/
 
     function saveErrorLog(errorTxt)
     {
@@ -715,6 +715,7 @@
         $('#mainNavBar .mdl-layout__tab').removeClass('is-active');
         $('#mainContent-view .mdl-layout__tab-panel').removeClass('is-active');
         $('#mainNavBar .common-main-tabs').removeClass('on');
+        $('#mainNavBar .head-txt-up').removeClass('my-black-text');
         switch(tabName)
         {
             case '#timelineTab':
@@ -724,6 +725,7 @@
                 $('a:nth-child(1).mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#timelineTab').addClass('is-active');
                 $('#mainNavBar a:nth-child(1) .common-main-tabs').addClass('on');
+                $('#mainNavBar a:nth-child(1) .head-txt-up').addClass('my-black-text');
                 var newHeight = $('section#timelineTab').height()+100;
                 var fnbHeight = $('.sideFnbWrapper').height()+50;
                 if(fnbHeight > newHeight)
@@ -757,6 +759,7 @@
                 $('a:nth-child(2).mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#eventsTab').addClass('is-active');
                 $('#mainNavBar a:nth-child(2) .common-main-tabs').addClass('on');
+                $('#mainNavBar a:nth-child(2) .head-txt-up').addClass('my-black-text');
                 var newHeight = $('section#eventsTab').height()+100;
                 var fnbHeight = $('.sideFnbWrapper').height()+50;
                 if(fnbHeight > newHeight)
@@ -781,6 +784,7 @@
                 $('a:nth-child(3).mdl-layout__tab').addClass('is-active');
                 $('#mainContent-view section#fnbTab').addClass('is-active');
                 $('#mainNavBar a:nth-child(3) .common-main-tabs').addClass('on');
+                $('#mainNavBar a:nth-child(3) .head-txt-up').addClass('my-black-text');
                 var newHeight = $('section#fnbTab').height()+100;
                 var fnbHeight = $('.sideFnbWrapper').height()+50;
                 if(fnbHeight > newHeight)

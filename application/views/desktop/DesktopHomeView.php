@@ -92,7 +92,7 @@
         }
         ?>
         <div class="mdl-grid page-content">
-            <div class="mdl-cell mdl-cell--3-col">
+            <div class="mdl-cell mdl-cell--3-col strip-sides-on-mobile">
                 <?php echo $leftSideCal; ?>
             </div>
             <div class="mdl-cell mdl-cell--my-6-col my-vanish" id="mainContent-view">
@@ -853,7 +853,7 @@
                 <section class="mdl-layout__tab-panel" id="jukeboxTab"></section>
                 <section class="mdl-layout__tab-panel" id="contactTab"></section>
             </div>
-            <div class="mdl-cell mdl-cell--3-col">
+            <div class="mdl-cell mdl-cell--3-col strip-sides-on-mobile">
                 <?php echo $rightSideFnb; ?>
             </div>
         </div>
@@ -946,6 +946,7 @@
             <i class="fa fa-caret-up fa-2x"></i>
         </div>
     </main>
+    <?php echo $deskFooter; ?>
 </div>
 <section id="doolally-age-gate" class="hide">
     <div class="demo-card-wide mdl-card mdl-shadow--2dp">
