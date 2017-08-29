@@ -26,7 +26,7 @@
             <meta property="og:title" content="<?php echo $meta['title'];?>" />
             <meta property="og:type" content="website" />
             <meta property="og:url" content="<?php echo $meta['link'];?>" />
-            <meta property="og:image:secure_url" itemprop="image" content="<?php echo $meta['img'];?>" />
+            <meta property="og:image" itemprop="image" content="<?php echo $meta['img'];?>" />
             <meta property="og:description" content="<?php echo $meta['description'];?>" />
             <?php
         }
@@ -232,7 +232,7 @@
                                                                                         if($postlimit > 5)
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url_https'];?>" width="44"/>
+                                                                                            <img class="myAvtar-list" src="<?php echo $row['user']['profile_image_url_https'];?>" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
@@ -378,7 +378,7 @@
                                                                         <div class="link-card-wrapper">
                                                                             <input type="hidden" class="my-link-url" value="<?php echo $row['entities']['urls'][0]['expanded_url'];?>"/>
                                                                             <div class="liveurl feed-image-container hide">
-                                                                                <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
+                                                                                <img src="" class="link-image linkFeed-img" />
                                                                                 <div class="details">
                                                                                     <div class="title"></div>
                                                                                     <div class="description"></div>
@@ -425,7 +425,7 @@
                                                                                         if($postlimit > 5)
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
+                                                                                            <img class="myAvtar-list" src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
@@ -506,7 +506,7 @@
                                                                         <div class="link-card-wrapper">
                                                                             <input type="hidden" class="my-link-url" value="<?php echo $backupLink[0][0];?>"/>
                                                                             <div class="liveurl feed-image-container hide">
-                                                                                <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
+                                                                                <img src="" class="link-image linkFeed-img" />
                                                                                 <div class="details">
                                                                                     <div class="title"></div>
                                                                                     <div class="description"></div>
@@ -546,7 +546,7 @@
                                                                                         if($postlimit > 5)
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list" data-src="<?php echo $row['poster_image'];?>" width="44"/>
+                                                                                            <img class="myAvtar-list" src="<?php echo $row['poster_image'];?>" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
@@ -654,7 +654,7 @@
                                                                         <div class="link-card-wrapper">
                                                                             <input type="hidden" class="my-link-url" value="<?php echo $backupLink[0][0];?>"/>
                                                                             <div class="liveurl feed-image-container hide">
-                                                                                <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
+                                                                                <img src="" class="link-image linkFeed-img" />
                                                                                 <div class="details">
                                                                                     <div class="title"></div>
                                                                                     <div class="description"></div>
@@ -1535,7 +1535,7 @@
                         bigCardHtml += '<div class="link-card-wrapper">';
                         bigCardHtml += '<input type="hidden" class="my-link-url" value="'+backupLink[0]+'"/>';
                         bigCardHtml += '<div class="liveurl feed-image-container hide">';
-                        bigCardHtml += '<img src="" class="link-image mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '<img src="" class="link-image linkFeed-img"/>';
                         bigCardHtml += '<div class="details"><div class="title"></div><div class="description"></div>';
                         bigCardHtml += '</div></div></div>';
                     }
@@ -1621,7 +1621,7 @@
                         bigCardHtml += '<div class="link-card-wrapper">';
                         bigCardHtml += '<input type="hidden" class="my-link-url" value="'+backupLink[0]+'"/>';
                         bigCardHtml += '<div class="liveurl feed-image-container hide">';
-                        bigCardHtml += '<img src="" class="link-image mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '<img src="" class="link-image linkFeed-img"/>';
                         bigCardHtml += '<div class="details"><div class="title"></div><div class="description"></div>';
                         bigCardHtml += '</div></div></div>';
                     }
@@ -1753,7 +1753,7 @@
                         bigCardHtml += '<div class="link-card-wrapper">';
                         bigCardHtml += '<input type="hidden" class="my-link-url" value="'+data[i]['entities']['urls'][0]['expanded_url']+'"/>';
                         bigCardHtml += '<div class="liveurl feed-image-container hide">';
-                        bigCardHtml += '<img src="" class="link-image mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '<img src="" class="link-image linkFeed-img"/>';
                         bigCardHtml += '<div class="details"><div class="title"></div><div class="description"></div>';
                         bigCardHtml += '</div></div></div>';
                     }

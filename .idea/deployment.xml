@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="new mobile" persistUploadOnCheckin="false">
+  <component name="PublishConfigData" serverName="demo mobile" persistUploadOnCheckin="false">
     <serverData>
       <paths name="demo mobile">
         <serverdata>
@@ -9,7 +9,7 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="new mobile">
+      <paths name="live mobile">
         <serverdata>
           <mappings>
             <mapping deploy="/var/www/html/mobile" local="$PROJECT_DIR$" web="/" />

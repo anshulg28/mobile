@@ -542,7 +542,7 @@ class Dashboard_Model extends CI_Model
     }
     public function getDashboardEventDetails($eventSlug)
     {
-        $query = "SELECT em.eventId, em.eventName, em.costType,em.eventPrice,em.eventShareLink,em.shortUrl, em.eventSlug,
+        $query = "SELECT em.eventId, em.eventName,em.eventPlace, em.costType,em.eventPrice,em.eventShareLink,em.shortUrl, em.eventSlug,
                   em.ifActive, em.ifApproved, em.isEventCancel, SUM(erm.quantity) as 'totalQuant'
                   FROM eventmaster em
                   LEFT JOIN eventregistermaster erm ON erm.eventId = em.eventId
@@ -553,12 +553,21 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
-    public function fetchSignupList($eventSlug)
+    public function getCommDetails($locId)
     {
-        $query = "SELECT um.firstName, um.lastName, um.emailId, erm.quantity, erm.createdDT
+        $query = "SELECT * "
+            ."FROM doolally_usersmaster "
+            ."WHERE FIND_IN_SET('".$locId."', assignedLoc) ORDER BY userId ASC";
+
+        $result = $this->db->query($query)->row_array();
+        return $result;
+    }
+    public function fetchEhSignupList($eventSlug)
+    {
+        $query = "SELECT um.firstName, um.lastName, um.emailId, erm.quantity, erm.createdDT, erm.paymentId
                   FROM eventregistermaster erm
                   LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
-                  WHERE erm.isUserCancel != 1 AND erm.eventId = 
+                  WHERE erm.isUserCancel != 1 AND erm.isDirectlyRegistered = 0 AND erm.eventId = 
                   (SELECT eventId FROM eventslugmaster WHERE eventSlug LIKE '".$eventSlug."') 
                    ORDER BY erm.createdDT DESC";
 
@@ -566,12 +575,36 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
-    public function getJoinersInfo($eventId)
+    public function fetchDoolallySignupList($eventSlug)
+    {
+        $query = "SELECT um.firstName, um.lastName, um.emailId, erm.quantity, erm.createdDT, erm.paymentId
+                  FROM eventregistermaster erm
+                  LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
+                  WHERE erm.isUserCancel != 1 AND erm.isDirectlyRegistered = 1 AND erm.eventId = 
+                  (SELECT eventId FROM eventslugmaster WHERE eventSlug LIKE '".$eventSlug."') 
+                   ORDER BY erm.createdDT DESC";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getDoolallyJoinersInfo($eventId)
     {
         $query = "SELECT um.firstName, um.lastName, um.emailId, erm.quantity, erm.createdDT
                   FROM eventregistermaster erm
                   LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
-                  WHERE erm.eventId = $eventId AND erm.isUserCancel != 1 ORDER BY erm.createdDT DESC";
+                  WHERE erm.eventId = $eventId AND erm.isDirectlyRegistered = 1 AND erm.isUserCancel != 1 ORDER BY erm.createdDT DESC";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getEhJoinersInfo($eventId)
+    {
+        $query = "SELECT um.firstName, um.lastName, um.emailId, erm.quantity, erm.createdDT
+                  FROM eventregistermaster erm
+                  LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
+                  WHERE erm.eventId = $eventId AND erm.isDirectlyRegistered = 0 AND erm.isUserCancel != 1 ORDER BY erm.createdDT DESC";
 
         $result = $this->db->query($query)->result_array();
 
@@ -803,11 +836,12 @@ class Dashboard_Model extends CI_Model
 
     public function getCompEventInfoBySlug($eventSlug)
     {
-        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink
+        $query = "SELECT em.*, ea.filename, l.locName, l.mapLink, eh.highId
                   FROM eventcompletedmaster em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
                   LEFT JOIN eventslugmaster esm ON em.eventId = esm.eventId
+                  LEFT JOIN eventshighmaster eh ON em.eventId = eh.eventId
                   WHERE esm.eventSlug LIKE '".$eventSlug."' GROUP BY em.eventId";
 
         $result = $this->db->query($query)->result_array();
@@ -899,16 +933,28 @@ class Dashboard_Model extends CI_Model
 
     public function getEventCancelInfo($bId)
     {
-        $query = 'SELECT erm.paymentId, erm.quantity, em.eventId, em.eventPlace, em.eventPrice,
+        $query = 'SELECT erm.paymentId, erm.quantity, erm.isDirectlyRegistered, em.eventId, em.eventPlace, em.eventPrice,
                   em.eventName, em.creatorName, em.creatorEmail, um.firstName, um.lastName,
-                  um.emailId, ehm.highId 
+                  um.emailId, ehm.highId, om.isRedeemed, om.offerType
                   FROM `eventregistermaster` erm
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
                   LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
                   LEFT JOIN eventshighmaster ehm ON erm.eventId = ehm.eventId
-                  WHERE erm.bookerId = '.$bId;
+                  LEFT JOIN offersmaster om ON (erm.eventId = om.offerEvent) AND (om.bookerPaymentId = erm.paymentId) 
+                  WHERE ehm.highStatus = 1 AND erm.bookerId = '.$bId;
 
         $result = $this->db->query($query)->row_array();
+
+        return $result;
+    }
+
+    public function getEventCouponInfo($eventId, $payId)
+    {
+        $query = "SELECT isRedeemed, offerType
+                  FROM offersmaster  
+                  WHERE offerEvent = ".$eventId." AND bookerPaymentId = '".$payId."'";
+
+        $result = $this->db->query($query)->result_array();
 
         return $result;
     }
@@ -957,13 +1003,13 @@ class Dashboard_Model extends CI_Model
         return true;
     }
 
-    public function cancelEventOffers($eventId,$paymentId)
+    public function cancelEventOffers($eventId,$paymentId, $offerType)
     {
         $details = array(
             'ifActive' => '0'
         );
         $this->db->where('offerEvent',$eventId);
-        $this->db->where('offerType','Workshop');
+        $this->db->where('offerType',$offerType);
         $this->db->where('bookerPaymentId',$paymentId);
         $this->db->update('offersmaster', $details);
         return true;
@@ -990,6 +1036,13 @@ class Dashboard_Model extends CI_Model
     {
         $this->db->insert('eventchangesmaster', $details);
         return true;
+    }
+    public function getEditRecord($eventId)
+    {
+        $query = "SELECT * FROM eventchangesmaster WHERE isPending = 0 AND eventId = ".$eventId." ORDER BY insertedDT DESC";
+
+        $result = $this->db->query($query)->row_array();
+        return $result;
     }
     function getShareImg($eventId)
     {
