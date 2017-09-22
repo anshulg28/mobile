@@ -7,6 +7,27 @@
         <?php
     }
 ?>
+<?php
+if(isset($weekEvents) && myIsMultiArray($weekEvents))
+{
+    ?>
+    <ul class="hide even-cal-list">
+        <?php
+        foreach($weekEvents as $key => $row)
+        {
+            ?>
+            <li data-evenDate="<?php echo $row['eventDate'];?>"
+                data-evenNames="<?php echo $row['eventNames'];?>"
+                data-evenEndTimes="<?php echo $row['eventEndTimes'];?>"
+                data-evenPlaces="<?php echo $row['eventPlaces'];?>">
+            </li>
+            <?php
+        }
+        ?>
+    </ul>
+    <?php
+}
+?>
 <div class="mdl-shadow--2dp event-creator-box">
     <div class="mdl-grid">
         <div class="mdl-cell--8-col">
@@ -22,6 +43,7 @@
         </div>
     </div>
 </div>
+<div class="content-for-mobile"></div>
 <div class="event-section">
     <?php
     if(isset($eventDetails) && myIsMultiArray($eventDetails))
@@ -177,4 +199,18 @@
     }
     ?>
 </div>
+
+<script>
+    $(document).ready(function(){
+       if($(window).width() < 1024)
+       {
+           var mobHtm = '<br><div class="content-block-title weekly-cal">What\'s happening this week</div>' +
+               '<div id="calendar-mobile-glance"></div><br><div class="content-block-title weekly-cal">All Events</div>';
+           $('.event-creator-box').addClass('hide');
+           $('.content-for-mobile').html(mobHtm);
+           renderCalendarMobile();
+       }
+    });
+</script>
+
 

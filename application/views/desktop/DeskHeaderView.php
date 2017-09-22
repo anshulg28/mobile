@@ -1,41 +1,43 @@
 <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
+    <div class="mdl-layout__header-row mobile-adjustment-col">
         <!-- Title -->
-        <div class="mdl-cell mdl-cell--2-col">
+        <div class="mdl-cell mdl-cell--2-col mobile-col-noMargin">
             <span class="mdl-layout-title main-menu-container">
-                <button id="demo-menu-lower-left"
-                        class="mdl-button mdl-js-button mdl-button--icon">
-                    <i class="material-icons">menu</i>
-                </button>
-                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                    data-mdl-for="demo-menu-lower-left" id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Request a song, access your events dashboard, tour our other taprooms.">
-                    <a href="<?php echo base_url();?>" class="my-noUnderline">
-                        <li class="mdl-menu__item">
-                            <i class="fa fa-home fa-14x mdl-list__item-icon"></i> Home
-                        </li>
-                    </a>
-                    <a href="jukebox" class="my-noUnderline dynamic" data-title="Jukebox">
-                        <li class="mdl-menu__item">
-                            <i class="fa fa-music fa-14x mdl-list__item-icon"></i> Jukebox
-                        </li>
-                    </a>
-                    <a href="event_dash" class="my-noUnderline dynamic" data-title="Events Dashboard">
-                        <li class="mdl-menu__item">
-                            <i class="fa fa-calendar fa-14x mdl-list__item-icon"></i> My Events
-                        </li>
-                    </a>
-                    <a href="contact_us" class="my-noUnderline dynamic" data-title="Contact Us">
-                        <li class="mdl-menu__item">
-                            <i class="fa fa-life-ring fa-14x mdl-list__item-icon"></i> Contact
-                        </li>
-                    </a>
-                </ul>
+                <div class="desktop-header-menu-part hide-in-mobile">
+                    <button id="demo-menu-lower-left"
+                            class="mdl-button mdl-js-button mdl-button--icon">
+                        <i class="material-icons">menu</i>
+                    </button>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                        data-mdl-for="demo-menu-lower-left" id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Request a song, access your events dashboard, tour our other taprooms.">
+                        <a href="<?php echo base_url();?>" class="my-noUnderline">
+                            <li class="mdl-menu__item">
+                                <i class="fa fa-home fa-14x mdl-list__item-icon"></i> Home
+                            </li>
+                        </a>
+                        <a href="jukebox" class="my-noUnderline dynamic" data-title="Jukebox">
+                            <li class="mdl-menu__item">
+                                <i class="fa fa-music fa-14x mdl-list__item-icon"></i> Jukebox
+                            </li>
+                        </a>
+                        <a href="event_dash" class="my-noUnderline dynamic" data-title="Events Dashboard">
+                            <li class="mdl-menu__item">
+                                <i class="fa fa-calendar fa-14x mdl-list__item-icon"></i> My Events
+                            </li>
+                        </a>
+                        <a href="contact_us" class="my-noUnderline dynamic" data-title="Contact Us">
+                            <li class="mdl-menu__item">
+                                <i class="fa fa-life-ring fa-14x mdl-list__item-icon"></i> Contact
+                            </li>
+                        </a>
+                    </ul>
+                </div>
             </span>
         </div>
         <div class="mdl-cell mdl-cell--3-col"></div>
         <div class="mdl-cell mdl-cell--half-col"></div>
         <div class="mdl-cell mdl-cell--3-col my-filter-row">
-            <div class="pull-left main-site-logo">
+            <div class="pull-left main-site-logo hide-in-mobile">
                 <a href="<?php echo base_url();?>">
                     <img class="main-logo-img" src="<?php echo base_url().'asset/images/splashLogo.png';?>" alt="Logo"/>
                 </a>
@@ -50,7 +52,7 @@
                 </button>-->
                 <!-- Filter for Timeline-->
                 <i id="filter-timeline-menu" class="ic_filter_icon my-pointer-item"></i>
-                <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect filter-timeline-list"
+                <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect filter-timeline-list"
                     for="filter-timeline-menu">
                     <li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Filter Posts</li>
                     <li class="mdl-menu__item">
@@ -77,7 +79,7 @@
                 <div id="event-filter-box">
                     <i id="filter-events-menu" class="ic_filter_icon my-pointer-item hide"></i>
                 </div>
-                <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect filter-events-list"
+                <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect filter-events-list"
                     for="filter-events-menu">
                     <li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Show Events In... &nbsp;
                         <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect clear-event-filter my-vanish">
@@ -108,6 +110,7 @@
         </div>
         <div class="mdl-cell mdl-cell--3-col"></div>
     </div>
+
     <div class="mdl-layout__tab-bar mdl-js-ripple-effect hide hide-in-mobile" id="mainNavBar">
         <a href="<?php echo base_url();?>" class="mdl-layout__tab is-active">
             <i class="fa fa-hashtag fa-17x my-display-block common-main-tabs on header-tabs-reposition mdl-badge--overlap" data-badge=""></i><span class="head-txt-up">Doolally</span>
@@ -126,3 +129,65 @@
         </a>
     </div>
 </header>
+<div class="mdl-layout__drawer mobile-drawer">
+    <!--<span class="mdl-layout-title">Title</span>-->
+    <nav class="mdl-navigation">
+        <ul id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Request a song, access your events dashboard, tour our other taprooms." class="demo-list-icon mdl-list">
+            <li class="mdl-list__item">
+                <a href="#" id="global-home-btn" class="my-fullWidth drawer-item dynamic">
+                        <span class="mdl-list__item-primary-content">
+                            <i class="fa fa-home fa-15x mdl-list__item-icon"></i>
+                            Home
+                        </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#" id="my-jukebox-tab" class="my-fullWidth drawer-item dynamic">
+                        <span class="mdl-list__item-primary-content">
+                            <i class="fa fa-music mdl-list__item-icon"></i>
+                            <!--<i class="material-icons mdl-list__item-icon">music_note</i>-->
+                            Jukebox
+                        </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#" id="my-events-tab" class="my-fullWidth drawer-item dynamic">
+                        <span class="mdl-list__item-primary-content">
+                            <i class="fa fa-calendar mdl-list__item-icon"></i>
+                            <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
+                            My Events
+                        </span>
+                </a>
+            </li>
+            <li class="user-settings mdl-list__item <?php if(isSessionVariableSet($this->isUserSession) === false){echo 'hide';}?>"
+                style="display:none !important;">
+                <a href="#" class="my-fullWidth drawer-item dynamic">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="fa fa-cog mdl-list__item-icon"></i>
+                        <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
+                        Settings
+                    </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#" id="contact-tab" class="my-fullWidth drawer-item dynamic">
+                        <span class="mdl-list__item-primary-content">
+                            <i class="fa fa-life-ring mdl-list__item-icon"></i>
+                            <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
+                            Contact Us
+                        </span>
+                </a>
+            </li>
+            <li class="mdl-list__item logout-menu-item <?php if(isSessionVariableSet($this->isUserSession) === false){echo 'hide';}?>"
+                style="display:none !important;">
+                <a href="#" id="logout-btn" class="my-fullWidth drawer-item dynamic">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="fa ic_logout_icon point-item mdl-list__item-icon"></i>
+                        <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

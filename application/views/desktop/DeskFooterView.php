@@ -1,5 +1,5 @@
-<footer class="mdl-layout__header show-in-mobile">
-    <div class="mdl-layout__header-row">
+<footer class="show-in-mobile">
+    <div>
         <!-- Title -->
        <!-- <div class="mdl-cell mdl-cell--4-col">
         </div>-->

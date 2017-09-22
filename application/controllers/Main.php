@@ -2853,6 +2853,7 @@ $this->load->view('MobileHomeView', $data);
             );
 
             $data['eventDetails'] = $events;
+            $data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();
             $aboutView = $this->load->view('desktop/EventsPageView', $data);
             echo json_encode($aboutView);
         }

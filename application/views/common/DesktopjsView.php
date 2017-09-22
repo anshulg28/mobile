@@ -63,6 +63,38 @@
     {
         $('#custom-progressBar').addClass('hide');
     }
+    function isEventFinished(eventDate, endTime)
+    {
+        var result = false;
+        var date1 = new Date(eventDate);
+        var nowDate = new Date();
+        if(nowDate >= date1)
+        {
+            var time1 = null;
+            if(endTime.toLowerCase().indexOf('m') != -1)
+            {
+                time1 = ConvertTimeformat('24',endTime);
+            }
+            else
+            {
+                time1 = endTime;
+            }
+            var nowTime = nowDate.getHours()+':'+nowDate.getMinutes();
+            if(nowTime > time1)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+        }
+        else
+        {
+            result = false;
+        }
+        return result;
+    }
     function myAlertDiag(type,txt,callBackUrl = '')
     {
         if(type == 'error')
@@ -2901,55 +2933,111 @@
         $('#doolally-age-gate').addClass('hide');
     });
 
-    const eventTip =  tippy('#main-events-tab',{
-        //html: '#my-events-tooltip',
-        arrow: true,
-        position: 'bottom-start',
-        animation: 'scale',
-        duration: 500,
-        //interactive: true,
-        trigger: 'manual',
-        //hideOnClick: 'persistent',
-        multiple:true,
-        hidden: function(){
-            localStorageUtil.setLocal('isEventPop','1');
-            $('#demo-menu-lower-left').click();
-            if(localStorageUtil.getLocal('isMenuPop') != null)
-            {
-                if(localStorageUtil.getLocal('isMenuPop') == '0')
+    var eventTip,eventEl,eventPopper,menuTip,menuEl,menuPopper;
+    if($(window).width() < 1024)
+    {
+        eventTip =  tippy('footer #main-events-tab',{
+            //html: '#my-events-tooltip',
+            arrow: true,
+            position: 'top',
+            animation: 'scale',
+            duration: 500,
+            //interactive: true,
+            trigger: 'manual',
+            //hideOnClick: 'persistent',
+            multiple:true,
+            hidden: function(){
+                localStorageUtil.setLocal('isEventPop','1');
+                $('#demo-menu-lower-left').click();
+                if(localStorageUtil.getLocal('isMenuPop') != null)
+                {
+                    if(localStorageUtil.getLocal('isMenuPop') == '0')
+                    {
+                        menuTip.show(menuPopper);
+                    }
+                }
+                else
                 {
                     menuTip.show(menuPopper);
                 }
-            }
-            else
-            {
-                menuTip.show(menuPopper);
-            }
-        },
-        inertia: true
-    });
-    const eventEl = document.querySelector('#main-events-tab');
-    const eventPopper = eventTip.getPopperElement(eventEl);
+            },
+            inertia: true
+        });
+        eventEl = document.querySelector('footer #main-events-tab');
+        eventPopper = eventTip.getPopperElement(eventEl);
 
-    const menuTip =  tippy('#main-web-menu',{
-        //html: '#my-events-tooltip',
-        arrow: true,
-        position: 'right',
-        animation: 'scale',
-        duration: 500,
-        //interactive: true,
-        trigger: 'manual',
-        //hideOnClick: 'persistent',
-        multiple:true,
-        hidden: function(){
-            //menuTip.hide(menuPopper);
-            localStorageUtil.setLocal('isMenuPop','1');
-            $('.tippy-overlay').addClass('hide');
-        },
-        inertia: true
-    });
-    const menuEl = document.querySelector('#main-web-menu');
-    const menuPopper = menuTip.getPopperElement(menuEl);
+        menuTip =  tippy('.mobile-drawer #main-web-menu',{
+            //html: '#my-events-tooltip',
+            arrow: true,
+            position: 'bottom',
+            animation: 'scale',
+            duration: 500,
+            //interactive: true,
+            trigger: 'manual',
+            //hideOnClick: 'persistent',
+            multiple:true,
+            hidden: function(){
+                //menuTip.hide(menuPopper);
+                localStorageUtil.setLocal('isMenuPop','1');
+                $('.tippy-overlay').addClass('hide');
+            },
+            inertia: true
+        });
+        menuEl = document.querySelector('.mobile-drawer #main-web-menu');
+        menuPopper = menuTip.getPopperElement(menuEl);
+    }
+    else
+    {
+         eventTip =  tippy('#main-events-tab',{
+            //html: '#my-events-tooltip',
+            arrow: true,
+            position: 'bottom-start',
+            animation: 'scale',
+            duration: 500,
+            //interactive: true,
+            trigger: 'manual',
+            //hideOnClick: 'persistent',
+            multiple:true,
+            hidden: function(){
+                localStorageUtil.setLocal('isEventPop','1');
+                $('#demo-menu-lower-left').click();
+                if(localStorageUtil.getLocal('isMenuPop') != null)
+                {
+                    if(localStorageUtil.getLocal('isMenuPop') == '0')
+                    {
+                        menuTip.show(menuPopper);
+                    }
+                }
+                else
+                {
+                    menuTip.show(menuPopper);
+                }
+            },
+            inertia: true
+        });
+         eventEl = document.querySelector('#main-events-tab');
+         eventPopper = eventTip.getPopperElement(eventEl);
+
+         menuTip =  tippy('#main-web-menu',{
+            //html: '#my-events-tooltip',
+            arrow: true,
+            position: 'right',
+            animation: 'scale',
+            duration: 500,
+            //interactive: true,
+            trigger: 'manual',
+            //hideOnClick: 'persistent',
+            multiple:true,
+            hidden: function(){
+                //menuTip.hide(menuPopper);
+                localStorageUtil.setLocal('isMenuPop','1');
+                $('.tippy-overlay').addClass('hide');
+            },
+            inertia: true
+        });
+         menuEl = document.querySelector('#main-web-menu');
+         menuPopper = menuTip.getPopperElement(menuEl);
+    }
 
     $(window).load(function(){
         //my-events-tooltip
@@ -3054,4 +3142,127 @@
             }
         });
     }
+</script>
+
+<!-- header menu fix -->
+<script>
+
+    $(window).load(function(){
+        if($(window).width() < 1024)
+        {
+            var menuHtml = '<button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon"><span class="d-logo"></span><span class="bottom-bar-line"></span></button>';
+            $('header .mdl-layout__drawer-button').html(menuHtml);
+            $('header .mdl-layout__tab-bar-left-button, header .mdl-layout__tab-bar-right-button').addClass('hide');
+        }
+        else
+        {
+            $('header .mdl-layout__drawer-button').addClass('hide');
+        }
+    });
+    $(document).on('click','#filter-timeline-menu, #filter-events-menu', function(){
+        setTimeout(function(){
+            //var elWidth = $('header .mdl-menu__container.is-visible').width();
+
+            var elLeft = $('header .mdl-menu__container.is-visible').position().right;
+            $('header .mdl-menu__container.is-visible').css('right','35px');
+        },100);
+    });
+    function renderCalendarMobile()
+    {
+        if(typeof $('#eventsTab .even-cal-list') === 'undefined')
+        {
+            var d = new Date();
+            $('#calendar-mobile-glance').fullCalendar({
+                defaultView: 'basicWeek',
+                header: false,
+                height:'auto',
+                firstDay: d.getDay(),
+                defaultDate: d,
+                viewRender: function(view, element)
+                {
+                    $('#calendar-mobile-glance .fc-day-header.fc-widget-header').each(function(i,val){
+                        var txt = $(val).find('span').html();
+                        if(txt != '')
+                        {
+                            var newVal = txt.split(' ')[0].trim();
+                            $(val).find('span').html(newVal);
+                        }
+                    });
+                }
+            });
+        }
+        else
+        {
+            var events = [];
+            var d = new Date();
+            $('#eventsTab .even-cal-list li').each(function(j,val){
+                var tempData = {};
+                var eveName = $(val).attr('data-evenNames');
+                if(eveName.indexOf(';') != -1)
+                {
+                    var res = eveName.split(';');
+                    var places = $(val).attr('data-evenPlaces').split(',');
+                    var endTimes = $(val).attr('data-evenEndTimes').split(',');
+                    for(var i=0;i<res.length;i++)
+                    {
+                        if(!isEventFinished($(val).attr('data-evenDate'),endTimes[i]))
+                        {
+                            tempData = {};
+                            tempData['title'] = res[i];
+                            tempData['allDay'] = true;
+                            tempData['start'] = $(val).attr('data-evenDate');
+                            tempData['className'] = 'evenPlace';
+                            events.push(tempData);
+                        }
+                    }
+                }
+                else
+                {
+                    if(!isEventFinished($(val).attr('data-evenDate'),$(val).attr('data-evenEndTimes')))
+                    {
+                        tempData = {};
+                        tempData['title'] = eveName;
+                        tempData['allDay'] = true;
+                        tempData['start'] = $(val).attr('data-evenDate');
+                        tempData['className'] = 'evenPlace';
+                        events.push(tempData);
+                    }
+                }
+            });
+            $('#calendar-mobile-glance').fullCalendar({
+                defaultView: 'basicWeek',
+                header: false,
+                height:'auto',
+                firstDay:d.getDay(),
+                defaultDate: d,
+                events: events,
+                viewRender: function(view, element)
+                {
+                    $('#calendar-mobile-glance .fc-day-header.fc-widget-header').each(function(i,val){
+                        var txt = $(val).find('span').html();
+                        if(txt != '')
+                        {
+                            var newVal = txt.split(' ')[0].trim();
+                            $(val).find('span').html(newVal);
+                        }
+                    });
+                }
+            });
+        }
+        $('#calendar-mobile-glance').fullCalendar('render');
+
+    }
+    $(document).on('click','#calendar-mobile-glance .fc-day-grid-event.fc-event', function(){
+        var srcTitle = $(this).find('span').html();
+        $('#eventsTab .event-section .demo-card-header-pic').each(function(i,val){
+            if($(val).attr('data-eveTitle') == srcTitle)
+            {
+                var pos = $(val).position();
+                $('.mdl-layout__content').animate({
+                    scrollTop: pos.top - 50
+                });
+                return false;
+            }
+        });
+    });
 </script>

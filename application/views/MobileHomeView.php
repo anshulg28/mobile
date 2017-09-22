@@ -80,13 +80,6 @@
                     <a href="#" id="global-home-btn" class="my-fullWidth">
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-home fa-15x mdl-list__item-icon"></i>
-                            <!--<i class="material-icons ">location_on</i>-->
-                            <!--<input type="text" class="my-select" placeholder="Select Taproom" readonly id="picker-device">-->
-                            <!--<select class="my-select">
-                                <option value="andheri" selected>Andheri Taproom</option>
-                                <option value="bandra">Bandra Taproom</option>
-                                <option value="kemps">Kemps Temproom</option>
-                            </select>-->
                             Home
                         </span>
                     </a>
