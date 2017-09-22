@@ -194,7 +194,7 @@
                                                     else
                                                     {
                                                         ?>
-                                                        <a href="#" class="item-link list-button color-black event-cancel-btn">Cancel Event</a>
+                                                        <a href="#" data-commNum="<?php echo $commDetails['mobNum'];?>" data-commName="<?php echo $commDetails['userName'];?>" class="item-link list-button color-black event-cancel-btn">Cancel Event</a>
                                                         <?php
                                                     }
                                                 ?>

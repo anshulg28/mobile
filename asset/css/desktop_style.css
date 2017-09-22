@@ -1493,8 +1493,8 @@ body
 }
 .mainHome .event-details-page .mdl-list__item-avatar
 {
-    height:auto;
-    width:auto;
+    height: 25px;
+    width: 25px;
     font-size:20px;
     margin-left:10px;
     color: #A2C760;
@@ -1502,7 +1502,13 @@ body
     -moz-border-radius:50%;
     border-radius:50%;
     border: 1px solid #A2C760;
-    padding: 2px;
+    /*padding: 2px;*/
+}
+.mainHome .event-details-page .mdl-list__item-avatar .mdl-chip__text
+{
+    position: relative;
+    top: -3px;
+    left: -9px;
 }
 .mainHome .event-details-page .mdl-card__actions.mdl-card--border
 {

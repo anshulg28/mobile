@@ -94,7 +94,7 @@ defined('DATE_FORMAT_SHARE')   OR define('DATE_FORMAT_SHARE', 'D, jS M');
 defined('EVENT_DATE_FORMAT')   OR define('EVENT_DATE_FORMAT', 'D, M j');
 defined('EVENT_INSIDE_DATE_FORMAT')   OR define('EVENT_INSIDE_DATE_FORMAT', 'D, M j, Y');
 defined('DATE_FORMAT_GRAPH_UI')   OR define('DATE_FORMAT_GRAPH_UI', 'j F');
-defined('DATE_MAIL_FORMAT_UI')   OR define('DATE_MAIL_FORMAT_UI', 'jS M Y');
+defined('DATE_MAIL_FORMAT_UI')   OR define('DATE_MAIL_FORMAT_UI', 'D, jS M Y');
 defined('DATE_TIME_FORMAT_UI')   OR define('DATE_TIME_FORMAT_UI', 'D, jS F, Y g:i a');
 
 /* Mail Type */
@@ -127,7 +127,7 @@ defined('ACCESS_TOKEN') OR define('ACCESS_TOKEN','15804491-nkhDglNJ5uNSBGixul3kw
 defined('ACCESS_SECRET') OR define('ACCESS_SECRET','eRdLrS6eAwj07Ul5264YUZLf0AXCP9rbicAlXsLFLDjMB');
 defined('BEARER_TOKEN') OR define('BEARER_TOKEN','AAAAAAAAAAAAAAAAAAAAAFhQegAAAAAAePdzbMWF5F%2FfVU5Ph09OIb22dnE%3D7qKzt9ZZQ6IwfUErgznCPq6AcEmIZqYTnKAamzks6ojV72Nobn');
 //defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAUZBjn6HCmQBAGRccGXJCh7iVjMz7S1G0RdyszbH81ZAndaRZBOWt7S2M4CIPIWm0oplVisZAevWCqALhluARjZBGb2kELD4l6cJAwAuQgh9RtOKECzcPpsDpUe2ZA9uXeIIFUsXiFaquCjcdlZAFYpXmb99DIBzQZD');
-defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAJCOvplqxQBACvFvEBOboZASUVxtXjRKEdHQUnbyAEaQOfHoEPkZBZB9c6HzUk7dxF5nJQC2TSl3IWRuOBM8LLYngbo0ZBziEuLlVPn4VZAFEmXMAgboA9aCEdiQ1nIbpvJWejiAY12ZCZAkpZC9UwNi59k926jCjEZD');
+defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAJCOvplqxQBAK0iYftVtwk4cWF2LJNpTB8ESXn5dRieXlfGugoEaCa7C8r4ZAfcGgFkQh6Cw59koPLmpGa1618KwnmMLqWvnOMZBtoJ05Pprmn7ZBGQXik7ctLTPiP7QOXDU0md5gUsowTrZC7clvTufmFiNlFVMxyRwhZCK3wZDZD');
 defined('INSTA_API_KEY') OR define('INSTA_API_KEY','362388bd44886b30aa0d9973d7b99794');
 defined('INSTA_AUTH_TOKEN') OR define('INSTA_AUTH_TOKEN','2e8a6cb6ddb931a722e05d2c99dc3888');
 defined('GOOGLE_API_KEY') OR define('GOOGLE_API_KEY','AIzaSyBG3wamyMbQqRlqysulunOuPvv3_51BmpI');
@@ -136,7 +136,7 @@ defined('TEXTLOCAL_API') OR define('TEXTLOCAL_API','cFIpDcHmYnc-mdteI9XWFa41zNZS
 defined('EVENT_HIGH_KEY') OR define('EVENT_HIGH_KEY','D00la11y@ppKey');
 defined('EVENT_HIGH_ACCOUNT') OR define('EVENT_HIGH_ACCOUNT','doolally');
 defined('MEETUP_KEY') OR define('MEETUP_KEY','165c416c7672a5cc2f1a43292a2817');
-defined('MEETUP_GROUP') OR define('MEETUP_GROUP','meetup-group-XWIyWwft');
+defined('MEETUP_GROUP') OR define('MEETUP_GROUP','Mumbai-Craft-Beer-Meetup');
 
 /* Image Paths for Fnb*/
 defined('FOOD_PATH_THUMB') OR define('FOOD_PATH_THUMB','uploads/food/thumb/');
@@ -147,8 +147,8 @@ defined('EVENT_PATH_THUMB') OR define('EVENT_PATH_THUMB','uploads/events/thumb/'
 defined('ITEM_FOOD') OR define('ITEM_FOOD','1');
 defined('ITEM_BEVERAGE') OR define('ITEM_BEVERAGE','2');
 
-defined('DASHBOARD_URL') OR define('DASHBOARD_URL','http://doolally.io/');
-defined('MOBILE_URL') OR define('MOBILE_URL','https://doolally.in/');
+defined('DASHBOARD_URL') OR define('DASHBOARD_URL','http://dtest.doolally.io/');
+defined('MOBILE_URL') OR define('MOBILE_URL','http://mtest.doolally.in/');
 
 /* Event Cost Types */
 defined('EVENT_FREE') OR define('EVENT_FREE','1');
@@ -165,3 +165,5 @@ defined('OLD_DOOLALLY_FEE') OR define('OLD_DOOLALLY_FEE','250');
 defined('NEW_DOOLALLY_FEE') OR define('NEW_DOOLALLY_FEE','300');
 defined('DOOLALLY_FEE_MAIL_TEXT') OR define('DOOLALLY_FEE_MAIL_TEXT' ,'House Fries & Mocktail <b>OR</b> A Pint of Beer.');
 defined('DOOLALLY_CUSTOM_FEE_MAIL_TEXT') OR define('DOOLALLY_CUSTOM_FEE_MAIL_TEXT','Half Pint of Beer <b>OR</b> House Fries <b>OR</b> A Mocktail.');
+defined('EH_GATEWAY_CHARGE') OR define('EH_GATEWAY_CHARGE',5);
+defined('DOOLALLY_GATEWAY_CHARGE') OR define('DOOLALLY_GATEWAY_CHARGE',2.24);
