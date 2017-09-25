@@ -94,7 +94,7 @@ else
 ?>
 </div>
 <script>
-    var tapId = <?php echo $tapId;?>;
+    var tapId = '<?php if (isset($tapId)) {echo $tapId;} else {echo '';};?>';
     $(function() {
         var monkeyList = new List('song-list', {
             valueNames: ['song-name','artist-name'],

@@ -133,16 +133,16 @@
     <!--<span class="mdl-layout-title">Title</span>-->
     <nav class="mdl-navigation">
         <ul id="main-web-menu" title="<i class='material-icons custom-info'>info</i>Request a song, access your events dashboard, tour our other taprooms." class="demo-list-icon mdl-list">
-            <li class="mdl-list__item">
-                <a href="#" id="global-home-btn" class="my-fullWidth drawer-item dynamic">
+            <li class="mdl-list__item" onclick="$('#demo-menu-lower-left').click();">
+                <a href="#" class="my-fullWidth drawer-item">
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-home fa-15x mdl-list__item-icon"></i>
                             Home
                         </span>
                 </a>
             </li>
-            <li class="mdl-list__item">
-                <a href="#" id="my-jukebox-tab" class="my-fullWidth drawer-item dynamic">
+            <li class="mdl-list__item" onclick="$('#demo-menu-lower-left').click();">
+                <a href="jukebox" data-title="Jukebox" class="my-fullWidth drawer-item dynamic">
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-music mdl-list__item-icon"></i>
                             <!--<i class="material-icons mdl-list__item-icon">music_note</i>-->
@@ -150,8 +150,8 @@
                         </span>
                 </a>
             </li>
-            <li class="mdl-list__item">
-                <a href="#" id="my-events-tab" class="my-fullWidth drawer-item dynamic">
+            <li class="mdl-list__item" onclick="$('#demo-menu-lower-left').click();">
+                <a href="event_dash" data-title="Events Dashboard" class="my-fullWidth drawer-item dynamic">
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-calendar mdl-list__item-icon"></i>
                             <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
@@ -159,18 +159,8 @@
                         </span>
                 </a>
             </li>
-            <li class="user-settings mdl-list__item <?php if(isSessionVariableSet($this->isUserSession) === false){echo 'hide';}?>"
-                style="display:none !important;">
-                <a href="#" class="my-fullWidth drawer-item dynamic">
-                    <span class="mdl-list__item-primary-content">
-                        <i class="fa fa-cog mdl-list__item-icon"></i>
-                        <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
-                        Settings
-                    </span>
-                </a>
-            </li>
-            <li class="mdl-list__item">
-                <a href="#" id="contact-tab" class="my-fullWidth drawer-item dynamic">
+            <li class="mdl-list__item" onclick="$('#demo-menu-lower-left').click();">
+                <a href="contact_us" data-title="Contact Us" class="my-fullWidth drawer-item dynamic">
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-life-ring mdl-list__item-icon"></i>
                             <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
@@ -178,16 +168,16 @@
                         </span>
                 </a>
             </li>
-            <li class="mdl-list__item logout-menu-item <?php if(isSessionVariableSet($this->isUserSession) === false){echo 'hide';}?>"
+            <!--<li class="mdl-list__item logout-menu-item <?php /*if(isSessionVariableSet($this->isUserSession) === false){echo 'hide';}*/?>"
                 style="display:none !important;">
                 <a href="#" id="logout-btn" class="my-fullWidth drawer-item dynamic">
                     <span class="mdl-list__item-primary-content">
                         <i class="fa ic_logout_icon point-item mdl-list__item-icon"></i>
-                        <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
+                        <i class="material-icons mdl-list__item-icon">settings</i>
                         Logout
                     </span>
                 </a>
-            </li>
+            </li>-->
         </ul>
     </nav>
 </div>

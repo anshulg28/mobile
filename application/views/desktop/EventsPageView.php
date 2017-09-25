@@ -202,12 +202,16 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
 
 <script>
     $(document).ready(function(){
-       if($(window).width() < 1024)
+       if($(window).width() < mobileSize)
        {
            var mobHtm = '<br><div class="content-block-title weekly-cal">What\'s happening this week</div>' +
                '<div id="calendar-mobile-glance"></div><br><div class="content-block-title weekly-cal">All Events</div>';
+           var eventAdd = '<a href="create_event" data-title="Create Event" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mobile-event-create dynamic">\n' +
+               '    <i class="ic_add"></i>\n' +
+               '</a>';
            $('.event-creator-box').addClass('hide');
            $('.content-for-mobile').html(mobHtm);
+           $('.content-for-mobile').append(eventAdd);
            renderCalendarMobile();
        }
     });

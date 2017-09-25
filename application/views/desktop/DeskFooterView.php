@@ -4,7 +4,7 @@
        <!-- <div class="mdl-cell mdl-cell--4-col">
         </div>-->
         <div class="mdl-cell mdl-cell--12-col my-NoMargin">
-            <div class="mdl-layout__tab-bar mdl-js-ripple-effect" id="mainNavBar">
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect" id="mainNavFooter">
                 <a href="<?php echo base_url();?>" class="mdl-layout__tab is-active">
                     <i class="fa fa-hashtag fa-17x my-display-block common-main-tabs on header-tabs-reposition mdl-badge--overlap" data-badge=""></i><span class="head-txt-up my-black-text">Doolally</span>
                 </a>

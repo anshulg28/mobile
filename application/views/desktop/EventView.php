@@ -282,19 +282,39 @@
     $(document).ready(function(){
         if(typeof $('#shareLink').val() != 'undefined')
         {
-            $('#share.my-social-share').jsSocials({
-                showLabel: true,
-                shareIn: "blank",
-                showCount: false,
-                text:$('#shareLink').attr('data-name'),
-                url: $('#shareLink').val(),
-                shares: [
-                    { share: "twitter", label: "Twitter" },
-                    { share: "facebook", label: "Facebook" }
-                ]
-            });
-            var shUrl = $('#shareLink').val();
-            $('#share.my-social-share .jssocials-shares').append('<i class="fa fa-link fa-15x copyToClip" data-url="'+shUrl+'"><span>Copy Link</span></i>');
+            if($(window).width() < mobileSize)
+            {
+                $('#share.my-social-share').jsSocials({
+                    showLabel: true,
+                    shareIn: "blank",
+                    showCount: false,
+                    text:$('#shareLink').attr('data-name'),
+                    url: $('#shareLink').val(),
+                    shares: [
+                        { share: "twitter", label: "Twitter" },
+                        { share: "facebook", label: "Facebook" },
+                        { share: "whatsapp", label: "Whatsapp" }
+                    ]
+                });
+                //var shUrl = $('#shareLink').val();
+                //$('#share.my-social-share .jssocials-shares').append('<i class="fa fa-link fa-15x copyToClip" data-url="'+shUrl+'"><span>Copy Link</span></i>');
+            }
+            else
+            {
+                $('#share.my-social-share').jsSocials({
+                    showLabel: true,
+                    shareIn: "blank",
+                    showCount: false,
+                    text:$('#shareLink').attr('data-name'),
+                    url: $('#shareLink').val(),
+                    shares: [
+                        { share: "twitter", label: "Twitter" },
+                        { share: "facebook", label: "Facebook" }
+                    ]
+                });
+                var shUrl = $('#shareLink').val();
+                $('#share.my-social-share .jssocials-shares').append('<i class="fa fa-link fa-15x copyToClip" data-url="'+shUrl+'"><span>Copy Link</span></i>');
+            }
         }
     });
 </script>
