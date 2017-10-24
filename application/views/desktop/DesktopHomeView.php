@@ -12,6 +12,7 @@
         <meta itemprop="name" content="<?php echo $meta['title'];?>">
         <meta itemprop="description" content="<?php echo $meta['description'];?>">
         <meta itemprop="image" content="<?php echo $meta['img'];?>">
+        <meta itemprop="image_url" content="<?php echo $meta['img'];?>">
 
         <!-- Twitter Card data -->
         <meta name="twitter:card" content="summary_large_image">
@@ -24,9 +25,10 @@
 
         <!-- Open Graph data -->
         <meta property="og:title" content="<?php echo $meta['title'];?>" />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
         <meta property="og:url" content="<?php echo $meta['link'];?>" />
-        <meta property="og:image" itemprop="image" content="<?php echo $meta['img'];?>" />
+        <meta property="og:image" content="<?php echo $meta['img'];?>" />
+        <meta property="og:image_url" content="<?php echo $meta['img'];?>" />
         <meta property="og:description" content="<?php echo $meta['description'];?>" />
         <?php
     }
@@ -38,6 +40,7 @@
         <meta itemprop="name" content="<?php echo $meta1['title'];?>">
         <meta itemprop="description" content="<?php echo $meta1['description'];?>">
         <meta itemprop="image" content="<?php echo $meta1['img'];?>">
+        <meta itemprop="image_url" content="<?php echo $meta1['img'];?>">
 
         <!-- Twitter Card data -->
         <meta name="twitter:card" content="summary_large_image">
@@ -52,6 +55,7 @@
         <meta property="og:title" content="<?php echo $meta1['title'];?>" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="<?php echo $meta1['img'];?>" />
+        <meta property="og:image_url" content="<?php echo $meta1['img'];?>" />
         <meta property="og:description" content="<?php echo $meta1['description'];?>" />
         <?php
     }
@@ -626,7 +630,7 @@
                                             echo 'eve-'.$row['eventPlace'];
                                         }
                                     }
-                                    ?>" data-eveTitle="<?php echo $row['eventName'];?>">
+                                    ?>" data-eveTitle="<?php echo addslashes($row['eventName']);?>" data-orgName="<?php echo addslashes($row['creatorName']);?>">
                                         <?php
                                         if($postImg <=2)
                                         {
@@ -655,7 +659,7 @@
                                                             <h1 class="hide" itemprop="name"> <?php echo $row['eventName'];?></h1>
                                                             <span class="avatar-title">
                                                                 <?php
-                                                                $eventName = (strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
+                                                                $eventName = (mb_strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
                                                                 echo $eventName;
                                                                 ?>
                                                             </span>
@@ -673,7 +677,7 @@
                                                 <meta class="hide" itemprop="endDate" content="<?php echo $row['eventDate'].'T'.$row['endTime'];?>" />
                                                 <div class="mdl-card__supporting-text">
                                                     <?php
-                                                    $eventDescrip = (strlen($row['eventDescription']) > 100) ? substr($row['eventDescription'], 0, 100) . '..' : $row['eventDescription'];
+                                                    $eventDescrip = (mb_strlen($row['eventDescription']) > 100) ? substr($row['eventDescription'], 0, 100) . '..' : $row['eventDescription'];
                                                     ?>
                                                     <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="comment dynamic" itemprop="description">
                                                         <?php echo $eventDescrip;?>

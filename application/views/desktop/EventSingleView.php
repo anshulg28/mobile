@@ -46,7 +46,7 @@
                                     <span class="mdl-list__item-primary-content">
                                         <span class="avatar-title">
                                             <?php
-                                            $eventName = (strlen($row['eventName']) > 35) ? substr($row['eventName'], 0, 35) . '..' : $row['eventName'];
+                                            $eventName = (mb_strlen($row['eventName']) > 35) ? substr($row['eventName'], 0, 35) . '..' : $row['eventName'];
                                             echo $eventName;
                                             ?>
                                         </span>
@@ -81,6 +81,11 @@
                                 {
                                     ?>
                                     <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved But Not Active<?php
+                                }
+                                elseif(isEventFinished($row['eventDate'], $row['endTime']))
+                                {
+                                    ?>
+                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Completed<?php
                                 }
                                 ?>
                                 </span>
@@ -205,7 +210,13 @@
                             ?>
                             <div class="mdl-card__actions mdl-card--border">
                                 <?php
-                                if(isset($row['isEventCancel']) && $row['isEventCancel'] == EVENT_CANCEL_REVIEW)
+                                if(isset($eventCompleted) && $eventCompleted)
+                                {
+                                    ?>
+                                    <i class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event Completed</i>
+                                    <?php
+                                }
+                                elseif(isset($row['isEventCancel']) && $row['isEventCancel'] == EVENT_CANCEL_REVIEW)
                                 {
                                     ?>
                                     <!--<i data-ignore-cache="true" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow" disabled>Edit Event</i>-->
@@ -219,11 +230,25 @@
                                     <i class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event Cancelled</i>
                                     <?php
                                 }
+                                elseif(isEventFinished($row['eventDate'], $row['endTime']))
+                                {
+                                    ?>
+                                    <!--<i data-ignore-cache="true" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow" disabled>Edit Event</i>-->
+                                    <i class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event Completed</i>
+                                    <?php
+                                }
+                                elseif(isEventStarted($row['eventDate'], $row['startTime']))
+                                {
+                                    ?>
+                                    <!--<i data-ignore-cache="true" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow" disabled>Edit Event</i>-->
+                                    <i class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" disabled>Event In Progress</i>
+                                    <?php
+                                }
                                 else
                                 {
                                     ?>
                                     <a href="<?php echo 'eventEdit/'.$row['eventSlug'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-bookNow dynamic">Edit Event</a>
-                                    <i data-commNum="<?php echo $commDetails['mobNum'];?>" data-commName="<?php echo $commDetails['userName'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-cancel-btn pull-right">Cancel Event</i>
+                                    <i data-eveId="<?php echo $row['eventId'];?>" data-commNum="<?php echo $commDetails['mobNum'];?>" data-commName="<?php echo $commDetails['userName'];?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect event-cancel-btn pull-right">Cancel Event</i>
                                     <?php
                                 }
 
@@ -252,7 +277,7 @@
             message: 'Email Id of the attendee: ',
             value:email,
             callback: function (value) {
-                console.log(value)
+                console.log(value);
             }
         });
         setTimeout(function(){

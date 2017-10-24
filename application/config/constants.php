@@ -127,7 +127,7 @@ defined('ACCESS_TOKEN') OR define('ACCESS_TOKEN','15804491-nkhDglNJ5uNSBGixul3kw
 defined('ACCESS_SECRET') OR define('ACCESS_SECRET','eRdLrS6eAwj07Ul5264YUZLf0AXCP9rbicAlXsLFLDjMB');
 defined('BEARER_TOKEN') OR define('BEARER_TOKEN','AAAAAAAAAAAAAAAAAAAAAFhQegAAAAAAePdzbMWF5F%2FfVU5Ph09OIb22dnE%3D7qKzt9ZZQ6IwfUErgznCPq6AcEmIZqYTnKAamzks6ojV72Nobn');
 //defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAUZBjn6HCmQBAGRccGXJCh7iVjMz7S1G0RdyszbH81ZAndaRZBOWt7S2M4CIPIWm0oplVisZAevWCqALhluARjZBGb2kELD4l6cJAwAuQgh9RtOKECzcPpsDpUe2ZA9uXeIIFUsXiFaquCjcdlZAFYpXmb99DIBzQZD');
-defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAJCOvplqxQBAK0iYftVtwk4cWF2LJNpTB8ESXn5dRieXlfGugoEaCa7C8r4ZAfcGgFkQh6Cw59koPLmpGa1618KwnmMLqWvnOMZBtoJ05Pprmn7ZBGQXik7ctLTPiP7QOXDU0md5gUsowTrZC7clvTufmFiNlFVMxyRwhZCK3wZDZD');
+defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAJCOvplqxQBAIJ0zOWAZCcJMyZCClkk8MBRBAJf11GMEl5KWBxJh4jT4lpLX6PVeACkrVH0VrUg5psiUrGkF6I6crHgZAjd0APegw5jBZCdYCg5LKgxMEQPXP4Q5OfcZBP3ZBZAKtSjSZCEO3KB9nt3N2B9rHvMWNAZD');
 defined('INSTA_API_KEY') OR define('INSTA_API_KEY','362388bd44886b30aa0d9973d7b99794');
 defined('INSTA_AUTH_TOKEN') OR define('INSTA_AUTH_TOKEN','2e8a6cb6ddb931a722e05d2c99dc3888');
 defined('GOOGLE_API_KEY') OR define('GOOGLE_API_KEY','AIzaSyBG3wamyMbQqRlqysulunOuPvv3_51BmpI');
@@ -147,8 +147,8 @@ defined('EVENT_PATH_THUMB') OR define('EVENT_PATH_THUMB','uploads/events/thumb/'
 defined('ITEM_FOOD') OR define('ITEM_FOOD','1');
 defined('ITEM_BEVERAGE') OR define('ITEM_BEVERAGE','2');
 
-defined('DASHBOARD_URL') OR define('DASHBOARD_URL','http://dtest.doolally.io/');
-defined('MOBILE_URL') OR define('MOBILE_URL','http://mtest.doolally.in/');
+defined('DASHBOARD_URL') OR define('DASHBOARD_URL','https://dtest.doolally.in/');
+defined('MOBILE_URL') OR define('MOBILE_URL','https://mtest.doolally.in/');
 
 /* Event Cost Types */
 defined('EVENT_FREE') OR define('EVENT_FREE','1');
@@ -158,8 +158,8 @@ defined('EVENT_DOOLALLY_FEE') OR define('EVENT_DOOLALLY_FEE','4');
 defined('STATUS_YES') OR define('STATUS_YES','1');
 defined('STATUS_NO') OR define('STATUS_NO','2');
 
-defined('DEFAULT_SENDER_EMAIL') OR define('DEFAULT_SENDER_EMAIL','events@brewcraftsindia.com');
-defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','doolally123');
+defined('DEFAULT_SENDER_EMAIL') OR define('DEFAULT_SENDER_EMAIL','communitymanager@brewcraftsindia.com');
+defined('DEFAULT_SENDER_PASS') OR define('DEFAULT_SENDER_PASS','Ngks2009');
 
 defined('OLD_DOOLALLY_FEE') OR define('OLD_DOOLALLY_FEE','250');
 defined('NEW_DOOLALLY_FEE') OR define('NEW_DOOLALLY_FEE','300');

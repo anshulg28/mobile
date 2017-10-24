@@ -31,6 +31,18 @@ if(isset($status) && $status === false)
 }
 elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
 {
+    if(isset($isValidEvent))
+    {
+        ?>
+            <input type="hidden" id="isValidEvent" value="<?php echo $isValidEvent;?>"/>
+        <?php
+    }
+    else
+    {
+        ?>
+        <input type="hidden" id="isValidEvent" value="0"/>
+        <?php
+    }
     foreach ($eventDetails as $key => $row)
     {
         ?>
@@ -86,23 +98,23 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                         <div class="event-header-name mdl-grid">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                 <!--onfocus="scrollToField(this)"-->
-                                <input class="mdl-textfield__input" type="text" id="eventName" name="eventName"
+                                <input class="mdl-textfield__input" tabindex="1" type="text" id="eventName" name="eventName"
                                        value="<?php echo $row['eventName'];?>"/>
                                 <label class="mdl-textfield__label" for="eventName">Name of event</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="eventDesc" name="eventDescription"><?php echo $row['eventDescription'];?></textarea>
+                                <textarea class="mdl-textfield__input" tabindex="2" type="text" rows= "3" id="eventDesc" name="eventDescription"><?php echo $row['eventDescription'];?></textarea>
                                 <label class="mdl-textfield__label" for="eventDesc">Describe your event</label>
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" value="<?php echo $row['eventDate'];?>"
+                                    <input class="mdl-textfield__input" tabindex="3" type="text" id="eventDate" name="eventDate" value="<?php echo $row['eventDate'];?>"
                                            placeholder="Date of Event">
                                     <label class="mdl-textfield__label" for="eventDate">Event Date</label>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <!--onfocus="scrollToField(this)"-->
-                                    <input class="mdl-textfield__input" type="text" id="endTime" name="endTime"
+                                    <input class="mdl-textfield__input" tabindex="5" type="text" id="endTime" name="endTime"
                                            value="<?php echo date("h:i A", strtotime($row['endTime']));?>"/>
                                     <label class="mdl-textfield__label" for="endTime">End Time</label>
                                 </div>
@@ -124,7 +136,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                         </div>-->
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <!--onfocus="scrollToField(this)"-->
-                                    <input class="mdl-textfield__input" type="text" id="startTime" name="startTime"
+                                    <input class="mdl-textfield__input" tabindex="4" type="text" id="startTime" name="startTime"
                                            value="<?php echo date("h:i A", strtotime($row['startTime']));?>"/>
                                     <label class="mdl-textfield__label" for="startTime">Start Time</label>
                                 </div>
@@ -157,7 +169,7 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                    <select name="eventCapacity" id="eventCapacity" class="mdl-textfield__input">
+                                    <select name="eventCapacity" tabindex="6" id="eventCapacity" class="mdl-textfield__input">
                                         <?php
                                         for($i=1;$i<=20;$i++)
                                         {
@@ -310,33 +322,33 @@ elseif(isset($eventDetails) && myIsMultiArray($eventDetails))
                             <div class="mdl-cell mdl-cell--12-col">Your details</div>
                             <!--<p class="event-sub-text">We'll contact you while we curate your event.</p>-->
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName" value="<?php echo $row['creatorName']; ?>" />
+                                <input class="mdl-textfield__input" tabindex="7" type="text" name="creatorName" id="creatorName" value="<?php echo $row['creatorName']; ?>" />
                                 <label class="mdl-textfield__label" for="creatorName">Name</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" maxlength="10"
+                                <input class="mdl-textfield__input" tabindex="8" type="number" name="creatorPhone" id="creatorPhone" maxlength="10"
                                        oninput="maxLengthCheck(this)" value="<?php echo $row['creatorPhone']; ?>" />
                                 <label class="mdl-textfield__label" for="creatorPhone">Phone Number</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail" value="<?php echo $row['creatorEmail']; ?>" />
+                                <input class="mdl-textfield__input" tabindex="9" type="email" name="creatorEmail" id="creatorEmail" value="<?php echo $row['creatorEmail']; ?>" />
                                 <label class="mdl-textfield__label" for="creatorEmail">Email ID</label>
                             </div>
                             <input type="hidden" name="userId" value="<?php echo $row['userId'];?>"/>
                             <div class="mdl-cell mdl-cell--12-col">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                    <textarea class="mdl-textfield__input kbdfix" type="text" rows= "3" id="aboutCreator" name="aboutCreator"><?php echo $row['aboutCreator']; ?></textarea>
+                                    <textarea class="mdl-textfield__input kbdfix" tabindex="10" type="text" rows= "3" id="aboutCreator" name="aboutCreator"><?php echo $row['aboutCreator']; ?></textarea>
                                     <label class="mdl-textfield__label" for="aboutCreator">Something about yourself (Optional)</label>
                                 </div>
                                 <div class="event-header-name">
-                                    All events are reviewed and approved by Doolally. Once approved, we will create an Instamojo payment link and
+                                    All events are reviewed and approved by Doolally. Once approved, we will create an Eventshigh payment link and
                                     accept payments on your behalf.
                                 </div>
                                 <hr>
                                 <label class="mdl-checkbox mdl-js-checkbox" for="tnc">
-                                    <input type="checkbox" id="tnc" value="1" class="mdl-checkbox__input">
+                                    <input type="checkbox" id="tnc" tabindex="11" value="1" class="mdl-checkbox__input">
                                     <span class="mdl-checkbox__label">I have read and agree to the
-                                <a href="#" class="dynamic">Terms and Conditions.</a>
+                                <a href="#" id="event-guide-link" class="dynamic">Event Guidelines.</a>
                             </span>
                                 </label>
                                 <br>
@@ -386,4 +398,9 @@ else
             $('#eventDate').val(dataVal);
         }
     });*/
+    if(typeof $('#isValidEvent').val() !== 'undefined' && $('#isValidEvent').val() == '0')
+    {
+        pushHistory('Doolally','event_dash',true);
+    }
+
 </script>

@@ -454,7 +454,7 @@
         {
             vex.dialog.buttons.YES.text = 'Close';
             vex.dialog.alert({
-                unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Congrats! You have successfully registered for the event, please find the details in My Events section'
+                unsafeMessage: '<label class="head-title">Success</label><br><br>'+'You have successfully registered for the event, please find the details in My Events section'
             });
             //alertDialog('Success!','Congrats! You have successfully registered for the event, please find the details in My Events section',false);
             showProgressLoader();
@@ -674,7 +674,15 @@
 
         if($(this).scrollTop() >= 500)
         {
-            $('.scrollUp').fadeIn('slow');
+            if(document.location.href == base_url+'?page/events' || document.location.href == base_url+'?page/events/'
+                || document.location.href.indexOf('filter_events') != -1)
+            {
+
+            }
+            else
+            {
+                $('.scrollUp').fadeIn('slow');
+            }
         }
 
         if($(this).scrollTop() <= 100)
@@ -735,21 +743,25 @@
 
             }
         }
-        var panelHeight = $('#mainContent-view section.mdl-layout__tab-panel.is-active').height()+50;
-        var fnbHeight = $('.sideFnbWrapper').height()+50;
-        if(panelHeight > fnbHeight)
+
+        if($(window).width() > mobileSize)
         {
-            $('.mdl-grid.page-content').css({
-                'height': panelHeight,
-                'overflow':'hidden'
-            });
-        }
-        else
-        {
-            $('.mdl-grid.page-content').css({
-                'height': fnbHeight,
-                'overflow':'hidden'
-            });
+            var panelHeight = $('#mainContent-view section.mdl-layout__tab-panel.is-active').height()+50;
+            var fnbHeight = $('.sideFnbWrapper').height()+50;
+            if(panelHeight > fnbHeight)
+            {
+                $('.mdl-grid.page-content').css({
+                    'height': panelHeight,
+                    'overflow':'hidden'
+                });
+            }
+            else
+            {
+                $('.mdl-grid.page-content').css({
+                    'height': fnbHeight,
+                    'overflow':'hidden'
+                });
+            }
         }
     });
     function showDesktopTab(tabName)
@@ -768,22 +780,26 @@
                 $('#mainContent-view section#timelineTab').addClass('is-active');
                 $('#mainNavBar a:nth-child(1) .common-main-tabs, #mainNavFooter a:nth-child(1) .common-main-tabs').addClass('on');
                 $('#mainNavBar a:nth-child(1) .head-txt-up, #mainNavFooter a:nth-child(1) .head-txt-up').addClass('my-black-text');
-                var newHeight = $('section#timelineTab').height()+100;
-                var fnbHeight = $('.sideFnbWrapper').height()+50;
-                if(fnbHeight > newHeight)
+                if($(window).width() > mobileSize)
                 {
-                    $('.mdl-grid.page-content').css({
-                        'height': fnbHeight,
-                        'overflow':'hidden'
-                    });
+                    var newHeight = $('section#timelineTab').height()+100;
+                    var fnbHeight = $('.sideFnbWrapper').height()+50;
+                    if(fnbHeight > newHeight)
+                    {
+                        $('.mdl-grid.page-content').css({
+                            'height': fnbHeight,
+                            'overflow':'hidden'
+                        });
+                    }
+                    else
+                    {
+                        $('.mdl-grid.page-content').css({
+                            'height': newHeight,
+                            'overflow':'hidden'
+                        });
+                    }
                 }
-                else
-                {
-                    $('.mdl-grid.page-content').css({
-                        'height': newHeight,
-                        'overflow':'hidden'
-                    });
-                }
+
                 break;
             case '#eventsTab':
                 if(document.location.href == base_url+'?page/events' || document.location.href == base_url+'?page/events/'
@@ -803,10 +819,15 @@
                     $('#filter-events-menu').addClass('hide');
                     if($(window).width() < mobileSize)
                     {
+                        $('header .mobile-adjustment-col').addClass('hide');
                         $('header .mdl-layout__drawer-button').addClass('hide');
                         if($('header .custom-mobile-back-btn').length == 0)
                         {
                             $('header').prepend('<i onclick="window.history.back()" class="material-icons custom-mobile-back-btn">arrow_back</i>');
+                        }
+                        else
+                        {
+                            $('header .custom-mobile-back-btn').removeClass('hide');
                         }
                     }
                 }
@@ -815,22 +836,27 @@
                 $('#mainContent-view section#eventsTab').addClass('is-active');
                 $('#mainNavBar a:nth-child(2) .common-main-tabs, #mainNavFooter a:nth-child(2) .common-main-tabs').addClass('on');
                 $('#mainNavBar a:nth-child(2) .head-txt-up, #mainNavFooter a:nth-child(2) .head-txt-up').addClass('my-black-text');
-                var newHeight = $('section#eventsTab').height()+100;
-                var fnbHeight = $('.sideFnbWrapper').height()+50;
-                if(fnbHeight > newHeight)
+
+                if($(window).width() > mobileSize)
                 {
-                    $('.mdl-grid.page-content').css({
-                        'height': fnbHeight,
-                        'overflow':'hidden'
-                    });
+                    var newHeight = $('section#eventsTab').height()+100;
+                    var fnbHeight = $('.sideFnbWrapper').height()+50;
+                    if(fnbHeight > newHeight)
+                    {
+                        $('.mdl-grid.page-content').css({
+                            'height': fnbHeight,
+                            'overflow':'hidden'
+                        });
+                    }
+                    else
+                    {
+                        $('.mdl-grid.page-content').css({
+                            'height': newHeight,
+                            'overflow':'hidden'
+                        });
+                    }
                 }
-                else
-                {
-                    $('.mdl-grid.page-content').css({
-                        'height': newHeight,
-                        'overflow':'hidden'
-                    });
-                }
+
                 break;
             case '#fnbTab':
                 $('#filter-timeline-menu').addClass('hide');
@@ -840,22 +866,27 @@
                 $('#mainContent-view section#fnbTab').addClass('is-active');
                 $('#mainNavBar a:nth-child(3) .common-main-tabs, #mainNavFooter a:nth-child(3) .common-main-tabs').addClass('on');
                 $('#mainNavBar a:nth-child(3) .head-txt-up, #mainNavFooter a:nth-child(3) .head-txt-up').addClass('my-black-text');
-                var newHeight = $('section#fnbTab').height()+100;
-                var fnbHeight = $('.sideFnbWrapper').height()+50;
-                if(fnbHeight > newHeight)
+
+                if($(window).width() > mobileSize)
                 {
-                    $('.mdl-grid.page-content').css({
-                        'height': fnbHeight,
-                        'overflow':'hidden'
-                    });
+                    var newHeight = $('section#fnbTab').height()+100;
+                    var fnbHeight = $('.sideFnbWrapper').height()+50;
+                    if(fnbHeight > newHeight)
+                    {
+                        $('.mdl-grid.page-content').css({
+                            'height': fnbHeight,
+                            'overflow':'hidden'
+                        });
+                    }
+                    else
+                    {
+                        $('.mdl-grid.page-content').css({
+                            'height': newHeight,
+                            'overflow':'hidden'
+                        });
+                    }
                 }
-                else
-                {
-                    $('.mdl-grid.page-content').css({
-                        'height': newHeight,
-                        'overflow':'hidden'
-                    });
-                }
+
                 break;
 
         }
@@ -894,7 +925,8 @@
                 url: $(this).parent().find('input[type="hidden"]').val(),
                 shares: [
                     { share: "twitter", label: "Twitter" },
-                    { share: "facebook", label: "Facebook" }
+                    { share: "facebook", label: "Facebook" },
+                    { share: "pinterest", label: "Pin it"}
                 ]
             });
             var shUrl = $(this).parent().find('input[type="hidden"]').val();
@@ -910,7 +942,8 @@
                 shares: [
                     { share: "twitter", label: "Twitter" },
                     { share: "facebook", label: "Facebook" },
-                    { share: "whatsapp", label: "Whatsapp" }
+                    { share: "whatsapp", label: "Whatsapp" },
+                    { share: "pinterest", label: "Pin it"}
                 ]
             });
             //var shUrl = $(this).parent().find('input[type="hidden"]').val();
@@ -946,7 +979,8 @@
                 url: $(this).parent().find('input[type="hidden"]').val(),
                 shares: [
                     { share: "twitter", label: "Twitter" },
-                    { share: "facebook", label: "Facebook" }
+                    { share: "facebook", label: "Facebook" },
+                    { share: "pinterest", label: "Pin it"}
                 ]
             });
             var shUrl = $(this).parent().find('input[type="hidden"]').val();
@@ -962,7 +996,8 @@
                 shares: [
                     { share: "twitter", label: "Twitter" },
                     { share: "facebook", label: "Facebook" },
-                    { share: "whatsapp", label: "Whatsapp" }
+                    { share: "whatsapp", label: "Whatsapp" },
+                    { share: "pinterest", label: "Pin it"}
                 ]
             });
             //var shUrl = $(this).parent().find('input[type="hidden"]').val();
@@ -1902,6 +1937,10 @@
                     {
                         $('header').prepend('<i onclick="window.history.back()" class="material-icons custom-mobile-back-btn">arrow_back</i>');
                     }
+                    else
+                    {
+                        $('header .custom-mobile-back-btn').removeClass('hide');
+                    }
                 }
                 break;
             case 'contact_us':
@@ -1914,6 +1953,10 @@
                     if($('header .custom-mobile-back-btn').length == 0)
                     {
                         $('header').prepend('<i onclick="window.history.back()" class="material-icons custom-mobile-back-btn">arrow_back</i>');
+                    }
+                    else
+                    {
+                        $('header .custom-mobile-back-btn').removeClass('hide');
                     }
                 }
                 break;
@@ -1930,22 +1973,27 @@
                 });
         }
         hideProgressLoader();
-        var panelHeight = $('#mainContent-view section.mdl-layout__tab-panel.is-active').height()+50;
-        var fnbHeight = $('.sideFnbWrapper').height()+50;
-        if(panelHeight > fnbHeight)
+
+        if($(window).width() > mobileSize)
         {
-            $('.mdl-grid.page-content').css({
-                'height': panelHeight,
-                'overflow':'hidden'
-            });
+            var panelHeight = $('#mainContent-view section.mdl-layout__tab-panel.is-active').height()+50;
+            var fnbHeight = $('.sideFnbWrapper').height()+50;
+            if(panelHeight > fnbHeight)
+            {
+                $('.mdl-grid.page-content').css({
+                    'height': panelHeight,
+                    'overflow':'hidden'
+                });
+            }
+            else
+            {
+                $('.mdl-grid.page-content').css({
+                    'height': fnbHeight,
+                    'overflow':'hidden'
+                });
+            }
         }
-        else
-        {
-            $('.mdl-grid.page-content').css({
-                'height': fnbHeight,
-                'overflow':'hidden'
-            });
-        }
+
         $('.scrollUp').click();
         setTimeout(function(){
             $('.lazy').each(function(i,val){
@@ -2048,6 +2096,8 @@
         $('#mainNavBar .mdl-layout__tab, #mainNavFooter .mdl-layout__tab').removeClass('is-active');
         $('#mainNavBar .common-main-tabs, #mainNavFooter .common-main-tabs').removeClass('on');
         $('#mainNavBar .head-txt-up, #mainNavFooter .head-txt-up').removeClass('my-black-text');
+        $('#filter-timeline-menu').addClass('hide');
+        $('#filter-events-menu').addClass('hide');
     }
 
     //Facebook login script
@@ -2747,6 +2797,7 @@
             mySnackTime('Event Time is not proper!');
             return false;
         }*/
+        $('.event-add-page #eventSave button[type="submit"]').attr('disabled','disabled');
         if(typeof cropData['imgUrl'] != 'undefined' && eventAddStatus === false)
         {
             showProgressLoader();
@@ -2821,12 +2872,13 @@
                 data:$(ele).serialize(),
                 success: function(data){
                     isReqPending = false;
+                    hideProgressLoader();
                     if(data.status == true)
                     {
                         vex.dialog.buttons.YES.text = 'Close';
                         vex.dialog.alert({
-                            unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Thank you for creating an event, ' +
-                            'We have sent you a confirmation email, please check for event status in My Events section.',
+                            unsafeMessage: 'Thank you for creating an event, ' +
+                            'we have sent you a confirmation email, please check for event status in My Events section.',
                             callback: function(){
                                 setTimeout(function(){
                                     pushHistory('Doolally','event_dash',true);
@@ -2844,6 +2896,7 @@
                 },
                 error: function(xhr, status, error){
                     isReqPending= false;
+                    hideProgressLoader();
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
                         unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
@@ -2939,6 +2992,7 @@
             mySnackTime('Event Time is not proper!');
             return false;
         }*/
+        $('.event-add-page #eventEditSave button[type="submit"]').attr('disabled','disabled');
         if(typeof cropData['imgUrl'] != 'undefined' && eventEditStatus === false)
         {
             showProgressLoader();
@@ -3013,6 +3067,7 @@
                 data:$(ele).serialize(),
                 success: function(data){
                     isReqEditPending = false;
+                    hideProgressLoader();
                     if(data.status == true)
                     {
                         if(data.noChange === true)
@@ -3031,8 +3086,7 @@
                         {
                             vex.dialog.buttons.YES.text = 'Close';
                             vex.dialog.alert({
-                                unsafeMessage: '<label class="head-title">Success</label><br><br>'+'Your event is now in review state, ' +
-                                'We will sent you mail once review is done, you can check for event status in My Events section.',
+                                unsafeMessage: 'Your edits are being reviewed. We will sent you an email once the review is done',
                                 callback: function(){
                                     setTimeout(function(){
                                         pushHistory('Doolally','event_dash',true);
@@ -3051,6 +3105,7 @@
                 },
                 error: function(xhr, status, error){
                     isReqEditPending = false;
+                    hideProgressLoader();
                     vex.dialog.buttons.YES.text = 'Close';
                     vex.dialog.alert({
                         unsafeMessage: '<label class="head-title">Error!</label><br><br>'+'Some Error Occurred!'
@@ -3062,6 +3117,10 @@
         }
 
     }
+
+    $(document).on('click','.event-add-page #event-guide-link', function(){
+        $('.readEvent-guide').click();
+    });
 
     $(document).on('click','#dashboard-logout', function(){
         showProgressLoader();
@@ -3129,16 +3188,35 @@
         var isConfirm = false;
         var cmName = $(this).attr('data-commName');
         var cmNum = $(this).attr('data-commNum');
-        //vex.dialog.buttons.YES.text = 'Cancel Event';
-        //vex.dialog.buttons.NO.text = 'Close';
-        vex.dialog.alert({
-            unsafeMessage: '<label class="head-title">Cancel Event?</label><br><br>'+"Please Contact the venue's Community Manager("+cmName+"): "+cmNum
-            //showCloseButton: false,
-            /*callback: function (value) {
-                /!*if (value) {
-                    isConfirm = true;
-                }*!/
-            }*/
+        var eveId = $(this).attr('data-eveId');
+        vex.dialog.buttons.YES.text = 'Cancel Event';
+        vex.dialog.buttons.NO.text = 'Close';
+        vex.dialog.confirm({
+            unsafeMessage: '<label class="head-title">Cancel Event?</label><br><br>'+
+            'Please Contact the venue\'s Community Manager ('+cmName+') on <a href="tel:'+cmNum+'">'+cmNum+'</a> to cancel your event.',
+            showCloseButton: true,
+            callback: function (value) {
+                if (value) {
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        url: base_url+'sendCancelRequest',
+                        data: {eventId: eveId},
+                        success: function(data){
+                            vex.dialog.buttons.YES.text = 'Close';
+                            vex.dialog.alert({
+                                unsafeMessage: '<label class="head-title">Success!</label><br><br>Your request for cancellation is being reviewed. Please give us a couple of hours.',
+                                callback: function () {
+                                    setTimeout(function () {
+                                        replaceHistory('Doolally', 'event_dash', true);
+                                    }, 500);
+                                }
+                            });
+                        },
+                        error: function(){}
+                    });
+                }
+            }
             /*afterClose: function(){
                 vex.closeAll();
                 if(isConfirm)
@@ -3152,6 +3230,7 @@
                 }
             }*/
         });
+
         //confirmDialog('Cancel Event?', "Once you tap 'Cancel Event', your event will be cancelled within 48 hours. All" +
         //" the fees collected will be refunded to the attendees.",'Cancel Event', $$('.event-details #eventId').val(), false);
     });
@@ -3599,12 +3678,12 @@
 
         var ifError = '';
         showCustomLoader();
-        var errUrl = 'https://developer.eventshigh.com/refund_booking?key=ev3nt5h1ghte5tK3y';
+        var errUrl = 'https://developer.eventshigh.com/refund_booking?key=D00la11y@ppKey';
         $.ajax({
             type:'POST',
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
-            url:'https://developer.eventshigh.com/refund_booking?key=ev3nt5h1ghte5tK3y',
+            url:'https://developer.eventshigh.com/refund_booking?key=D00la11y@ppKey',
             data: JSON.stringify(postData),
             success: function(data){
                 console.log(data);
@@ -3668,13 +3747,16 @@
             $('header .mdl-layout__drawer-button').addClass('hide');
         }
     });
-    $(document).on('click','#filter-timeline-menu, #filter-events-menu', function(){
-        setTimeout(function(){
-            //var elWidth = $('header .mdl-menu__container.is-visible').width();
+    $(document).on('click','#filter-timeline-menu, #filter-events-menu,#filter-fnb-menu-mobile', function(){
+        if($(window).width() < mobileSize)
+        {
+            setTimeout(function(){
+                //var elWidth = $('header .mdl-menu__container.is-visible').width();
 
-            var elLeft = $('header .mdl-menu__container.is-visible').position().right;
-            $('header .mdl-menu__container.is-visible').css('right','35px');
-        },100);
+                var elLeft = $('header .mdl-menu__container.is-visible').position().right;
+                $('header .mdl-menu__container.is-visible').css('right','35px');
+            },100);
+        }
     });
     function renderCalendarMobile()
     {
@@ -3774,4 +3856,64 @@
             }
         });
     });
+
+    $(document).on('click','.mainHome #eventsTab .event-action-btns .remind-later-btn', function(e){
+       e.preventDefault();
+        vex.dialog.buttons.YES.text = 'Remind Me';
+       var eveId = $(this).attr('data-eventId');
+        vex.dialog.prompt({
+            message: 'We\'ll send you a reminder 24 hours before the event: ',
+            placeholder: 'Email address',
+            callback: function (value) {
+                if(!value)
+                {
+                    console.log('canceled');
+                }
+                else
+                {
+                    if(value.trim() != '')
+                    {
+                        var errUrl = base_url+'main/remindEventUser';
+                        showProgressLoader();
+                        $.ajax({
+                            type:'POST',
+                            dataType:'json',
+                            data:{emailId:value.trim(),eventId:eveId},
+                            url:base_url+'main/remindEventUser',
+                            success: function(data){
+                                hideProgressLoader();
+                                if(data.status === true)
+                                {
+                                    vex.dialog.buttons.YES.text = 'Close';
+                                    vex.dialog.alert({
+                                        unsafeMessage: 'We\'ll send you a reminder on email 24 hours before the event.'
+                                    });
+                                }
+                                else
+                                {
+                                    vex.dialog.buttons.YES.text = 'Close';
+                                    vex.dialog.alert({
+                                        unsafeMessage: '<label class="head-title">Error!</label><br><br>'+data.errorMsg
+                                    });
+
+                                }
+                            },
+                            error: function(xhr, status, error){
+                                hideProgressLoader();
+                                bootbox.alert('Some Error Occurred!');
+                                var err = 'Url: '+errUrl+' StatusText: '+xhr.statusText+' Status: '+xhr.status+' resp: '+xhr.responseText;
+                                saveErrorLog(err);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+        $('.vex-dialog-button-secondary.vex-dialog-button.vex-last').addClass('hide');
+    });
+
+    if($(window).width() > mobileSize)
+    {
+        $('header .filter-timeline-list, header .filter-events-list, header .filter-fnb-list').removeClass('mdl-menu--bottom-right');
+    }
 </script>

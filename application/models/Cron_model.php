@@ -261,4 +261,11 @@ class Cron_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
         return $result;
     }
+    function getAllReminders()
+    {
+        $query = "SELECT * FROM eventremindermaster WHERE hasSent = 0";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
 }

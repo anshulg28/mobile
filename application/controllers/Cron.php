@@ -610,4 +610,31 @@ class Cron extends MY_Controller
 
     }
 
+    public function sendEventReminders()
+    {
+        $reminders = $this->cron_model->getAllReminders();
+
+        if(isset($reminders) && myIsArray($reminders))
+        {
+            foreach($reminders as $key => $row)
+            {
+                $eventInfo = $this->dashboard_model->getEventById($row['eventId']);
+                $eventInfo = $eventInfo[0];
+                if(isset($eventInfo) && myIsArray($eventInfo))
+                {
+                    $date1 = date($eventInfo['eventDate'].' '.$eventInfo['startTime']);
+                    if(strtotime($date1) <= strtotime('24 hours'))
+                    {
+                        $eventInfo['emailId'] = $row['emailId'];
+                        $this->sendemail_library->eventReminderSendMail($eventInfo,$eventInfo['eventPlace']);
+                        $details = array(
+                            'hasSent' => 1
+                        );
+                        $this->dashboard_model->updateReminder($details,$row['id']);
+                    }
+                }
+            }
+        }
+    }
+
 }

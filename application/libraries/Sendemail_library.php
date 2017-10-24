@@ -100,6 +100,11 @@ class Sendemail_library
         $replyTo = $mailRecord['userData']['emailId'];
 
         $cc        = implode(',',$this->CI->config->item('ccList')).','.$replyTo;
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = 'Doolally';
         if(isset($mailRecord['userData']['firstName']))
         {
@@ -160,6 +165,11 @@ class Sendemail_library
         $replyTo = $mailRecord['userData']['emailId'];
 
         $cc        = implode(',',$this->CI->config->item('ccList')).','.$replyTo;
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = 'Doolally';
         if(isset($mailRecord['userData']['firstName']))
         {
@@ -193,6 +203,11 @@ class Sendemail_library
         $replyTo = $mailRecord['userData']['emailId'];
 
         $cc        = implode(',',$this->CI->config->item('ccList')).','.$replyTo;
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = 'Doolally';
         if(isset($mailRecord['userData']['firstName']))
         {
@@ -224,9 +239,15 @@ class Sendemail_library
         $replyTo = $mailRecord['userData']['emailId'];
 
         $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = 'Doolally';
 
-        $subject = $userData[0]['eventName'].' On '.$userData[0]['eventDate'].' Review Details';
+        $d = date_create($userData[0]['eventDate']);
+        $subject = $userData[0]['eventName'].' On '.date_format($d,'l, jS F').' Review Details';
         $toEmail = 'events@brewcraftsindia.com';
 
         if($mailRecord['status'] === true)
@@ -257,11 +278,16 @@ class Sendemail_library
         $replyTo = $mailRecord['userData']['emailId'];
 
         $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = 'Doolally';
 
-        if(isset($userData['eventName']))
+        if(isset($userData['oldEventName']))
         {
-            $subject = $userData['eventName'].' Event Data Modified';
+            $subject = $userData['oldEventName'].' Event Data Modified';
         }
         else
         {
@@ -273,6 +299,56 @@ class Sendemail_library
         {
             $toEmail = $mailRecord['userData']['emailId'];
         }
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
+    }
+
+    public function eventEditToOrganiserMail($userData,$commPlace)
+    {
+        $mailRecord = $this->CI->users_model->searchUserByLoc($commPlace);
+        $senderUser = 'U-0';
+
+        if($mailRecord['status'] === true)
+        {
+            $senderUser = 'U-'.$mailRecord['userData']['userId'];
+        }
+        $userData['senderUser'] = $senderUser;
+
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/eventEditOrganiserMailView', $data, true);
+
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $mailRecord['userData']['emailId'];
+
+        $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
+        $fromName  = 'Doolally';
+        if(isset($mailRecord['userData']['firstName']))
+        {
+            $fromName = $mailRecord['userData']['firstName'];
+        }
+
+        if(isset($userData['oldEventName']))
+        {
+            $subject = $userData['oldEventName'].' Event Modification Request';
+        }
+        else
+        {
+            $subject = 'Event Modification Request';
+        }
+        $toEmail = 'events@brewcraftsindia.com';
+
+        if(isset($userData['orgEmail']))
+        {
+            $toEmail = $userData['orgEmail'];
+        }
+
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
@@ -293,6 +369,11 @@ class Sendemail_library
             $fromEmail = $userData[0]['creatorEmail'];
         }*/
         $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = 'Doolally';
 
         $subject = $userData[0]['eventName'].' Event Cancel';
@@ -303,48 +384,79 @@ class Sendemail_library
             $toEmail = $mailRecord['userData']['emailId'];
         }
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
+        //Saving mail
+        $logDetails = array(
+            'messageId' => null,
+            'sendTo' => $toEmail,
+            'sendFrom' => $fromEmail,
+            'sendFromName' => $fromName,
+            'ccList' => $cc,
+            'replyTo' => $replyTo,
+            'mailSubject' => $subject,
+            'mailBody' => $content,
+            'attachments' => '',
+            'sendStatus' => 'waiting',
+            'failIds' => null,
+            'sendDateTime' => date('Y-m-d H:i:s')
+        );
+
+        $this->CI->dashboard_model->saveWaitMailLog($logDetails);
+
+        //$this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     //Will Do after I get Email Text
     public function eventCancelUserMail($userData)
     {
-        $phons = $this->CI->config->item('phons');
         $mailRecord = $this->CI->users_model->searchUserByLoc($userData[0]['eventPlace']);
-        if($mailRecord['status'] === true)
-        {
-            $senderName = $mailRecord['userData']['firstName'];
-        }
-        else
-        {
-            $senderName = 'Doolally';
-        }
-        $userData['senderName'] = $senderName;
-        $userData['senderPhone'] = $phons[ucfirst($senderName)];
 
+        $data['commName'] = 'Doolally';
+        if(isset($mailRecord['userData']['firstName']))
+        {
+            $data['commName'] = $mailRecord['userData']['firstName'];
+        }
         $data['mailData'] = $userData;
 
         $content = $this->CI->load->view('emailtemplates/eventCancelUserMailView', $data, true);
 
         $fromEmail = DEFAULT_SENDER_EMAIL;
         $fromPass = DEFAULT_SENDER_PASS;
-        $replyTo = $fromEmail;
-
-        if(isset($mailRecord['userData']['emailId']) && isStringSet($mailRecord['userData']['emailId']))
+        $replyTo = $mailRecord['userData']['emailId'];
+        /*if(isset($userData[0]['creatorEmail']))
         {
-            $replyTo = $mailRecord['userData']['emailId'];
-        }
+            $fromEmail = $userData[0]['creatorEmail'];
+        }*/
         $cc        = implode(',',$this->CI->config->item('ccList'));
-        $fromName  = 'Doolally';
-        if(isset($senderName) && isStringSet($senderName))
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
         {
-            $fromName = ucfirst($senderName);
+            $cc = $cc.','.$extraCc;
         }
+        $fromName  = 'Doolally';
 
-        $subject = 'Event Cancel';
+        $subject = $userData[0]['eventName'].' Event Cancel';
         $toEmail = $userData[0]['creatorEmail'];
 
-        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
+
+        //Saving mail
+        $logDetails = array(
+            'messageId' => null,
+            'sendTo' => $toEmail,
+            'sendFrom' => $fromEmail,
+            'sendFromName' => $fromName,
+            'ccList' => $cc,
+            'replyTo' => $replyTo,
+            'mailSubject' => $subject,
+            'mailBody' => $content,
+            'attachments' => '',
+            'sendStatus' => 'waiting',
+            'failIds' => null,
+            'sendDateTime' => date('Y-m-d H:i:s')
+        );
+
+        $this->CI->dashboard_model->saveWaitMailLog($logDetails);
+        
+        //$this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
     }
 
     //Not in Use
@@ -371,7 +483,7 @@ class Sendemail_library
             $fromName = ucfirst($userData['senderName']);
         }
 
-        $subject = 'Event Approved';
+        $subject = 'Event approved';
         $toEmail = $userData[0]['creatorEmail'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
@@ -436,6 +548,11 @@ class Sendemail_library
         //$fromEmail = $senderEmail;
 
         $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = $senderName;
 
         $subject = 'Event Details';
@@ -467,6 +584,33 @@ class Sendemail_library
             $fromName = ucfirst($this->CI->userFirstName);
         }
         $subject = 'Renewal of Mug #'.$userData['mugId'];
+        $toEmail = $userData['emailId'];
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
+    }
+
+    public function eventReminderSendMail($userData, $eventPlace)
+    {
+        $locData = $this->CI->locations_model->getLocationDetailsById($eventPlace);
+        $mailRecord = $this->CI->users_model->searchUserByLoc($eventPlace);
+        $data['mailData'] = $userData;
+
+        $data['commName'] = 'Doolally';
+        if(isset($mailRecord['userData']['firstName']))
+        {
+            $data['commName'] = $mailRecord['userData']['firstName'];
+        }
+        $data['locInfo'] = $locData['locData'][0];
+
+        $content = $this->CI->load->view('emailtemplates/eventReminderMailView', $data, true);
+
+        $fromEmail = DEFAULT_SENDER_EMAIL;
+        $fromPass = DEFAULT_SENDER_PASS;
+        $replyTo = $fromEmail;
+
+        $cc        = implode(',',$this->CI->config->item('ccList'));
+        $fromName  = 'Doolally';
+        $subject = $userData['eventName'].' Event Reminder';
         $toEmail = $userData['emailId'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromPass, $fromName,$replyTo, $subject, $content);
@@ -681,6 +825,11 @@ class Sendemail_library
         //$fromEmail = $senderEmail;
 
         $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = $senderName;
 
         $subject = 'You have withdrawn from '.$userData['eventName'];
@@ -719,6 +868,11 @@ class Sendemail_library
         //$fromEmail = $senderEmail;
 
         $cc        = implode(',',$this->CI->config->item('ccList'));
+        $extraCc = getExtraCCEmail($replyTo);
+        if(isStringSet($extraCc))
+        {
+            $cc = $cc.','.$extraCc;
+        }
         $fromName  = $senderName;
 
         $subject = 'You have withdrawn from '.$userData['eventName'];

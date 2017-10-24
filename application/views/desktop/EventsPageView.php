@@ -51,7 +51,7 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
         $postImg = 0;
         foreach($eventDetails as $key => $row)
         {
-            if(isEventFinished($row['eventDate'], $row['endTime']))
+            if(isEventStarted($row['eventDate'], $row['startTime']))
             {
                 continue;
             }
@@ -73,7 +73,7 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                     echo 'eve-'.$row['eventPlace'];
                 }
             }
-            ?>" data-eveTitle="<?php echo $row['eventName'];?>">
+            ?>" data-eveTitle="<?php echo addslashes($row['eventName']);?>" data-orgName="<?php echo addslashes($row['creatorName']);?>">
                 <?php
                 if($postImg <=2)
                 {
@@ -102,7 +102,7 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                                                             <h1 class="hide" itemprop="name"> <?php echo $row['eventName'];?></h1>
                                                             <span class="avatar-title">
                                                                 <?php
-                                                                $eventName = (strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
+                                                                $eventName = (mb_strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
                                                                 echo $eventName;
                                                                 ?>
                                                             </span>
@@ -110,7 +110,7 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                                                         </span>
                                 <span class="mdl-list__item-secondary-content">
                                                             <span class="mdl-list__item-secondary-info">
-                                                                <input type="hidden" data-name="<?php echo $row['eventName'];?>" value="<?php if(isset($row['shortUrl'])){echo $row['shortUrl'];}else{echo $row['eventShareLink'];} ?>"/>
+                                                                <input type="hidden" data-shareTxt="This looks pretty cool, shall we?" data-name="<?php echo $row['eventName'];?>" value="<?php if(isset($row['shortUrl'])){echo $row['shortUrl'];}else{echo $row['eventShareLink'];} ?>"/>
                                                                 <i class="my-pointer-item ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
                                                             </span>
                                                         </span>
@@ -120,7 +120,8 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                         <meta class="hide" itemprop="endDate" content="<?php echo $row['eventDate'].'T'.$row['endTime'];?>" />
                         <div class="mdl-card__supporting-text">
                             <?php
-                            $eventDescrip = (strlen($row['eventDescription']) > 100) ? substr($row['eventDescription'], 0, 100) . '..' : $row['eventDescription'];
+                            $row['eventDescription'] = str_replace('nbsp;',' ',$row['eventDescription']);
+                            $eventDescrip = (mb_strlen($row['eventDescription']) > 100) ? substr(strip_tags($row['eventDescription']), 0, 100) . '..' : strip_tags($row['eventDescription']);
                             ?>
                             <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="comment dynamic" itemprop="description">
                                 <?php echo $eventDescrip;?>
@@ -171,6 +172,7 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                                         echo 'Rs '.$row['eventPrice'];
                                 }
                             }
+
                             if($row['isEventEverywhere'] == '1')
                             {
                                 ?>
@@ -180,7 +182,11 @@ if(isset($weekEvents) && myIsMultiArray($weekEvents))
                             else
                             {
                                 ?>
-                                <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="event-bookNow dynamic">Book Event <i class="ic_back_icon my-display-inline"></i></a>
+                                <div class="event-action-btns">
+                                    <a href="#" data-eventId="<?php echo $row['eventId'];?>" class="remind-later-btn">Remind Me Later</a>
+                                    <div class="btn-divider"></div>
+                                    <a href="<?php echo 'events/'.$row['eventSlug'];?>" class="event-bookNow dynamic">Book Event <i class="ic_back_icon my-display-inline"></i></a>
+                                </div>
                                 <?php
                             }
                             ?>

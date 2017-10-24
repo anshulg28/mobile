@@ -27,7 +27,7 @@
                                     <span class="mdl-list__item-primary-content">
                                         <span class="avatar-title">
                                             <?php
-                                            $eventName = (strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
+                                            $eventName = (mb_strlen($row['eventName']) > 45) ? substr($row['eventName'], 0, 45) . '..' : $row['eventName'];
                                             echo $eventName;
                                             ?>
                                         </span>
@@ -36,7 +36,7 @@
                                 </li>
                             </ul>
                             <div class="mdl-card__supporting-text">
-                                <p><?php echo strip_tags($row['eventDescription'],'<br>');?></p>
+                                <div class="about-event"><?php echo $row['eventDescription'];?></div>
                             </div>
                             <hr class="card-ptag">
 
@@ -114,7 +114,7 @@
                                                      data-ev-title="<?php echo $row['eventName'];?>" data-ev-location="Doolally Taproom, <?php echo $row['locName'];?>"
                                                      data-ev-start="<?php echo $row['eventDate'].' '.$row['startTime'];?>"
                                                      data-ev-end="<?php echo $row['eventDate'].' '.$row['endTime'];?>"
-                                                     data-ev-description="<?php echo strip_tags($row['eventDescription'],'<br>');?>">
+                                                     data-ev-description="<?php echo strip_tags($row['eventDescription'],'<br><ul></ul><li></li>');?>">
                                                 </span>
                                             </span>
                                         </span>
@@ -293,7 +293,8 @@
                     shares: [
                         { share: "twitter", label: "Twitter" },
                         { share: "facebook", label: "Facebook" },
-                        { share: "whatsapp", label: "Whatsapp" }
+                        { share: "whatsapp", label: "Whatsapp" },
+                        { share: "pinterest", label: "Pin it"}
                     ]
                 });
                 //var shUrl = $('#shareLink').val();
@@ -309,7 +310,8 @@
                     url: $('#shareLink').val(),
                     shares: [
                         { share: "twitter", label: "Twitter" },
-                        { share: "facebook", label: "Facebook" }
+                        { share: "facebook", label: "Facebook" },
+                        { share: "pinterest", label: "Pin it"}
                     ]
                 });
                 var shUrl = $('#shareLink').val();

@@ -484,6 +484,20 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+
+    public function getCompEventsByUserId($userId)
+    {
+        $query = "SELECT em.*, ea.filename, l.locName
+                  FROM `eventcompletedmaster` em
+                  LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
+                  LEFT JOIN locationmaster l ON eventPlace = l.id
+                  WHERE userId = ".$userId." GROUP BY em.eventId";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+
     public function getEventsRegisteredByUser($userId)
     {
         $query = "SELECT erm.bookerId,erm.bookerUserId,erm.eventId,erm.quantity,erm.createdDT,erm.isUserCancel, em.*, ea.filename, l.locName
@@ -501,6 +515,15 @@ class Dashboard_Model extends CI_Model
     {
         $query = "SELECT *
                   FROM eventmaster WHERE eventId = ".$eventId;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getSpecialEventById($eventId)
+    {
+        $query = "SELECT *
+                  FROM eventspecialmaster WHERE eventId = ".$eventId;
 
         $result = $this->db->query($query)->result_array();
 
@@ -542,12 +565,26 @@ class Dashboard_Model extends CI_Model
     }
     public function getDashboardEventDetails($eventSlug)
     {
-        $query = "SELECT em.eventId, em.eventName,em.eventPlace, em.costType,em.eventPrice,em.eventShareLink,em.shortUrl, em.eventSlug,
+        $query = "SELECT em.eventId, em.eventDate,em.startTime, em.endTime, em.eventName,em.eventPlace, em.costType,em.eventPrice,em.eventShareLink,em.shortUrl, em.eventSlug,
                   em.ifActive, em.ifApproved, em.isEventCancel, SUM(erm.quantity) as 'totalQuant'
                   FROM eventmaster em
                   LEFT JOIN eventregistermaster erm ON erm.eventId = em.eventId
                   WHERE erm.isUserCancel != 1 AND em.eventId = 
                   (SELECT eventId FROM eventslugmaster WHERE eventSlug LIKE '".$eventSlug."')";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getDashboardCompEventDetails($eventSlug)
+    {
+        $query = "SELECT em.eventId, em.eventDate,em.startTime, em.endTime, em.eventName,em.eventPlace, em.costType,em.eventPrice,em.eventShareLink,em.shortUrl, em.eventSlug,
+                  em.ifActive, em.ifApproved, em.isEventCancel, SUM(erm.quantity) as 'totalQuant'
+                  FROM eventcompletedmaster em
+                  LEFT JOIN eventregistermaster erm ON erm.eventId = em.eventId
+                  WHERE erm.isUserCancel != 1 AND em.eventId = 
+                  (SELECT eventId FROM eventslugmaster WHERE eventSlug LIKE '".$eventSlug."')";
+
 
         $result = $this->db->query($query)->result_array();
 
@@ -609,6 +646,11 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
 
         return $result;
+    }
+    public function saveWaitMailLog($post)
+    {
+        $this->db->insert('pendingmailsmaster', $post);
+        return true;
     }
     public function ApproveEvent($eventId)
     {
@@ -1060,4 +1102,35 @@ class Dashboard_Model extends CI_Model
         $this->db->insert('ehrefundmaster',$details);
         return true;
     }
+    function saveMyLog($details)
+    {
+        $this->db->insert('logmaster', $details);
+    }
+    function filterByOrgName($orgName)
+    {
+        $query = "SELECT creatorName FROM eventmaster WHERE LOWER(creatorName) LIKE '%".$orgName."%'";
+
+        $result = $this->db->query($query)->row_array();
+
+        return $result;
+    }
+    function checkEventReminder($eventId, $emailId)
+    {
+        $query = "SELECT * FROM eventremindermaster WHERE emailId LIKE '".$emailId."' AND eventId = ".$eventId;
+        $result = $this->db->query($query)->row_array();
+        return $result;
+    }
+    function saveEventreminder($details)
+    {
+        $this->db->insert('eventremindermaster',$details);
+        return true;
+    }
+
+    function updateReminder($details,$id)
+    {
+        $this->db->where('id',$id);
+        $this->db->update('eventremindermaster',$details);
+        return true;
+    }
+
 }
